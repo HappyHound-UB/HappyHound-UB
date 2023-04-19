@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "572710562100",
+    "project_id": "happyhound-ub",
+    "storage_bucket": "happyhound-ub.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:572710562100:android:9b71b99e37c495fb5d1d61",
+        "android_client_info": {
+          "package_name": "edu.ub.happyhound_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "572710562100-lfpo816q8el897798k6ur4a0urqid9su.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbuvJ2M7xL88yiNm5XX0j_4AMgI6m3tko"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "572710562100-lfpo816q8el897798k6ur4a0urqid9su.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

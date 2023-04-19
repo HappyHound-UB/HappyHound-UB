@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_main"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".LogIn">
+
+    <TextView
+        android:id="@+id/textCreateAccount"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:elegantTextHeight="true"
+        android:fontFamily="@font/quicksand_bold"
+        android:text="@string/createAccount"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:layout_marginBottom="20dp"
+        tools:ignore="TextSizeCheck" />
+
+    <TextView
+        android:id="@+id/textNombreSU"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/asap"
+        android:text="@string/nombre"
+        android:textColor="@color/primary_title" />
+
+    <EditText
+        android:id="@+id/idNombreUsuario"
+        android:layout_width="305dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:autofillHints=""
+        android:hint="@string/nombre_ejemplo"
+        android:ems="10"
+        android:fontFamily="@font/asap"
+        android:inputType="textEmailAddress"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textEmailSU"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/asap"
+        android:text="@string/email"
+        android:textColor="@color/primary_title" />
+
+    <EditText
+        android:id="@+id/idEmailAddressSU"
+        android:layout_width="305dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:fontFamily="@font/asap"
+        android:hint="@string/email_example"
+        android:inputType="textEmailAddress"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textContraseñaSU"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/asap"
+        android:text="@string/contraseña"
+        android:textColor="@color/primary_title" />
+
+    <EditText
+        android:id="@+id/idPasswordSU"
+        android:layout_width="305dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="15dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:fontFamily="@font/asap"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <CheckBox
+        android:id="@+id/checkBoxConditions"
+        android:layout_width="305dp"
+        android:layout_height="50dp"
+        android:fontFamily="@font/asap"
+        android:text="@string/conditions"
+        android:textColor="@color/gris"
+        tools:ignore="TextSizeCheck" />
+
+
+        <Button
+        android:id="@+id/continueButtonSU"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/primary_title"
+        android:fontFamily="@font/asap_bold"
+        android:text="@string/continuar"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        tools:ignore="DuplicateSpeakableTextCheck" />
+
+
+
+        <TextView
+            android:id="@+id/textHaveAccount"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/asap_bold"
+            android:text="@string/have_account"
+            android:textColor="@color/gris"
+            android:gravity="center"
+            android:layout_marginBottom="10dp"
+            android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/signInButtonSU"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:fontFamily="@font/asap_bold"
+        android:gravity="center"
+        android:text="@string/iniciar_sesion"
+        android:textColor="@color/primary_title"
+        android:textSize="16sp"
+        tools:ignore="TouchTargetSizeCheck" />
+
+
+</LinearLayout>
