@@ -102,27 +102,27 @@ public class SignUp extends AppCompatActivity {
             }
         }
         else {
-            if (conditions.isChecked()){
-                mAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    //falta classe home --> despues de iniciar sesion pasamos a la clase home
 
-                                    //FirebaseUser user = mAuth.getCurrentUser();
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                startActivity(intent);
-                                saveUsers();
-                                finish();
+            mAuth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        //falta classe home --> despues de iniciar sesion pasamos a la clase home
 
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Toast.makeText(SignUp.this, "Sign In failed.", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-            }
+                        //FirebaseUser user = mAuth.getCurrentUser();
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    saveUsers();
+                    finish();
+
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Toast.makeText(SignUp.this, "Sign In failed.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
         }
     }
 

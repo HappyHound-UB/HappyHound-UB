@@ -17,7 +17,9 @@
         android:fontFamily="@font/asap"
         android:text="@string/happy_hound"
         android:textColor="@color/orange_letra"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:visibility="visible"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/textLogIn"

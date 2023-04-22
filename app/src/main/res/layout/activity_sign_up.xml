@@ -13,19 +13,19 @@
         android:id="@+id/textCreateAccount"
         android:layout_width="300dp"
         android:layout_height="40dp"
+        android:layout_marginBottom="20dp"
         android:elegantTextHeight="true"
         android:fontFamily="@font/quicksand_bold"
         android:text="@string/createAccount"
         android:textColor="@color/black"
         android:textSize="24sp"
-        android:layout_marginBottom="20dp"
         tools:ignore="TextSizeCheck" />
 
     <TextView
         android:id="@+id/textNombreSU"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/asap"
+        android:fontFamily="@font/asap_bold"
         android:text="@string/nombre"
         android:textColor="@color/primary_title" />
 
@@ -35,9 +35,9 @@
         android:layout_height="50dp"
         android:layout_marginBottom="10dp"
         android:autofillHints=""
-        android:hint="@string/nombre_ejemplo"
         android:ems="10"
         android:fontFamily="@font/asap"
+        android:hint="@string/nombre_ejemplo"
         android:inputType="textEmailAddress"
         android:textSize="14sp" />
 
@@ -56,7 +56,7 @@
         android:layout_marginBottom="10dp"
         android:autofillHints=""
         android:ems="10"
-        android:fontFamily="@font/asap"
+        android:fontFamily="@font/quicksand_bold"
         android:hint="@string/email_example"
         android:inputType="textEmailAddress"
         android:textSize="14sp" />
@@ -92,29 +92,28 @@
         tools:ignore="TextSizeCheck" />
 
 
-        <Button
+    <Button
         android:id="@+id/continueButtonSU"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
         android:backgroundTint="@color/primary_title"
         android:fontFamily="@font/asap_bold"
         android:text="@string/continuar"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="15dp"
         tools:ignore="DuplicateSpeakableTextCheck" />
 
 
-
-        <TextView
-            android:id="@+id/textHaveAccount"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/asap_bold"
-            android:text="@string/have_account"
-            android:textColor="@color/gris"
-            android:gravity="center"
-            android:layout_marginBottom="10dp"
-            android:textSize="16sp" />
+    <TextView
+        android:id="@+id/textHaveAccount"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/asap_bold"
+        android:gravity="center"
+        android:text="@string/have_account"
+        android:textColor="@color/gris"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/signInButtonSU"
