@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_main"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".agregarPerro">
+
+    <TextView
+        android:id="@+id/cancelarButton"
+        android:layout_width="384dp"
+        android:layout_height="89dp"
+        android:clickable="true"
+        android:fontFamily="@font/asap_bold"
+        android:gravity="center|right"
+        android:text="@string/cancelar"
+        android:textColor="@color/primary_title"
+        android:textSize="16sp"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <TextView
+        android:id="@+id/textNombre"
+        android:layout_width="308dp"
+        android:layout_height="27dp"
+        android:layout_gravity="bottom|center"
+        android:layout_weight="1"
+        android:fontFamily="@font/quicksand_bold"
+        android:gravity="center_vertical"
+        android:text="Nombre"
+        android:textColor="#090909"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/editTextNombre"
+        android:layout_width="313dp"
+        android:layout_height="30dp"
+        android:layout_weight="1"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:lineSpacingExtra="20sp"
+        android:hint="@string/nombre_perro"
+        android:textColor="#80040404" />
+
+    <TextView
+        android:id="@+id/textRaza"
+        android:layout_width="308dp"
+        android:layout_height="3dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/quicksand_bold"
+        android:gravity="center_vertical"
+        android:text="Raza"
+        android:textColor="#0B0A0A"
+        android:textSize="16sp" />
+
+    <Spinner
+        android:id="@+id/spinnerRaza"
+        android:layout_width="314dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/textEdad"
+        android:layout_width="308dp"
+        android:layout_height="3dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/quicksand_bold"
+        android:gravity="center_vertical"
+        android:text="Edad"
+        android:textColor="#0C0C0C"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/editTextEdad"
+        android:layout_width="313dp"
+        android:layout_height="30dp"
+        android:layout_weight="1"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="años"
+        android:textColor="#80191818" />
+
+    <TextView
+        android:id="@+id/textSexo"
+        android:layout_width="308dp"
+        android:layout_height="3dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/quicksand_bold"
+        android:gravity="center_vertical"
+        android:text="Sexo"
+        android:textColor="#070707"
+        android:textSize="16sp" />
+
+    <Spinner
+        android:id="@+id/spinnerSexo"
+        android:layout_width="314dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/textFoto"
+        android:layout_width="308dp"
+        android:layout_height="3dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/quicksand_bold"
+        android:gravity="center_vertical"
+        android:text="Foto del Perro"
+        android:textColor="#050505"
+        android:textSize="16sp" />
+
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="315dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:srcCompat="@android:drawable/ic_menu_camera" />
+
+    <Button
+        android:id="@+id/buttonRecordatorio"
+        android:layout_width="308dp"
+        android:layout_height="22dp"
+        android:layout_weight="1"
+        android:backgroundTint="#A4191818"
+        android:text="Crear Recordatorio"
+        android:gravity="center"
+        android:textColor="#E87C09" />
+
+    <Button
+        android:id="@+id/buttonAdd"
+        android:layout_width="384dp"
+        android:layout_height="34dp"
+        android:layout_weight="1"
+        android:backgroundTint="@color/fondo_boton_orange"
+        android:gravity="center"
+        android:text="Añadir" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="7dp"
+        android:layout_weight="1">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>

@@ -22,6 +22,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -117,8 +121,20 @@ public class SignUp extends AppCompatActivity {
                                 finish();
 
                                 } else {
-                                    // If sign in fails, display a message to the user.
-                                    Toast.makeText(SignUp.this, "Sign In failed.", Toast.LENGTH_SHORT).show();
+                                    // Inicio de sesión fallido
+                                    Exception exception = task.getException();
+                                    if (exception instanceof FirebaseAuthUserCollisionException) {
+                                        // El usuario ya existe
+                                        newEmail.setError("Ya existe un usuario");
+                                    } else if (exception instanceof FirebaseAuthWeakPasswordException) {
+                                        // Contraseña no segura
+                                        newPassword.setError("La contraseña debe tener al menos 6 caracteres y contener letras y números.");
+                                        newPassword.requestFocus();
+                                    } else {
+                                        // Otro error
+                                        Toast.makeText(SignUp.this,
+                                                "No se ha podido crear la cuenta", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             }
                         });
