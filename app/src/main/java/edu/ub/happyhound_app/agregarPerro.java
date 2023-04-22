@@ -37,7 +37,7 @@ public class agregarPerro extends AppCompatActivity {
 
     private Spinner spinnerRaza, spinnerSexo;
     private FirebaseAuth mAuth;
-    private DocumentReference documentReference = FirebaseFirestore.getInstance().document("Users/Verified Users");
+    private DocumentReference documentReference = FirebaseFirestore.getInstance().document("Users/Verified Users/listaPerros");
     //private DocumentReference documentReference = FirebaseFirestore.getInstance().collection().document().collection().....
     private String nombre, raza, edad, sexo;
 
@@ -68,8 +68,7 @@ public class agregarPerro extends AppCompatActivity {
                 edad = edadPerro.getText().toString();
                 raza = spinnerRaza.getSelectedItem().toString();
                 sexo = spinnerSexo.getSelectedItem().toString();
-
-
+                newDog(nombre, raza, edad, sexo);
             }
         });
 
@@ -100,9 +99,35 @@ public class agregarPerro extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Porfavor introduzca el sexo de tu perro", Toast.LENGTH_SHORT).show();
             }
         }
+        else{
+            saveDog(nombre, raza, edad, sexo);
+        }
+    }
+    protected void saveDog(String nombre, String raza, String edad, String sexo){
+        if(nombre.isEmpty() || raza.isEmpty() || edad.isEmpty() || sexo.isEmpty()){ return; }
+
+
+        Map<String, Object> perros = new HashMap<String, Object>();
+        perros.put("name", nombre);
+        perros.put("raza", raza);
+        perros.put("edad", edad);
+        perros.put("sexo", sexo);
+
+        documentReference.set(perros)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                    }
+                });
 
     }
-
 
 }
 
