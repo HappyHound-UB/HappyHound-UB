@@ -3,15 +3,19 @@ package edu.ub.happyhound_app;
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,11 +34,13 @@ import java.util.Map;
 
 public class agregarPerro extends AppCompatActivity {
 
+    private static final int REQUEST_CODE = 22;
     private EditText nombrePerro, edadPerro;
-    private Button btnCrearRecordatorio, btnAdd;
+    private Button btnCrearRecordatorio, btnAdd, btnPicture;
 
     private TextView btnCancelar;
 
+    private ImageView imageView;
     private Spinner spinnerRaza, spinnerSexo;
     private FirebaseAuth mAuth;
     private DocumentReference documentReference = FirebaseFirestore.getInstance().document("Users/Verified Users/listaPerros");
@@ -52,9 +58,12 @@ public class agregarPerro extends AppCompatActivity {
         edadPerro = (EditText) findViewById(R.id.editTextEdad);
         btnCrearRecordatorio = (Button) findViewById(R.id.buttonRecordatorio);
         btnAdd = (Button) findViewById(R.id.buttonAdd);
+        btnPicture = (Button) findViewById(R.id.ButtonFoto);
+        imageView = (ImageView) findViewById(R.id.imageView1);
         btnCancelar = (TextView) findViewById(R.id.cancelarButton);
         spinnerRaza = (Spinner) findViewById(R.id.spinnerRaza);
         spinnerSexo = (Spinner) findViewById(R.id.spinnerSexo);
+
 
         String [] Razas = getResources().getStringArray(R.array.Raza);
         ArrayAdapter<String> adapterRazas = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Razas);
@@ -72,6 +81,14 @@ public class agregarPerro extends AppCompatActivity {
             }
         });
 
+        btnPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent,REQUEST_CODE);
+            }
+        });
+
 
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +99,18 @@ public class agregarPerro extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            imageView.setImageBitmap(photo);
+        }
+        else{
+            Toast.makeText(this, "cancelled", Toast.LENGTH_SHORT).show();
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     protected void newDog(String nombre, String raza, String edad, String sexo){
