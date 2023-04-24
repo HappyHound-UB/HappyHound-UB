@@ -12,6 +12,8 @@
     <color name="primary_title">#C62828</color>
     <color name="facebook_blue">#3b5998</color>
     <color name="fondo_boton_orange">#4AE87C09</color>
+    <color name="fondo_boton_secundario">#A4191818</color>
+    <color name="fondo_letra_boton_secundario">#E87C09</color>
 
 
     <color name="seed">#E65100</color>
