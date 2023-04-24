@@ -52,42 +52,43 @@ public class LogIn extends AppCompatActivity {
         btnForgotPassword = (TextView) findViewById(R.id.forgotPasswordButton);
         btnSignUp = (TextView) findViewById(R.id.SignUpButton);
 
-        btnLogIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                email = memail.getText().toString();
-                password = mpassword.getText().toString();
+        btnLogIn.setOnClickListener(view -> {
+            email = memail.getText().toString().trim();
+            password = mpassword.getText().toString().trim();
 
-                signIn(email, password);
-            }
+            signIn(email, password);
         });
 
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SignUp.class);
-                startActivity(intent);
-                finish();
-            }
+        btnSignUp.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), SignUp.class);
+            startActivity(intent);
         });
 
+        //cambiar la contraseña
+        btnForgotPassword.setOnClickListener(view -> {
+            Toast.makeText(getApplicationContext(),
+                    "Ya puedes cambiar la contraseña", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(), ForgotPassword.class);
+            startActivity(intent);
+
+        });
     }
 
     /**
      * Funcion para iniciar sesión con el email y la contraseña dada
      *
-     * @param email
-     * @param password
+     * @param email    email del usuario que se utilizara para iniciar la sesión
+     * @param password contraseña creada para entrar
      */
     protected void signIn(String email, String password) {
         if (email.isEmpty() || password.isEmpty()) {
             if (email.isEmpty()) {
                 Toast.makeText(getApplicationContext(),
-                        "Please enter a valid email", Toast.LENGTH_SHORT).show();
+                        "Introduzca un correo electrónico", Toast.LENGTH_SHORT).show();
             }
             if (password.isEmpty()) {
                 Toast.makeText(getApplicationContext(),
-                        "Please enter a valid password", Toast.LENGTH_SHORT).show();
+                        "Introduce una contraseña", Toast.LENGTH_SHORT).show();
             }
         } else {
             mAuth.signInWithEmailAndPassword(email, password)
@@ -99,25 +100,28 @@ public class LogIn extends AppCompatActivity {
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(intent);
                                 finish();
+
                             } else {
                                 // Inicio de sesión fallido
-                                Exception exception = task.getException();
-                                if (exception instanceof FirebaseAuthInvalidUserException) {
+                                try {
+                                    throw task.getException();
+                                } catch (FirebaseAuthInvalidUserException e) {
                                     // El usuario no existe y mosramos error
-                                    memail.setError("Usuario no existe");
-
-                                } else if (exception instanceof FirebaseAuthInvalidCredentialsException) {
+                                    memail.setError("Email no existe");
+                                    memail.requestFocus();
+                                } catch (FirebaseAuthInvalidCredentialsException e) {
                                     // Credenciales inválidas (por ejemplo, contraseña incorrecta)
                                     mpassword.setError("Email y/o contraseña incorrecta");
                                     mpassword.requestFocus();
-                                } else {
-                                    // Otro error
+                                } catch (Exception e) {
+                                    Toast.makeText(LogIn.this,
+                                            "No se ha podido iniciar sesión",
+                                            Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
                     });
         }
-
-
     }
+
 }

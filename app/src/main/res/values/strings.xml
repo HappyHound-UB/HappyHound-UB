@@ -23,7 +23,16 @@
 
     <string name="nombre_perro">Nala</string>
     <string name="cancelar">Cancelar</string>
-
+    <string name="forgot_password_title">Forgot Password</string>
+    <string name="email_hint">Email</string>
+    <string name="reset_password_button_text">Restablecer la Contraseña</string>
+    <string name="forgot_password_icon">Forgot Password Icon</string>
+    <string name="btn_back">Volver</string>
+    <string name="home_fragment">home</string>
+    <string name="add_fragment">Add</string>
+    <string name="home">Home</string>
+    <string name="add">Add</string>
+    <string name="profile">Profile</string>
 
 
     <string-array name="Raza">
