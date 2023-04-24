@@ -47,6 +47,8 @@ public class agregarPerro extends AppCompatActivity {
     //private DocumentReference documentReference = FirebaseFirestore.getInstance().collection().document().collection().....
     private String nombre, raza, edad, sexo;
 
+    private boolean fotoTomada = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,11 +108,12 @@ public class agregarPerro extends AppCompatActivity {
         if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             imageView.setImageBitmap(photo);
+            fotoTomada = true;
         }
         else{
-            Toast.makeText(this, "cancelled", Toast.LENGTH_SHORT).show();
-            super.onActivityResult(requestCode, resultCode, data);
+            Toast.makeText(getApplicationContext(), "cancelled", Toast.LENGTH_SHORT).show();
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     protected void newDog(String nombre, String raza, String edad, String sexo, ImageView image){
@@ -126,6 +129,9 @@ public class agregarPerro extends AppCompatActivity {
             }
             if (sexo.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Porfavor introduzca el sexo de tu perro", Toast.LENGTH_SHORT).show();
+            }
+            if(fotoTomada == false){
+                Toast.makeText(getApplicationContext(), "Porfavor haz una foto a tu perro", Toast.LENGTH_SHORT).show();
             }
         }
         else{
