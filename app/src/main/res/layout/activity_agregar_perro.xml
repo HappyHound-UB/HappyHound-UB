@@ -30,7 +30,7 @@
         android:fontFamily="@font/quicksand_bold"
         android:gravity="center_vertical"
         android:text="Nombre"
-        android:textColor="#090909"
+        android:textColor="@color/black"
         android:textSize="16sp" />
 
     <EditText
@@ -52,7 +52,7 @@
         android:fontFamily="@font/quicksand_bold"
         android:gravity="center_vertical"
         android:text="Raza"
-        android:textColor="#0B0A0A"
+        android:textColor="@color/black"
         android:textSize="16sp" />
 
     <Spinner
@@ -69,7 +69,7 @@
         android:fontFamily="@font/quicksand_bold"
         android:gravity="center_vertical"
         android:text="Edad"
-        android:textColor="#0C0C0C"
+        android:textColor="@color/black"
         android:textSize="16sp" />
 
     <EditText
@@ -90,7 +90,7 @@
         android:fontFamily="@font/quicksand_bold"
         android:gravity="center_vertical"
         android:text="Sexo"
-        android:textColor="#070707"
+        android:textColor="@color/black"
         android:textSize="16sp" />
 
     <Spinner
