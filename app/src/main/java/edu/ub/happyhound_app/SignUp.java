@@ -41,8 +41,7 @@ public class SignUp extends AppCompatActivity {
     private Button btnContinue;
     private CheckBox conditions;
     private FirebaseAuth mAuth;
-    private DocumentReference documentReference = FirebaseFirestore.getInstance().document("Users/Verified Users");
-    //private DocumentReference documentReference = FirebaseFirestore.getInstance().collection().document().collection().....
+    private DocumentReference documentReference;
     private String name, email, password;
 
     @Override
@@ -125,13 +124,12 @@ public class SignUp extends AppCompatActivity {
                                         throw task.getException();
                                     } catch (FirebaseAuthUserCollisionException e) {
                                         // El usuario ya existe
-                                        newEmail.setError("Ya existe un usuario");
+                                        newEmail.setError("Ya existe un usuario con este email");
                                         newEmail.requestFocus();
                                     } catch (FirebaseAuthWeakPasswordException e) {
                                         // Contraseña no segura
                                         newPassword.setError("La contraseña debe tener al menos 6 caracteres y contener letras y números.");
                                         newPassword.requestFocus();
-                                        throw new RuntimeException(e);
                                     } catch (Exception e) {
                                         // Otro error
                                         Toast.makeText(SignUp.this,
@@ -145,8 +143,13 @@ public class SignUp extends AppCompatActivity {
         }
     }
 
-    protected void saveUsers(){
-        if(name.isEmpty() || email.isEmpty() || password.isEmpty()){ return; }
+    protected void saveUsers() {
+        String userID = mAuth.getCurrentUser().getUid();
+        documentReference = FirebaseFirestore.getInstance().collection("Users").document(userID);
+
+        if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            return;
+        }
 
         Map<String, Object> users = new HashMap<>();
         users.put("name", name);
