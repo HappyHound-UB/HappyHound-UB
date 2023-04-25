@@ -79,6 +79,7 @@ public class agregarPerro extends AppCompatActivity {
                 raza = spinnerRaza.getSelectedItem().toString();
                 sexo = spinnerSexo.getSelectedItem().toString();
                 newDog(nombre,raza, edad, sexo);
+
             }
         });
 
@@ -135,11 +136,15 @@ public class agregarPerro extends AppCompatActivity {
         }
         else{
             saveDog(nombre, raza, edad, sexo);
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            finish();
+
         }
     }
     protected void saveDog(String nombre, String raza, String edad, String sexo) {
-//        String userID = mAuth.getCurrentUser().getUid();
-        documentReference = FirebaseFirestore.getInstance().collection("Users").document("Verified Users")
+        String userID = mAuth.getCurrentUser().getUid();
+        documentReference = FirebaseFirestore.getInstance().collection("Users").document(userID)
                 .collection("Lista Perros").document(nombre);
 
         if (nombre.isEmpty() || raza.isEmpty() || edad.isEmpty() || sexo.isEmpty()) {
