@@ -43,8 +43,7 @@ public class agregarPerro extends AppCompatActivity {
     private ImageView imageView;
     private Spinner spinnerRaza, spinnerSexo;
     private FirebaseAuth mAuth;
-    private DocumentReference documentReference = FirebaseFirestore.getInstance().document("Users/Verified Users/listaPerros");
-    //private DocumentReference documentReference = FirebaseFirestore.getInstance().collection().document().collection().....
+    private DocumentReference documentReference;
     private String nombre, raza, edad, sexo;
 
     @Override
@@ -132,8 +131,14 @@ public class agregarPerro extends AppCompatActivity {
             saveDog(nombre, raza, edad, sexo, image);
         }
     }
-    protected void saveDog(String nombre, String raza, String edad, String sexo, ImageView image){
-        if(nombre.isEmpty() || raza.isEmpty() || edad.isEmpty() || sexo.isEmpty()){ return; }
+    protected void saveDog(String nombre, String raza, String edad, String sexo, ImageView image) {
+        String userID = mAuth.getCurrentUser().getUid();
+        documentReference = FirebaseFirestore.getInstance().collection("Users").document(userID)
+                .collection("Lista Perros").document(nombre);
+
+        if (nombre.isEmpty() || raza.isEmpty() || edad.isEmpty() || sexo.isEmpty()) {
+            return;
+        }
 
 
         Map<String, Object> perros = new HashMap<String, Object>();
