@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void changeFragments(Fragment fragment){
+    private void changeFragments(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction
@@ -68,5 +68,10 @@ public class MainActivity extends AppCompatActivity {
                 .addToBackStack("name")
                 .commit();
         //fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

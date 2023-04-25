@@ -110,21 +110,22 @@
 
         <Button
             android:id="@+id/googleButton"
-            android:layout_width="140dp"
+            android:layout_width="145dp"
             android:layout_height="match_parent"
-            android:layout_marginEnd="7.5dp"
+            android:layout_marginStart="0dp"
             android:backgroundTint="@android:color/holo_blue_light"
             android:drawableLeft="@drawable/common_google_signin_btn_icon_light"
             android:fontFamily="@font/asap_bold"
             android:text="@string/google"
+            android:textColor="@color/white"
             style="?android:attr/buttonBarButtonStyle" />
 
         <Button
             android:id="@+id/facebookButton"
             style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="140dp"
+            android:layout_width="145dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="7.5dp"
+            android:layout_marginStart="10dp"
             android:backgroundTint="@color/facebook_blue"
             android:fontFamily="@font/asap_bold"
             android:text="@string/facebook"
