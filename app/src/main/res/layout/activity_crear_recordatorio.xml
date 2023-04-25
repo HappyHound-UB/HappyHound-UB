@@ -34,9 +34,9 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="71dp"
-            android:layout_marginEnd="68dp"
-            android:layout_marginBottom="608dp"
+            android:layout_marginStart="81dp"
+            android:layout_marginEnd="58dp"
+            android:layout_marginBottom="605dp"
             android:fontFamily="@font/asap_bold"
             android:text="Crear Recordatorios"
             android:textColor="@color/white"
@@ -49,10 +49,11 @@
             android:layout_height="100dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="116dp"
-            android:layout_marginBottom="440dp"
-            android:backgroundTint="#3C3939"
+            android:layout_marginEnd="113dp"
+            android:layout_marginBottom="444dp"
+            android:background="@drawable/borde_naranja"
             android:text="Comida"
+            android:textColor="#FFFFFF"
             android:textSize="20sp"
             tools:ignore="MissingConstraints" />
 
@@ -62,10 +63,11 @@
             android:layout_height="100dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="114dp"
-            android:layout_marginBottom="311dp"
-            android:backgroundTint="#3C3939"
+            android:layout_marginEnd="113dp"
+            android:layout_marginBottom="304dp"
+            android:background="@drawable/borde_azul"
             android:text="Paseo"
+            android:textColor="#FFFFFF"
             android:textSize="20sp"
             tools:ignore="MissingConstraints" />
 
@@ -76,22 +78,12 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="113dp"
-            android:layout_marginBottom="175dp"
-            android:backgroundTint="#3C3939"
+            android:layout_marginBottom="159dp"
+            android:background="@drawable/borde_verde"
             android:text="Calendario"
+            android:textColor="#FFFFFF"
             android:textSize="20sp"
             tools:ignore="MissingConstraints" />
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="316dp"
-            android:layout_marginBottom="660dp"
-            android:backgroundTint="#001F2124"
-            android:shadowColor="#00FFFFFF" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -99,8 +91,9 @@
             android:layout_height="60dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="350dp"
-            android:layout_marginBottom="666dp"
+            android:layout_marginEnd="337dp"
+            android:layout_marginBottom="662dp"
+            android:clickable="true"
             app:srcCompat="@drawable/arrow" />
 
     </RelativeLayout>
