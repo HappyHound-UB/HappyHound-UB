@@ -34,6 +34,7 @@
     <string name="home">Home</string>
     <string name="add">Add</string>
     <string name="profile">Profile</string>
+    <string name="logo_app">Logo APP</string>
 
     <string-array name="Raza">
         <item>Elige tu raza</item>
