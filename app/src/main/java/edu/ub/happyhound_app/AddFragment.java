@@ -1,5 +1,6 @@
 package edu.ub.happyhound_app;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -26,6 +27,7 @@ public class AddFragment extends Fragment {
 
     public AddFragment() {
         // Required empty public constructor
+
     }
 
     /**
@@ -61,4 +63,12 @@ public class AddFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add, container, false);
     }
+
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Intent intent = new Intent(getActivity().getApplicationContext(), agregarPerro.class);
+        startActivity(intent);
+    }
+
+
 }

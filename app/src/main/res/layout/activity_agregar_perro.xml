@@ -7,19 +7,46 @@
     android:background="@drawable/background_main"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".agregarPerro">
+    tools:context=".agregarPerro"
+    tools:ignore="ExtraText">
 
-    <TextView
-        android:id="@+id/cancelarButton"
-        android:layout_width="384dp"
-        android:layout_height="89dp"
-        android:clickable="true"
-        android:fontFamily="@font/asap_bold"
-        android:gravity="center|right"
-        android:text="@string/cancelar"
-        android:textColor="@color/primary_title"
-        android:textSize="16sp"
-        tools:ignore="TouchTargetSizeCheck" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="397dp"
+        android:layout_height="79dp">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="189dp"
+            android:layout_height="50dp"
+            android:src="@drawable/happyhound_logo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.448" />
+
+        <TextView
+            android:id="@+id/cancelarButton"
+            android:layout_width="268dp"
+            android:layout_height="47dp"
+            android:clickable="true"
+            android:fontFamily="@font/asap_bold"
+            android:gravity="center|right"
+            android:text="@string/cancelar"
+            android:textColor="@color/primary_title"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.875"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            tools:ignore="TouchTargetSizeCheck" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout><![CDATA[androidx.constraint layout.widget.ConstraintLayout>
+
+    ]]>
 
     <TextView
         android:id="@+id/textNombre"
@@ -79,7 +106,7 @@
         android:layout_weight="1"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="años"
+        android:hint="@string/edad"
         android:textColor="#80191818" />
 
     <TextView
@@ -119,15 +146,6 @@
         android:layout_weight="1"
         app:srcCompat="@android:drawable/ic_menu_gallery" />
 
-    <Button
-        android:id="@+id/buttonRecordatorio"
-        android:layout_width="308dp"
-        android:layout_height="22dp"
-        android:layout_weight="1"
-        android:backgroundTint="@color/fondo_boton_secundario"
-        android:text="Crear Recordatorio"
-        android:gravity="center"
-        android:textColor="@color/fondo_letra_boton_secundario" />
 
     <Button
         android:id="@+id/buttonAdd"

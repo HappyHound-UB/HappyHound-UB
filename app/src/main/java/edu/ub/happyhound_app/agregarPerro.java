@@ -5,7 +5,7 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.view.View;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -20,11 +20,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -36,7 +34,7 @@ public class agregarPerro extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 22;
     private EditText nombrePerro, edadPerro;
-    private Button btnCrearRecordatorio, btnAdd, btnPicture;
+    private Button btnAdd, btnPicture;
 
     private TextView btnCancelar;
 
@@ -57,7 +55,6 @@ public class agregarPerro extends AppCompatActivity {
 
         nombrePerro = (EditText) findViewById(R.id.editTextNombre);
         edadPerro = (EditText) findViewById(R.id.editTextEdad);
-        btnCrearRecordatorio = (Button) findViewById(R.id.buttonRecordatorio);
         btnAdd = (Button) findViewById(R.id.buttonAdd);
         btnPicture = (Button) findViewById(R.id.ButtonFoto);
         imageView = (ImageView) findViewById(R.id.imageView1);
@@ -68,9 +65,12 @@ public class agregarPerro extends AppCompatActivity {
 
         String [] Razas = getResources().getStringArray(R.array.Raza);
         ArrayAdapter<String> adapterRazas = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Razas);
+        spinnerRaza.setAdapter(adapterRazas);
 
         String [] Sexo = getResources().getStringArray(R.array.Sexo);
         ArrayAdapter<String> adapterSexo = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Sexo);
+        spinnerSexo.setAdapter(adapterSexo);
+
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,7 +78,7 @@ public class agregarPerro extends AppCompatActivity {
                 edad = edadPerro.getText().toString();
                 raza = spinnerRaza.getSelectedItem().toString();
                 sexo = spinnerSexo.getSelectedItem().toString();
-                newDog(nombre, raza, edad, sexo, imageView);
+                newDog(nombre,raza, edad, sexo);
             }
         });
 
@@ -94,7 +94,7 @@ public class agregarPerro extends AppCompatActivity {
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), LogIn.class);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -115,7 +115,7 @@ public class agregarPerro extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    protected void newDog(String nombre, String raza, String edad, String sexo, ImageView image){
+    protected void newDog(String nombre, String Raza, String edad, String sexo){
         if(nombre.isEmpty()|| raza.isEmpty() || edad.isEmpty() || sexo.isEmpty()) {
             if (nombre.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Porfavor introduzca el nombre de tu perro", Toast.LENGTH_SHORT).show();
@@ -128,18 +128,18 @@ public class agregarPerro extends AppCompatActivity {
             }
             if (sexo.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Porfavor introduzca el sexo de tu perro", Toast.LENGTH_SHORT).show();
-            }
+            }/*
             if(fotoTomada == false){
                 Toast.makeText(getApplicationContext(), "Porfavor haz una foto a tu perro", Toast.LENGTH_SHORT).show();
-            }
+            }*/
         }
         else{
-            saveDog(nombre, raza, edad, sexo, image);
+            saveDog(nombre, raza, edad, sexo);
         }
     }
-    protected void saveDog(String nombre, String raza, String edad, String sexo, ImageView image) {
-        String userID = mAuth.getCurrentUser().getUid();
-        documentReference = FirebaseFirestore.getInstance().collection("Users").document(userID)
+    protected void saveDog(String nombre, String raza, String edad, String sexo) {
+//        String userID = mAuth.getCurrentUser().getUid();
+        documentReference = FirebaseFirestore.getInstance().collection("Users").document("Verified Users")
                 .collection("Lista Perros").document(nombre);
 
         if (nombre.isEmpty() || raza.isEmpty() || edad.isEmpty() || sexo.isEmpty()) {
@@ -152,7 +152,7 @@ public class agregarPerro extends AppCompatActivity {
         perros.put("raza", raza);
         perros.put("edad", edad);
         perros.put("sexo", sexo);
-        perros.put("imagen", image);
+        //perros.put("imagen", image);
 
         documentReference.set(perros)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
