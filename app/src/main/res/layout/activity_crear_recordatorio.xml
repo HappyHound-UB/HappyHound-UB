@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CrearRecordatorio">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/GrisOscuro"
+        tools:layout_editor_absoluteX="-190dp">
+        <!-- Elementos de diseño de la actividad -->
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="173dp"
+            android:layout_marginEnd="176dp"
+            android:layout_marginBottom="662dp"
+            android:src="@drawable/happyhound_logo"
+            tools:layout_editor_absoluteX="100dp"
+            tools:layout_editor_absoluteY="325dp" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="268dp"
+            android:layout_height="49dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="81dp"
+            android:layout_marginEnd="58dp"
+            android:layout_marginBottom="605dp"
+            android:fontFamily="@font/asap_bold"
+            android:text="Crear Recordatorios"
+            android:textColor="@color/white"
+            android:textSize="28sp"
+            tools:ignore="MissingConstraints" />
+
+        <Button
+            android:id="@+id/ComidaButton"
+            android:layout_width="190dp"
+            android:layout_height="100dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="113dp"
+            android:layout_marginBottom="444dp"
+            android:background="@drawable/borde_naranja"
+            android:text="Comida"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            tools:ignore="MissingConstraints" />
+
+        <Button
+            android:id="@+id/PaseoButton"
+            android:layout_width="190dp"
+            android:layout_height="100dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="113dp"
+            android:layout_marginBottom="304dp"
+            android:background="@drawable/borde_azul"
+            android:text="Paseo"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            tools:ignore="MissingConstraints" />
+
+        <Button
+            android:id="@+id/CalendarioButton"
+            android:layout_width="190dp"
+            android:layout_height="100dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="113dp"
+            android:layout_marginBottom="159dp"
+            android:background="@drawable/borde_verde"
+            android:text="Calendario"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            tools:ignore="MissingConstraints" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="337dp"
+            android:layout_marginBottom="662dp"
+            android:clickable="true"
+            app:srcCompat="@drawable/arrow" />
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
