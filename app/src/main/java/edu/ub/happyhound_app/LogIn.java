@@ -11,6 +11,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -22,9 +26,11 @@ import com.google.firebase.auth.FirebaseUser;
 public class LogIn extends AppCompatActivity {
     private EditText memail, mpassword;
     private TextView btnForgotPassword, btnSignUp;
-    private Button btnLogIn, btnGoogle, btnFacebook;
+    private Button btnLogIn;
     private FirebaseAuth mAuth;
     private String email, password;
+    private SignInButton googleLogIn;
+    private GoogleSignInClient googleSignInClient;
 
     @Override
     public void onStart() {
@@ -44,13 +50,21 @@ public class LogIn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
 
-        mAuth = FirebaseAuth.getInstance();
+        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
 
+        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
+
+
+        mAuth = FirebaseAuth.getInstance();
         memail = (EditText) findViewById(R.id.idEmailAddress);
         mpassword = (EditText) findViewById(R.id.idPassword);
         btnLogIn = (Button) findViewById(R.id.logInButton);
         btnForgotPassword = (TextView) findViewById(R.id.forgotPasswordButton);
         btnSignUp = (TextView) findViewById(R.id.SignUpButton);
+        googleLogIn = (SignInButton) findViewById(R.id.googleButton);
 
         btnLogIn.setOnClickListener(view -> {
             email = memail.getText().toString().trim();
@@ -72,7 +86,16 @@ public class LogIn extends AppCompatActivity {
             startActivity(intent);
 
         });
+
+        googleLogIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GoogleLogIn googleLogIn = new GoogleLogIn(getGoogleSignInClient(), getmAuth());
+                googleLogIn.signInGoogle();
+            }
+        });
     }
+
 
     /**
      * Funcion para iniciar sesión con el email y la contraseña dada
@@ -82,14 +105,12 @@ public class LogIn extends AppCompatActivity {
      */
     protected void signIn(String email, String password) {
         if (email.isEmpty() || password.isEmpty()) {
-            if (email.isEmpty()) {
-                Toast.makeText(getApplicationContext(),
-                        "Introduzca un correo electrónico", Toast.LENGTH_SHORT).show();
-            }
-            if (password.isEmpty()) {
-                Toast.makeText(getApplicationContext(),
-                        "Introduce una contraseña", Toast.LENGTH_SHORT).show();
-            }
+            if (email.isEmpty())
+                displayToast("Introduzca un correo electrónico");
+
+            if (password.isEmpty())
+                displayToast("Introduce una contraseña");
+
         } else {
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -114,9 +135,7 @@ public class LogIn extends AppCompatActivity {
                                     mpassword.setError("Email y/o contraseña incorrecta");
                                     mpassword.requestFocus();
                                 } catch (Exception e) {
-                                    Toast.makeText(LogIn.this,
-                                            "No se ha podido iniciar sesión",
-                                            Toast.LENGTH_SHORT).show();
+                                    displayToast("No se ha podido iniciar sesión");
                                 }
                             }
                         }
@@ -124,4 +143,15 @@ public class LogIn extends AppCompatActivity {
         }
     }
 
+    private void displayToast(String s) {
+        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+    }
+
+    public FirebaseAuth getmAuth() {
+        return mAuth;
+    }
+
+    public GoogleSignInClient getGoogleSignInClient() {
+        return googleSignInClient;
+    }
 }

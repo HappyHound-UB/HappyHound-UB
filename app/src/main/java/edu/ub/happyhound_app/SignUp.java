@@ -1,47 +1,32 @@
 package edu.ub.happyhound_app;
 
-import static android.content.ContentValues.TAG;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.util.Patterns;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class SignUp extends AppCompatActivity {
 
     private EditText newName, newEmail, newPassword;
-    private TextView  btnSignIn;
+    private TextView btnSignIn;
     private Button btnContinue;
     private CheckBox conditions;
     private FirebaseAuth mAuth;
-    private DocumentReference documentReference;
     private String name, email, password;
 
     @Override
@@ -49,7 +34,7 @@ public class SignUp extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
+        if (currentUser != null) {
             //currentUser.reload();
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
@@ -87,24 +72,17 @@ public class SignUp extends AppCompatActivity {
 
     }
 
-    protected void signUp(String name, String email, String password){
-        if(name.isEmpty()|| email.isEmpty() || password.isEmpty()) {
-            if (name.isEmpty()) {
-                Toast.makeText(SignUp.this, "Escribe el nombre completo",
-                        Toast.LENGTH_SHORT).show();
-            }
-            if (email.isEmpty()) {
-                Toast.makeText(getApplicationContext(), "Introduzca un correo electrónico",
-                        Toast.LENGTH_SHORT).show();
-            }
-            if (password.isEmpty()) {
-                Toast.makeText(getApplicationContext(), "Ingrese una contraseña válida y vuelva a intentarlo",
-                        Toast.LENGTH_SHORT).show();
-            }
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            Toast.makeText(getApplicationContext(), "Introduzca un correo electrónico válido",
-                    Toast.LENGTH_SHORT).show();
+    protected void signUp(String name, String email, String password) {
+        if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            if (name.isEmpty()) displayToast("Escribe el nombre completo");
+            if (email.isEmpty()) displayToast("Introduzca un correo electrónico");
+            if (password.isEmpty())
+                displayToast("Ingrese una contraseña válida y vuelva a intentarlo");
 
+            //
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            newEmail.setError("Introduzca un correo electrónico válido");
+            newEmail.requestFocus();
         } else {
             if (conditions.isChecked()) {
                 mAuth.createUserWithEmailAndPassword(email, password)
@@ -115,7 +93,7 @@ public class SignUp extends AppCompatActivity {
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                     startActivity(intent);
-                                    saveUsers();
+                                    SaveUserInfo.saveUsers("New Account", name, email);
                                     finish();
 
                                 } else {
@@ -143,32 +121,8 @@ public class SignUp extends AppCompatActivity {
         }
     }
 
-    protected void saveUsers() {
-        String userID = mAuth.getCurrentUser().getUid();
-        documentReference = FirebaseFirestore.getInstance().collection("Users").document(userID);
-
-        if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
-            return;
-        }
-
-        Map<String, Object> users = new HashMap<>();
-        users.put("name", name);
-        users.put("email", email);
-        users.put("password", password);
-
-        documentReference.set(users)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
-                    }
-                });
+    private void displayToast(String s) {
+        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
     }
 
 }
