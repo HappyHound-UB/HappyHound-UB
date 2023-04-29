@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class ProfileFragment extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseUser user;
+    private FirebaseAuthManager authManager;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -66,6 +67,7 @@ public class ProfileFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        authManager = new FirebaseAuthManager<>(getActivity(), this);
     }
 
     @Override
@@ -84,10 +86,7 @@ public class ProfileFragment extends Fragment {
         btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAuth.signOut();
-                Intent intent = new Intent(getActivity().getApplicationContext(), LogIn.class);
-                startActivity(intent);
-                getActivity().finish();
+                authManager.signOut();
             }
         });
     }

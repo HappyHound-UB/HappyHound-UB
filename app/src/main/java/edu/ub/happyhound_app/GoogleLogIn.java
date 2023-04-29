@@ -1,5 +1,6 @@
 package edu.ub.happyhound_app;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
@@ -10,6 +11,7 @@ import androidx.annotation.Nullable;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -22,26 +24,34 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.Objects;
 
-public class GoogleLogIn extends LogIn {
+public class GoogleLogIn {
     private static final int RC_SIGN_IN = 100;
     private static final String TAG = "SignIn";
     private GoogleSignInClient googleSignInClient;
     private FirebaseAuth mAuth;
+    private final Activity activity;
 
-    public GoogleLogIn(GoogleSignInClient googleSignInClient, FirebaseAuth mAuth) {
-        this.googleSignInClient = googleSignInClient;
-        this.mAuth = mAuth;
+    public GoogleLogIn(Activity activity, FirebaseAuth firebaseAuth) {
+        this.activity = activity;
+        this.mAuth = firebaseAuth;
+        configureGoogleSignIn();
+    }
+
+    private void configureGoogleSignIn() {
+        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(activity.getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        googleSignInClient = GoogleSignIn.getClient(activity, googleSignInOptions);
     }
 
     protected void signInGoogle() {
         Intent signInIntent = googleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        activity.startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == RC_SIGN_IN) {
             Log.d(TAG, "onActivityResult: Google Sign In intent result");
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
@@ -74,11 +84,12 @@ public class GoogleLogIn extends LogIn {
                             String info = "Cuenta creada...\n" + Objects.requireNonNull(user).getEmail();
 
                             displayToast(info);
-                            SaveUserInfo.saveUsers("Google Users", Objects.requireNonNull(user.getDisplayName()), user.getEmail());
+                            SaveUserInfo save = new SaveUserInfo(mAuth);
+                            save.saveUsers("Google Users", Objects.requireNonNull(user.getDisplayName()), user.getEmail());
                         } else
                             displayToast("Google Sign In successful");
 
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        activity.startActivity(new Intent(activity.getApplicationContext(), MainActivity.class));
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -89,6 +100,7 @@ public class GoogleLogIn extends LogIn {
     }
 
     private void displayToast(String s) {
-        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity.getApplicationContext(), s, Toast.LENGTH_SHORT).show();
     }
+
 }

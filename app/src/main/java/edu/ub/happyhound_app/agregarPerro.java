@@ -41,7 +41,6 @@ public class agregarPerro extends AppCompatActivity {
     private ImageView imageView;
     private Spinner spinnerRaza, spinnerSexo;
     private FirebaseAuth mAuth;
-    private DocumentReference documentReference;
     private String nombre, raza, edad, sexo;
 
     private boolean fotoTomada = false;
@@ -91,7 +90,6 @@ public class agregarPerro extends AppCompatActivity {
             }
         });
 
-
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,7 +98,6 @@ public class agregarPerro extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 
     @Override
@@ -133,46 +130,17 @@ public class agregarPerro extends AppCompatActivity {
             if(fotoTomada == false){
                 Toast.makeText(getApplicationContext(), "Porfavor haz una foto a tu perro", Toast.LENGTH_SHORT).show();
             }*/
-        }
-        else{
-            saveDog(nombre, raza, edad, sexo);
+        } else {
+            SavePetInfo savePets = new SavePetInfo(getmAuth());
+            savePets.saveDogs(nombre, raza, edad, sexo);
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
             finish();
 
         }
     }
-    protected void saveDog(String nombre, String raza, String edad, String sexo) {
-        String userID = mAuth.getCurrentUser().getUid();
-        documentReference = FirebaseFirestore.getInstance().collection("Users").document(userID)
-                .collection("Lista Perros").document(nombre);
 
-        if (nombre.isEmpty() || raza.isEmpty() || edad.isEmpty() || sexo.isEmpty()) {
-            return;
-        }
-
-
-        Map<String, Object> perros = new HashMap<String, Object>();
-        perros.put("name", nombre);
-        perros.put("raza", raza);
-        perros.put("edad", edad);
-        perros.put("sexo", sexo);
-        //perros.put("imagen", image);
-
-        documentReference.set(perros)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
-                    }
-                });
-
+    public FirebaseAuth getmAuth() {
+        return mAuth;
     }
-
 }

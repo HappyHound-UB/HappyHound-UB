@@ -33,8 +33,9 @@
     <string name="add_fragment">Add</string>
     <string name="home">Home</string>
     <string name="add">Add</string>
-    <string name="profile">Profile</string>
+    <string name="profile">Perfil</string>
     <string name="logo_app">Logo APP</string>
+    <string name="agenda">Agenda</string>
 
     <string-array name="Raza">
         <item>Elige tu raza</item>

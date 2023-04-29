@@ -68,6 +68,7 @@ public class AddFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Intent intent = new Intent(getActivity().getApplicationContext(), agregarPerro.class);
         startActivity(intent);
+        getActivity().finish();
     }
 
 
