@@ -4,6 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_main"
+    android:orientation="vertical"
+
     tools:context=".Lista_perros">
 
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_dogList"
+        android:layout_width="0dp"
+        android:layout_height="473dp"
+        android:layout_marginTop="36dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBar_dogList"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerView_dogList"
+        app:layout_constraintEnd_toEndOf="@+id/recyclerView_dogList"
+        app:layout_constraintStart_toStartOf="@+id/recyclerView_dogList"
+        app:layout_constraintTop_toTopOf="@+id/recyclerView_dogList" />
+
+    <Button
+        android:id="@+id/button_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contextClickable="true"
+        android:text="Home"
+        android:onClick="volver"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView_dogList" />
 </androidx.constraintlayout.widget.ConstraintLayout>

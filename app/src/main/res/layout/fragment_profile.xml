@@ -4,18 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProfileFragment"
-    android:background="@drawable/background_main">
+    android:background="@drawable/background_main"
+    >
 
-    <!-- TODO: Update blank fragment layout -->
-    <Button
-        android:id="@+id/logOutButton"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+    <TextView
+        android:id="@+id/textView_profile"
+        android:layout_width="86dp"
+        android:layout_height="44dp"
         android:layout_gravity="center"
-        android:backgroundTint="@color/primary_title"
-        android:fontFamily="@font/asap_bold"
-        android:minHeight="48dp"
-        android:text="@string/salir" />
-
-
+        android:text="Profile" />
 </FrameLayout>

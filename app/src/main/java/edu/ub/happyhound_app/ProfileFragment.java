@@ -76,20 +76,9 @@ public class ProfileFragment extends Fragment {
     }
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view,savedInstanceState);
-        mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
-        btnLogOut = (Button) getActivity().findViewById(R.id.logOutButton);
-
-        btnLogOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAuth.signOut();
-                Intent intent = new Intent(getActivity().getApplicationContext(), LogIn.class);
-                startActivity(intent);
-                getActivity().finish();
-            }
-        });
+        super.onViewCreated(view, savedInstanceState);
+        Intent intent = new Intent(getActivity().getApplicationContext(), profile.class);
+        startActivity(intent);
     }
 
 
