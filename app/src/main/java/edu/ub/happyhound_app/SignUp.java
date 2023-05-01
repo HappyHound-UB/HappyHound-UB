@@ -1,24 +1,16 @@
 package edu.ub.happyhound_app;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
-import com.google.firebase.auth.FirebaseUser;
 
 public class SignUp extends AppCompatActivity {
 
@@ -26,20 +18,13 @@ public class SignUp extends AppCompatActivity {
     private TextView btnSignIn;
     private Button btnContinue;
     private CheckBox conditions;
-    private FirebaseAuth mAuth;
     private String name, email, password;
+    private FirebaseAuthManager<SignUp> authManager;
 
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            //currentUser.reload();
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
+        authManager.onStart();
     }
 
     @Override
@@ -47,7 +32,7 @@ public class SignUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        mAuth = FirebaseAuth.getInstance();
+        authManager = new FirebaseAuthManager<>(this, this);
 
         newName = (EditText) findViewById(R.id.idNombreUsuario);
         newEmail = (EditText) findViewById(R.id.idEmailAddressSU);
@@ -56,73 +41,78 @@ public class SignUp extends AppCompatActivity {
         btnSignIn = (TextView) findViewById(R.id.signInButtonSU);
         conditions = (CheckBox) findViewById(R.id.checkBoxConditions);
 
+        // creación de nueva cuenta
         btnContinue.setOnClickListener(view -> {
             name = newName.getText().toString().trim();
             email = newEmail.getText().toString().trim();
             password = newPassword.getText().toString().trim();
 
-            signUp(name, email, password);
+            if (everythingOK(name, email, password) && conditions.isChecked())
+                authManager.signUp(name, email, password);
+            else {
+                displayError();
+                conditions.setTextColor(Color.RED);
+            }
         });
 
+        // si el usuario tiene cuenta puede volver a la pagina de log in
         btnSignIn.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), LogIn.class);
             startActivity(intent);
             finish();
         });
 
+        conditions.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                conditions.setTextColor(Color.GRAY);
+            }
+        });
     }
 
-    protected void signUp(String name, String email, String password) {
-        if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
-            if (name.isEmpty()) displayToast("Escribe el nombre completo");
-            if (email.isEmpty()) displayToast("Introduzca un correo electrónico");
-            if (password.isEmpty())
-                displayToast("Ingrese una contraseña válida y vuelva a intentarlo");
+    // ========================================
+    //          METODOS PRIVADOS
+    // ========================================
 
-            //
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+    /**
+     * funcion para comprabar si han introducido datos y
+     * en caso de email comprobamos si tiene el formato correcto
+     *
+     * @return true si hay datos introducidos y el email tiene el formato correcto
+     * en caso contrario, retornamos false
+     */
+    private boolean everythingOK(String name, String email, String password) {
+        return (!(name.isEmpty() || email.isEmpty() || password.isEmpty())) &&
+                Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    /**
+     * función para mostrar error, miramos que falta para completar y mostramos erroes con Toast
+     */
+    private void displayError() {
+        if (name.isEmpty())
+            ToastMessage.displayToast(getApplicationContext(), "Escribe el nombre completo");
+        if (email.isEmpty())
+            ToastMessage.displayToast(getApplicationContext(), "Introduzca un correo electrónico");
+        if (password.isEmpty())
+            ToastMessage.displayToast(getApplicationContext(), "Ingrese una contraseña válida y vuelva a intentarlo");
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             newEmail.setError("Introduzca un correo electrónico válido");
             newEmail.requestFocus();
-        } else {
-            if (conditions.isChecked()) {
-                mAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                    startActivity(intent);
-                                    SaveUserInfo.saveUsers("New Account", name, email);
-                                    finish();
-
-                                } else {
-                                    // Inicio de sesión fallido
-                                    try {
-                                        throw task.getException();
-                                    } catch (FirebaseAuthUserCollisionException e) {
-                                        // El usuario ya existe
-                                        newEmail.setError("Ya existe un usuario con este email");
-                                        newEmail.requestFocus();
-                                    } catch (FirebaseAuthWeakPasswordException e) {
-                                        // Contraseña no segura
-                                        newPassword.setError("La contraseña debe tener al menos 6 caracteres y contener letras y números.");
-                                        newPassword.requestFocus();
-                                    } catch (Exception e) {
-                                        // Otro error
-                                        Toast.makeText(SignUp.this,
-                                                "No se ha podido crear la cuenta",
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }
-                        });
-            }
         }
     }
 
-    private void displayToast(String s) {
-        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+    // ========================================
+    //              GETTERS
+    // ========================================
+
+    public EditText getNewEmail() {
+        return newEmail;
+    }
+
+    public EditText getNewPassword() {
+        return newPassword;
     }
 
 }

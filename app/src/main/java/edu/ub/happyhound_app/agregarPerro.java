@@ -28,11 +28,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,22 +46,12 @@ public class agregarPerro extends AppCompatActivity {
     private DocumentReference documentReference;
     private String nombre, raza, edad, sexo;
 
-    private String user;
-
     private boolean fotoTomada = false;
 
-    private FirebaseStorage mStorage;
-    private StorageReference mStorageRef;
-    private Bitmap imageBitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_agregar_perro);
-
-        mStorage = FirebaseStorage.getInstance();
-        mStorageRef = mStorage.getReference();
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -105,7 +91,8 @@ public class agregarPerro extends AppCompatActivity {
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(cameraIntent,REQUEST_CODE);
             }
-               });
+        });
+
 
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,8 +108,8 @@ public class agregarPerro extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
-            imageBitmap = (Bitmap) data.getExtras().get("data");
-            imageView.setImageBitmap(imageBitmap);
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            imageView.setImageBitmap(photo);
             fotoTomada = true;
         }
         else{
@@ -144,10 +131,10 @@ public class agregarPerro extends AppCompatActivity {
             }
             if (sexo.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Porfavor introduzca el sexo de tu perro", Toast.LENGTH_SHORT).show();
-            }
+            }/*
             if(fotoTomada == false){
                 Toast.makeText(getApplicationContext(), "Porfavor haz una foto a tu perro", Toast.LENGTH_SHORT).show();
-            }
+            }*/
         }
         else{
             saveDog(nombre, raza, edad, sexo);
@@ -157,54 +144,6 @@ public class agregarPerro extends AppCompatActivity {
 
         }
     }
-    protected void saveDog(String nombre, String raza, String edad, String sexo){
-
-     //   user = mAuth.getCurrentUser().getEmail();
-
-        documentReference = FirebaseFirestore.getInstance().collection("Perros").document();
-
-        Map<String, Object> perro = new HashMap<>();
-        perro.put("Nombre", nombre);
-        perro.put("Raza", raza);
-        perro.put("Edad", edad);
-        perro.put("Sexo", sexo);
-        perro.put("Usuario", user);
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] data = baos.toByteArray();
-
-        UploadTask uploadTask = mStorageRef.child("malik129@gmail.com/"+nombre+".jpg").putBytes(data);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-                Toast.makeText(getApplicationContext(), "Fallo al subir la imagen", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                // ...
-                Toast.makeText(getApplicationContext(), "Imagen subida con éxito", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        documentReference.set(perro).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(getApplicationContext(), "Perro agregado con éxito", Toast.LENGTH_SHORT).show();
-                         }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Fallo al agregar el perro", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-    }
-    /*
     protected void saveDog(String nombre, String raza, String edad, String sexo) {
         String userID = mAuth.getCurrentUser().getUid();
         documentReference = FirebaseFirestore.getInstance().collection("Users").document(userID)
@@ -220,7 +159,7 @@ public class agregarPerro extends AppCompatActivity {
         perros.put("raza", raza);
         perros.put("edad", edad);
         perros.put("sexo", sexo);
-
+        //perros.put("imagen", image);
 
         documentReference.set(perros)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -236,33 +175,6 @@ public class agregarPerro extends AppCompatActivity {
                     }
                 });
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] dataByteArray = baos.toByteArray();
-
-        // Crea una referencia al archivo en el Firebase Storage
-        StorageReference imageRef = mStorageRef.child(   "malik129@gmail.com/" + nombrePerro +".jpg");
-
-        // Crea un UploadTask para subir la imagen al Firebase Storage
-        UploadTask uploadTask = imageRef.putBytes(dataByteArray);
-
-        // Maneja la respuesta del UploadTask
-        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // La imagen se subió con éxito, obtén la URL de descarga
-               Log.d(TAG,"Imagen guardada correctamente");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                // Hubo un error al subir la imagen
-                Log.e(TAG, "Error al subir la imagen", e);
-            }
-        });
-    }*/
+    }
 
 }
-
-
-

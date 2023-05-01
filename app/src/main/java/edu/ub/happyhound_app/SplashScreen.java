@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class SplashScreen extends AppCompatActivity {
-    private final int SPLASH_TIMEOUT = 5000;
+    private final int SPLASH_TIMEOUT = 3000;
     private ImageView logoApp;
     private TextView marcaApp;
     private Animation animTop, animBottom;

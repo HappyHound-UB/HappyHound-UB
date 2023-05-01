@@ -14,38 +14,33 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
-public class SaveUserInfo {
+public class SavePetInfo {
     private FirebaseAuth mAuth;
 
-    public SaveUserInfo(FirebaseAuth firebaseAuth) {
+    public SavePetInfo(FirebaseAuth firebaseAuth) {
         this.mAuth = firebaseAuth;
     }
 
-    /**
-     * Función para guardar los usuarios registrados
-     *
-     * @param type  dependiendo del tipo (Registro a través de la app, Google o Facebook) creamos c
-     *              colecciones para dividir los usuarios
-     * @param name  nombre del usario
-     * @param email email del registro del usuario
-     */
-    protected void saveUsers(String type, String name, String email) {
+    protected void saveDogs(String nombre, String raza, String edad, String sexo) {
         DocumentReference documentReference;
+        String userID = mAuth.getCurrentUser().getUid();
+        documentReference = FirebaseFirestore.getInstance().collection("Users").document(userID)
+                .collection("Lista Perros").document(nombre);
 
-        String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-        documentReference = FirebaseFirestore.getInstance().collection(type).document(userID);
-
-        if (name.isEmpty() || email.isEmpty()) {
+        if (nombre.isEmpty() || raza.isEmpty() || edad.isEmpty() || sexo.isEmpty()) {
             return;
         }
 
-        Map<String, Object> users = new HashMap<>();
-        users.put("name", name);
-        users.put("email", email);
 
-        documentReference.set(users)
+        Map<String, Object> perros = new HashMap<String, Object>();
+        perros.put("name", nombre);
+        perros.put("raza", raza);
+        perros.put("edad", edad);
+        perros.put("sexo", sexo);
+        //perros.put("imagen", image);
+
+        documentReference.set(perros)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -58,6 +53,6 @@ public class SaveUserInfo {
                         Log.w(TAG, "Error adding document", e);
                     }
                 });
-    }
 
+    }
 }

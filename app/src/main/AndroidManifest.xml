@@ -26,6 +26,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".AlarmaComida"
             android:exported="true" />
@@ -50,6 +51,7 @@
         <activity
             android:name=".Lista_perros"
             android:exported="true" />
+
         <activity
             android:name=".ForgotPassword"
             android:exported="true" />
