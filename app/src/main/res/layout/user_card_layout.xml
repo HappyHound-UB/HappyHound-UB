@@ -34,10 +34,13 @@
 
         <TextView
             android:id="@+id/textView_card"
-            android:layout_width="100dp"
-            android:layout_height="28dp"
+            android:layout_width="85dp"
+            android:layout_height="21dp"
             android:layout_marginBottom="60dp"
+            android:background="#D6CBC5"
             android:text="@string/textview"
+            android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

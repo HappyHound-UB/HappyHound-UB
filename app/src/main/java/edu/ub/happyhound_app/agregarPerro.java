@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.net.Uri;
 import android.view.View;
 import android.content.Intent;
@@ -48,12 +49,17 @@ public class agregarPerro extends AppCompatActivity {
 
     private boolean fotoTomada = false;
 
+    private SavePetInfo save_data;
+
+    private  Bitmap b;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_perro);
 
         mAuth = FirebaseAuth.getInstance();
+        save_data = new SavePetInfo(mAuth);
 
         nombrePerro = (EditText) findViewById(R.id.editTextNombre);
         edadPerro = (EditText) findViewById(R.id.editTextEdad);
@@ -108,8 +114,8 @@ public class agregarPerro extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
-            imageView.setImageBitmap(photo);
+            b = (Bitmap) data.getExtras().get("data");
+            imageView.setImageBitmap(b);
             fotoTomada = true;
         }
         else{
@@ -137,7 +143,8 @@ public class agregarPerro extends AppCompatActivity {
             }*/
         }
         else{
-            saveDog(nombre, raza, edad, sexo);
+            save_data.saveDogs(nombre,raza,edad,sexo,getApplicationContext(),b);
+            //saveDog(nombre, raza, edad, sexo);
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
             finish();

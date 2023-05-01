@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.ProgressBar;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -25,7 +27,9 @@ import java.util.Map;
 
 public class Lista_perros extends AppCompatActivity {
     UserCardAdapter adapter;
-    private String User = "malik129@gmail.com";
+
+    private FirebaseAuth firebaseAuth;
+    private String User;
     FirebaseStorage storage = FirebaseStorage.getInstance();
 
     @Override
@@ -33,6 +37,8 @@ public class Lista_perros extends AppCompatActivity {
         List<Card_dog> fieldsList = new ArrayList<>();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_perros);
+        firebaseAuth = FirebaseAuth.getInstance();
+        User = firebaseAuth.getCurrentUser().getEmail();
 
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView_dogList);
@@ -84,6 +90,8 @@ public class Lista_perros extends AppCompatActivity {
     }
 
     public void volver(View v){
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
         finish();
     }
 }

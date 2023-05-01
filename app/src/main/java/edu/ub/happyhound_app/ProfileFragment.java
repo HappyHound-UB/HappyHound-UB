@@ -81,17 +81,18 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view,savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
-        btnLogOut = (Button) getActivity().findViewById(R.id.logOutButton);
+        //btnLogOut = (Button) getActivity().findViewById(R.id.logOutButton);
 
-        btnLogOut.setOnClickListener(new View.OnClickListener() {
+       /* btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 authManager.signOut();
             }
-        });
+        });*/
         super.onViewCreated(view, savedInstanceState);
         Intent intent = new Intent(getActivity().getApplicationContext(), profile.class);
         startActivity(intent);
+
     }
 
 
