@@ -8,20 +8,22 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class SaveUserInfo {
-    private FirebaseAuth mAuth;
+    private FirebaseAuthManager<SaveUserInfo> authManager;
+    private FirebaseFirestore db;
 
-    public SaveUserInfo(FirebaseAuth firebaseAuth) {
-        this.mAuth = firebaseAuth;
+    public SaveUserInfo() {
+        authManager = new FirebaseAuthManager<>();
+        db = FirebaseFirestore.getInstance();
+
     }
+
 
     /**
      * Función para guardar los usuarios registrados
@@ -34,8 +36,8 @@ public class SaveUserInfo {
     protected void saveUsers(String type, String name, String email) {
         DocumentReference documentReference;
 
-        String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-        documentReference = FirebaseFirestore.getInstance().collection(type).document(userID);
+        String userID = authManager.getUser().getUid();
+        documentReference = db.collection(type).document(userID);
 
         if (name.isEmpty() || email.isEmpty()) {
             return;

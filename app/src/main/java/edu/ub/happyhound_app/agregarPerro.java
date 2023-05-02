@@ -1,19 +1,12 @@
 package edu.ub.happyhound_app;
 
-import static android.content.ContentValues.TAG;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
-import android.net.Uri;
-import android.view.View;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,45 +14,23 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class agregarPerro extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 22;
     private EditText nombrePerro, edadPerro;
     private Button btnAdd, btnPicture;
-
     private TextView btnCancelar;
-
     private ImageView imageView;
     private Spinner spinnerRaza, spinnerSexo;
-    private FirebaseAuth mAuth;
-    private DocumentReference documentReference;
     private String nombre, raza, edad, sexo;
-
     private boolean fotoTomada = false;
-
-    private SavePetInfo save_data;
-
     private  Bitmap b;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_perro);
-
-        mAuth = FirebaseAuth.getInstance();
-        save_data = new SavePetInfo(mAuth);
 
         nombrePerro = (EditText) findViewById(R.id.editTextNombre);
         edadPerro = (EditText) findViewById(R.id.editTextEdad);
@@ -87,7 +58,6 @@ public class agregarPerro extends AppCompatActivity {
                 raza = spinnerRaza.getSelectedItem().toString();
                 sexo = spinnerSexo.getSelectedItem().toString();
                 newDog(nombre,raza, edad, sexo);
-
             }
         });
 
@@ -98,8 +68,6 @@ public class agregarPerro extends AppCompatActivity {
                 startActivityForResult(cameraIntent,REQUEST_CODE);
             }
         });
-
-
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,7 +76,6 @@ public class agregarPerro extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 
     @Override
@@ -119,7 +86,7 @@ public class agregarPerro extends AppCompatActivity {
             fotoTomada = true;
         }
         else{
-            Toast.makeText(getApplicationContext(), "cancelled", Toast.LENGTH_SHORT).show();
+            ToastMessage.displayToast(getApplicationContext(), "cancelled");
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -127,61 +94,26 @@ public class agregarPerro extends AppCompatActivity {
     protected void newDog(String nombre, String Raza, String edad, String sexo){
         if(nombre.isEmpty()|| raza.isEmpty() || edad.isEmpty() || sexo.isEmpty()) {
             if (nombre.isEmpty()) {
-                Toast.makeText(getApplicationContext(), "Porfavor introduzca el nombre de tu perro", Toast.LENGTH_SHORT).show();
+                ToastMessage.displayToast(getApplicationContext(), "Porfavor introduzca el nombre de tu perro");
             }
             if (raza.isEmpty()) {
-                Toast.makeText(getApplicationContext(), "Porfavor introduzca la raza de tu perro", Toast.LENGTH_SHORT).show();
+                ToastMessage.displayToast(getApplicationContext(), "Porfavor introduzca la raza de tu perro");
             }
             if (edad.isEmpty()) {
-                Toast.makeText(getApplicationContext(), "Porfavor introduzca la edad de tu perro", Toast.LENGTH_SHORT).show();
+                ToastMessage.displayToast(getApplicationContext(), "Porfavor introduzca la edad de tu perro");
             }
             if (sexo.isEmpty()) {
-                Toast.makeText(getApplicationContext(), "Porfavor introduzca el sexo de tu perro", Toast.LENGTH_SHORT).show();
+                ToastMessage.displayToast(getApplicationContext(), "Porfavor introduzca el sexo de tu perro");
             }/*
             if(fotoTomada == false){
                 Toast.makeText(getApplicationContext(), "Porfavor haz una foto a tu perro", Toast.LENGTH_SHORT).show();
             }*/
-        }
-        else{
-            save_data.saveDogs(nombre,raza,edad,sexo,getApplicationContext(),b);
-            //saveDog(nombre, raza, edad, sexo);
+        } else {
+            SavePetInfo savePets = new SavePetInfo(this);
+            savePets.saveDogs(nombre, raza, edad, sexo, b);
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
             finish();
-
         }
     }
-    protected void saveDog(String nombre, String raza, String edad, String sexo) {
-        String userID = mAuth.getCurrentUser().getUid();
-        documentReference = FirebaseFirestore.getInstance().collection("Users").document(userID)
-                .collection("Lista Perros").document(nombre);
-
-        if (nombre.isEmpty() || raza.isEmpty() || edad.isEmpty() || sexo.isEmpty()) {
-            return;
-        }
-
-
-        Map<String, Object> perros = new HashMap<String, Object>();
-        perros.put("name", nombre);
-        perros.put("raza", raza);
-        perros.put("edad", edad);
-        perros.put("sexo", sexo);
-        //perros.put("imagen", image);
-
-        documentReference.set(perros)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
-                    }
-                });
-
-    }
-
 }

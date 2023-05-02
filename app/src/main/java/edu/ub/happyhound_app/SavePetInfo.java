@@ -2,17 +2,12 @@ package edu.ub.happyhound_app;
 
 import static android.content.ContentValues.TAG;
 
-import android.content.Context;
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.util.Log;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -23,64 +18,94 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SavePetInfo {
-    private FirebaseAuth mAuth;
-
+    FirebaseFirestore db;
+    String accType;
+    String[] collections;
+    DocumentReference documentReference;
+    private FirebaseAuthManager<SavePetInfo> authManager;
     private FirebaseStorage mStorage;
     private StorageReference mStorageRef;
+    private Activity activity;
 
-    public SavePetInfo(FirebaseAuth firebaseAuth) {
-        this.mAuth = firebaseAuth;
+    public SavePetInfo(Activity activity) {
+        this.activity = activity;
+        authManager = new FirebaseAuthManager<>();
+        db = FirebaseFirestore.getInstance();
+        collections = new String[]{"New Account Users", "Google Users", "Facebook Users"};
         mStorage = FirebaseStorage.getInstance();
         mStorageRef = mStorage.getReference();
+
     }
 
-    protected void saveDogs(String nombre, String raza, String edad, String sexo, Context c, Bitmap b) {
-        DocumentReference documentReference;
-        String userID = mAuth.getCurrentUser().getUid();
-        documentReference = FirebaseFirestore.getInstance().collection("Users").document(userID)
-                .collection("Lista Perros").document(nombre);
+    protected void saveDogs(String nombre, String raza, String edad, String sexo, Bitmap b) {
+        String userID = authManager.getUser().getUid();
 
-        Map<String, Object> perros = new HashMap<String, Object>();
+        for (int i = 0; i < collections.length; i++) {
+            int finalI = i;
+            db.collection(collections[i]).document(userID)
+                    .get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                accType = collections[finalI];
+                                addDogs(userID, nombre, raza, edad, sexo, b);
+                            }
+                        } else
+                            Log.d("Error", " Path not found");
+                    });
+        }
+    }
+
+
+    // ========================================
+    //          METODOS PRIVADOS
+    // ========================================
+
+    private void addDogs(String userID, String nombre, String raza, String edad, String sexo, Bitmap b) {
+        if (nombre.isEmpty() || raza.isEmpty() || edad.isEmpty() || sexo.isEmpty()) {
+            return;
+        }
+
+        switch (accType) {
+            case "New Account Users":
+                documentReference = db.collection("New Account Users").document(userID)
+                        .collection("Lista Perros").document(nombre);
+                break;
+            case "Google Users":
+                documentReference = db.collection("Google Users").document(userID)
+                        .collection("Lista Perros").document(nombre);
+                break;
+            case "Facebook Users":
+                documentReference = db.collection("Facebook Users").document(userID)
+                        .collection("Lista Perros").document(nombre);
+                break;
+            default:
+                documentReference = db.collection("Other Users").document(userID)
+                        .collection("Lista Perros").document(nombre);
+                break;
+        }
+
+        Map<String, Object> perros = new HashMap<>();
         perros.put("name", nombre);
         perros.put("raza", raza);
         perros.put("edad", edad);
         perros.put("sexo", sexo);
 
-
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         b.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
 
-
-        UploadTask uploadTask = mStorageRef.child( mAuth.getCurrentUser().getEmail()+"/"+nombre+".jpg").putBytes(data);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-                Toast.makeText(c , "Fallo al subir la imagen", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                // ...
-                Toast.makeText(c , "Imagen subida con éxito", Toast.LENGTH_SHORT).show();
-            }
-        });
+        UploadTask uploadTask = mStorageRef.child(authManager.getUser().getEmail() + "/" + nombre + ".jpg").putBytes(data);
+        uploadTask.addOnFailureListener(exception -> {
+            // Handle unsuccessful uploads
+            ToastMessage.displayToast(activity.getApplicationContext(), "\"Fallo al subir la imagen\"");
+        }).addOnSuccessListener(taskSnapshot ->
+                ToastMessage.displayToast(activity.getApplicationContext(), "Imagen subida con éxito"));
 
         documentReference.set(perros)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
-                    }
-                });
-
+                .addOnSuccessListener(aVoid ->
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId()))
+                .addOnFailureListener(e ->
+                        Log.w(TAG, "Error adding document", e));
     }
 }

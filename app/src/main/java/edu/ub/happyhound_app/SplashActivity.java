@@ -11,7 +11,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class SplashScreen extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity {
     private final int SPLASH_TIMEOUT = 3000;
     private ImageView logoApp;
     private TextView marcaApp;
@@ -37,10 +37,10 @@ public class SplashScreen extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }
-        }, SPLASH_TIMEOUT); // Espera 5 segundos
+        }, SPLASH_TIMEOUT); // Espera 3 segundos
     }
 }

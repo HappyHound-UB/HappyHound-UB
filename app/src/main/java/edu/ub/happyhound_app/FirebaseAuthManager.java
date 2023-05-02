@@ -19,8 +19,15 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class FirebaseAuthManager<T> {
     private FirebaseAuth mAuth;
+    private FirebaseUser user;
     private Activity activity;
     private T type;
+
+    public FirebaseAuthManager() {
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+    }
+
 
     public FirebaseAuthManager(Activity activity, T classType) {
         this.activity = activity;
@@ -41,6 +48,7 @@ public class FirebaseAuthManager<T> {
 
     /**
      * Funcion para iniciar sesión con el email y la contraseña dada
+     * SOLO SE UTILIZA EN LA CLASSE LOGIN
      *
      * @param email    email del usuario que se utilizara para iniciar la sesión
      * @param password contraseña creada para entrar
@@ -52,7 +60,7 @@ public class FirebaseAuthManager<T> {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            user = mAuth.getCurrentUser();
                             Intent intent = new Intent(activity.getApplicationContext(), MainActivity.class);
                             activity.startActivity(intent);
                             activity.finish();
@@ -63,22 +71,27 @@ public class FirebaseAuthManager<T> {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         // Inicio de sesión fallido
-                        if (e instanceof FirebaseAuthInvalidUserException) {
-                            // El usuario no existe y mosramos error
-                            ((LogIn) type).getMemail().setError("Email no existe");
-                            ((LogIn) type).getMemail().requestFocus();
-                        } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
-                            // Credenciales inválidas (por ejemplo, contraseña incorrecta)
-                            ((LogIn) type).getMpassword().setError("Email y/o contraseña incorrecta");
-                            ((LogIn) type).getMpassword().requestFocus();
-                        } else
-                            ToastMessage.displayToast(activity.getApplicationContext(), "No se ha podido iniciar sesión");
+                        // asseguramos que esta funcion solo ha sido utilizado en la classe LogIn
+                        if (type instanceof LogIn) {
+                            if (e instanceof FirebaseAuthInvalidUserException) {
+                                // El usuario no existe y mosramos error
+                                ((LogIn) type).getMemail().setError("Email no existe");
+                                ((LogIn) type).getMemail().requestFocus();
+                            } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                                // Credenciales inválidas (por ejemplo, contraseña incorrecta)
+                                ((LogIn) type).getMpassword().setError("Email y/o contraseña incorrecta");
+                                ((LogIn) type).getMpassword().requestFocus();
+                            } else
+                                ToastMessage.displayToast(activity.getApplicationContext(),
+                                        "No se ha podido iniciar sesión");
+                        }
                     }
                 });
     }
 
     /**
      * funcion para crear nueva cuenta de firebase
+     * SOLO SE UTILIZA EN LA CLASSE SIGNUP
      *
      * @param name     nombre de usuario
      * @param email    email para acceder a la cuenta
@@ -91,8 +104,8 @@ public class FirebaseAuthManager<T> {
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        SaveUserInfo saveData = new SaveUserInfo(getmAuth());
-                        saveData.saveUsers("New Account", name, email);
+                        SaveUserInfo saveData = new SaveUserInfo();
+                        saveData.saveUsers("New Account Users", name, email);
                     }
                 })
                 // si ha cumplido el proceso con exito entramos en la app
@@ -100,7 +113,7 @@ public class FirebaseAuthManager<T> {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            user = mAuth.getCurrentUser();
                             Intent intent = new Intent(activity.getApplicationContext(), MainActivity.class);
                             activity.startActivity(intent);
                             activity.finish();
@@ -111,17 +124,21 @@ public class FirebaseAuthManager<T> {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        if (e instanceof FirebaseAuthUserCollisionException) {
-                            // El usuario ya existe
-                            ((SignUp) type).getNewEmail().setError("Ya existe un usuario con este email");
-                            ((SignUp) type).getNewEmail().requestFocus();
-                        } else if (e instanceof FirebaseAuthWeakPasswordException) {
-                            // Contraseña no segura
-                            ((SignUp) type).getNewPassword().setError("La contraseña debe tener al menos 6 caracteres y contener letras y números.");
-                            ((SignUp) type).getNewPassword().requestFocus();
-                        } else {
-                            // Otro error
-                            ToastMessage.displayToast(activity.getApplicationContext(), "No se ha podido crear la cuenta");
+                        // asseguramos que esta funcion solo ha sido utilizado en la classe SignIn
+                        if (type instanceof SignUp) {
+                            if (e instanceof FirebaseAuthUserCollisionException) {
+                                // El usuario ya existe
+                                ((SignUp) type).getNewEmail().setError("Ya existe un usuario con este email");
+                                ((SignUp) type).getNewEmail().requestFocus();
+                            } else if (e instanceof FirebaseAuthWeakPasswordException) {
+                                // Contraseña no segura
+                                ((SignUp) type).getNewPassword()
+                                        .setError("La contraseña debe tener al menos 6 caracteres y contener letras y números.");
+                                ((SignUp) type).getNewPassword().requestFocus();
+                            } else
+                                // Otro error
+                                ToastMessage.displayToast(activity.getApplicationContext(),
+                                        "No se ha podido crear la cuenta");
                         }
                     }
                 });
@@ -142,4 +159,7 @@ public class FirebaseAuthManager<T> {
         return mAuth;
     }
 
+    public FirebaseUser getUser() {
+        return user;
+    }
 }

@@ -1,28 +1,33 @@
 package edu.ub.happyhound_app;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.TextView;
-
 import com.google.android.material.color.DynamicColors;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import edu.ub.happyhound_app.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
-    private FirebaseUser user;
+    private FirebaseAuthManager<MainActivity> authManager;
     private ActivityMainBinding binding;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // si aun no se ha iniciado la sesion volvemos al login para inicar sesion
+        if (authManager.getmAuth().getCurrentUser() == null) {
+            Intent intent = new Intent(getApplicationContext(), LogIn.class);
+            startActivity(intent);
+            finish();
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,17 +36,9 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
+        authManager = new FirebaseAuthManager<>(this, this);
 
-        if (user == null){
-            Intent intent = new Intent(getApplicationContext(), LogIn.class);
-            startActivity(intent);
-            finish();
-        }
-        else {
-            changeFragments(new HomeFragment());
-        }
+        changeFragments(new HomeFragment());
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
 

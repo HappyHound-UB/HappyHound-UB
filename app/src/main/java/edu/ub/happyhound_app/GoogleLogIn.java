@@ -3,7 +3,6 @@ package edu.ub.happyhound_app;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -62,7 +61,7 @@ public class GoogleLogIn {
                 firebaseAuthGoogle(googleSignInAccount);
 
             } catch (ApiException e) {
-                displayToast(e.getMessage());
+                ToastMessage.displayToast(activity.getApplicationContext(), e.getMessage());
             }
         }
     }
@@ -83,24 +82,20 @@ public class GoogleLogIn {
                         if (Objects.requireNonNull(authResult.getAdditionalUserInfo()).isNewUser()) {
                             String info = "Cuenta creada...\n" + Objects.requireNonNull(user).getEmail();
 
-                            displayToast(info);
-                            SaveUserInfo save = new SaveUserInfo(mAuth);
+                            ToastMessage.displayToast(activity.getApplicationContext(), info);
+                            SaveUserInfo save = new SaveUserInfo();
                             save.saveUsers("Google Users", Objects.requireNonNull(user.getDisplayName()), user.getEmail());
                         } else
-                            displayToast("Google Sign In successful");
+                            ToastMessage.displayToast(activity.getApplicationContext(), "Google Sign In successful");
 
                         activity.startActivity(new Intent(activity.getApplicationContext(), MainActivity.class));
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        displayToast("Error signing in  with Google");
+                        ToastMessage.displayToast(activity.getApplicationContext(), "Error signing in  with Google");
                     }
                 });
-    }
-
-    private void displayToast(String s) {
-        Toast.makeText(activity.getApplicationContext(), s, Toast.LENGTH_SHORT).show();
     }
 
 }

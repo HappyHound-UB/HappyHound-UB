@@ -1,17 +1,17 @@
 package edu.ub.happyhound_app;
 
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.ImageView;
-        import android.widget.TextView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-        import androidx.annotation.NonNull;
-        import androidx.recyclerview.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
-        import com.bumptech.glide.Glide;
+import com.bumptech.glide.Glide;
 
-        import java.util.List;
+import java.util.List;
 
 public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.MyViewHolder> {
 
