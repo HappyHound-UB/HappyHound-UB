@@ -56,13 +56,12 @@
             android:exported="true" />
 
         <activity android:name=".CrearRecordatorio"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/Theme.HappyHound_APP"/>
 
         <activity
             android:name=".AlarmaPaseo"
-            android:exported="true"
-            android:theme="@style/Theme.HappyHound_APP"/>
+            android:exported="true" />
 
         <meta-data
             android:name="preloaded_fonts"
