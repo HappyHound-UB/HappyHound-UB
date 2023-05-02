@@ -2,48 +2,54 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="188dp"
     android:layout_height="wrap_content"
 
     android:textAlignment="center">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cardView"
-        android:layout_width="408dp"
-        android:layout_height="353dp"
+        android:layout_width="180dp"
+        android:layout_height="183dp"
         android:layout_gravity="center"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="4dp"
+        android:background="#F1E7D9"
         android:gravity="center"
         app:cardCornerRadius="2dp"
         app:cardElevation="2dp"
         app:cardMaxElevation="2dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/imageView_card"
-            android:layout_width="278dp"
-            android:layout_height="252dp"
+            android:layout_width="180dp"
+            android:layout_height="124dp"
             app:layout_constraintBottom_toTopOf="@+id/textView_card"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/textView_card"
-            android:layout_width="85dp"
-            android:layout_height="21dp"
-            android:layout_marginBottom="60dp"
-            android:background="#D6CBC5"
+            android:layout_width="180dp"
+            android:layout_height="39dp"
+            android:background="#FF6F22"
+            android:fontFamily="sans-serif-black"
             android:text="@string/textview"
-            android:textSize="18sp"
+
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.888" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

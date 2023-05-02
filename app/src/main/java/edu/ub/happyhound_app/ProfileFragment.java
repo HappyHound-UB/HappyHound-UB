@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -19,20 +20,15 @@ import com.google.firebase.auth.FirebaseUser;
  * create an instance of this fragment.
  */
 public class ProfileFragment extends Fragment {
-    private FirebaseAuth mAuth;
-    private FirebaseUser user;
-    private FirebaseAuthManager authManager;
 
+    private  FirebaseAuthManager<ProfileFragment> firebaseAuthManager;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-    private Button btnLogOut;
-
+    private Button exit;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -60,38 +56,28 @@ public class ProfileFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //appCompatActivity.setContentView(R.layout.fragment_profile);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+        firebaseAuthManager = new FirebaseAuthManager<>(getActivity(),this);
         }
-        authManager = new FirebaseAuthManager<>(getActivity(), this);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        exit = view.findViewById(R.id.button_log_out);
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                firebaseAuthManager.signOut();
+
+            }
+        });
+
+        return view;
     }
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view,savedInstanceState);
-        mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
-        //btnLogOut = (Button) getActivity().findViewById(R.id.logOutButton);
-
-       /* btnLogOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                authManager.signOut();
-            }
-        });*/
-        super.onViewCreated(view, savedInstanceState);
-        Intent intent = new Intent(getActivity().getApplicationContext(), profile.class);
-        startActivity(intent);
-
-    }
-
-
-
+       }
 }
