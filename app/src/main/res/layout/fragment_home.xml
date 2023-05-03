@@ -14,10 +14,9 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView_dogList"
-            android:layout_width="188dp"
-            android:layout_height="549dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
-            android:background="#F1E7D9"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -36,6 +35,15 @@
             app:layout_constraintTop_toTopOf="@+id/recyclerView_dogList" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingAddButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/add"
+        android:src="@drawable/baseline_add_circle_24" />
 
 
 </FrameLayout>

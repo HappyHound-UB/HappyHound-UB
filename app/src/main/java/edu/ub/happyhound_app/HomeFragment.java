@@ -1,30 +1,29 @@
 package edu.ub.happyhound_app;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,22 +36,16 @@ public class HomeFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-
-    private ProgressBar p;
-
+    private FirebaseStorage storage;
+    private FirebaseAuthManager<HomeFragment> authManager;
+    private ProgressBar progressBar;
     private RecyclerView recyclerView;
-
     private UserCardAdapter adapter;
-
     private StorageReference storageRef;
-    FirebaseStorage storage = FirebaseStorage.getInstance();
-
+    private FloatingActionButton addDogs;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
-    private FirebaseAuth firebaseAuth;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -83,31 +76,43 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        authManager = new FirebaseAuthManager<>(getActivity(), this);
+        storage = FirebaseStorage.getInstance();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-        firebaseAuth = FirebaseAuth.getInstance();
-        recyclerView = view.findViewById(R.id.recyclerView_dogList);
-        p = view.findViewById(R.id.progressBar_dogList);
-        p.setVisibility(View.VISIBLE);
-        storageRef = storage.getReference().child(firebaseAuth.getCurrentUser().getEmail());
-        load_list();
-        return view;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
+        recyclerView = getActivity().findViewById(R.id.recyclerView_dogList);
+        progressBar = getActivity().findViewById(R.id.progressBar_dogList);
+        addDogs = getActivity().findViewById(R.id.floatingAddButton);
 
+        progressBar.setVisibility(View.VISIBLE);
+        addDogs.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getActivity().getApplicationContext(), agregarPerro.class);
+            startActivity(intent);
+        });
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (authManager.getUser() == null) {
+            Intent intent = new Intent(getActivity(), LogIn.class);
+            startActivity(intent);
+            getActivity().finish();
+        } else {
+            storageRef = storage.getReference().child(Objects.requireNonNull(authManager.getUser().getEmail()));
+            load_list();
+        }
+    }
 
-
-
-
-
-
-    private void load_list(){
+    private void load_list() {
         List<Card_dog> fieldsList = new ArrayList<>();
         storageRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
             @Override
@@ -122,10 +127,10 @@ public class HomeFragment extends Fragment {
                         @Override
                         public void onSuccess(Uri uri) {
                             String imageUrl = uri.toString();
-                            Card_dog i = new Card_dog(elementRef.getName().substring(0,elementRef.getName().lastIndexOf(".")), imageUrl);
+                            Card_dog i = new Card_dog(elementRef.getName().substring(0, elementRef.getName().lastIndexOf(".")), imageUrl);
                             fieldsList.add(i);
                             Log.d("Name", i.getDog_name());
-                            p.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.GONE);
                             adapter.notifyDataSetChanged();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -134,8 +139,6 @@ public class HomeFragment extends Fragment {
                             // Manejar el error en caso de que no se pueda descargar la imagen
                         }
                     });
-
-
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {

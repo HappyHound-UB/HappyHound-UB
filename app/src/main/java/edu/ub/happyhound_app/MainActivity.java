@@ -13,7 +13,6 @@ import com.google.android.material.color.DynamicColors;
 import edu.ub.happyhound_app.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
-
     private FirebaseAuthManager<MainActivity> authManager;
     private ActivityMainBinding binding;
 
@@ -21,12 +20,11 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // si aun no se ha iniciado la sesion volvemos al login para inicar sesion
-        if (authManager.getmAuth().getCurrentUser() == null) {
+        if (authManager.getUser() == null) {
             Intent intent = new Intent(getApplicationContext(), LogIn.class);
             startActivity(intent);
             finish();
         }
-
     }
 
     @Override
@@ -63,14 +61,14 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction
                 .replace(R.id.frameLayout, fragment.getClass(), null)
-                .setReorderingAllowed(true)
-                .addToBackStack("name")
+//                .setReorderingAllowed(true)
+//                .addToBackStack("name")
                 .commit();
         //fragmentTransaction.commit();
     }
 
-    @Override
-    public void onBackPressed() {
-        finish();
-    }
+//    @Override
+//    public void onBackPressed() {
+//        finish();
+//    }
 }

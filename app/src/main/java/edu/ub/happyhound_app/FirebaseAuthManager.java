@@ -33,12 +33,12 @@ public class FirebaseAuthManager<T> {
         this.activity = activity;
         this.type = classType;
         mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
     }
 
     public void onStart() {
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = getmAuth().getCurrentUser();
-        if (currentUser != null) {
+        if (user != null) {
             //currentUser.reload();
             Intent intent = new Intent(activity.getApplicationContext(), MainActivity.class);
             activity.startActivity(intent);

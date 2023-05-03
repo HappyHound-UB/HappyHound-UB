@@ -38,6 +38,13 @@
 
     <string name="logo_app">Logo APP</string>
     <string name="agenda">Agenda</string>
+    <string name="perfil">Perfil</string>
+    <string name="profile_image">Profile Image</string>
+    <string name="tus_datos">Tus Datos</string>
+    <string name="settings_image">Settings Image</string>
+    <string name="ajustes">Ajustes</string>
+    <string name="logout_image">LogOut Image</string>
+    <string name="cerrar_sesion">Cerrar sesion</string>
 
     <string-array name="Raza">
         <item>Elige tu raza</item>
