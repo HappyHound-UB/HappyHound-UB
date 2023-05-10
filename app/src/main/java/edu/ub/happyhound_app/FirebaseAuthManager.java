@@ -28,7 +28,6 @@ public class FirebaseAuthManager<T> {
         user = mAuth.getCurrentUser();
     }
 
-
     public FirebaseAuthManager(Activity activity, T classType) {
         this.activity = activity;
         this.type = classType;

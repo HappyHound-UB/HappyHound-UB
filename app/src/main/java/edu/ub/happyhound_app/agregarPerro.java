@@ -71,8 +71,6 @@ public class agregarPerro extends AppCompatActivity {
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
                 finish();
             }
         });
@@ -84,15 +82,14 @@ public class agregarPerro extends AppCompatActivity {
             b = (Bitmap) data.getExtras().get("data");
             imageView.setImageBitmap(b);
             fotoTomada = true;
-        }
-        else{
+        } else {
             ToastMessage.displayToast(getApplicationContext(), "cancelled");
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    protected void newDog(String nombre, String Raza, String edad, String sexo){
-        if(nombre.isEmpty()|| raza.isEmpty() || edad.isEmpty() || sexo.isEmpty()) {
+    private void newDog(String nombre, String Raza, String edad, String sexo) {
+        if (nombre.isEmpty() || raza.isEmpty() || edad.isEmpty() || sexo.isEmpty()) {
             if (nombre.isEmpty()) {
                 ToastMessage.displayToast(getApplicationContext(), "Porfavor introduzca el nombre de tu perro");
             }
