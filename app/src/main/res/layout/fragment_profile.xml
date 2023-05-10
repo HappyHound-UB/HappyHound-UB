@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_main"
     android:gravity="center"
+    android:id="@+id/layout"
     android:orientation="vertical">
 
 
@@ -16,7 +16,6 @@
         android:layout_marginTop="10dp"
         android:fontFamily="@font/asap_bold"
         android:text="@string/perfil"
-        android:textColor="#000000"
         android:textSize="50sp" />
 
 

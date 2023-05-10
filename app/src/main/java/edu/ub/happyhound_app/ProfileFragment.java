@@ -1,13 +1,18 @@
 package edu.ub.happyhound_app;
 
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,8 +27,10 @@ public class ProfileFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private FirebaseAuthManager<ProfileFragment> firebaseAuthManager;
-    private Button signOut, personalData, settings;
+    private FirebaseAuthManager<ProfileFragment> authManager;
+    private TextView username, email;
+    private Button editProfile, changePassword, about, signOut;
+    private ConstraintLayout layout;
 
 
     public ProfileFragment() {
@@ -60,27 +67,45 @@ public class ProfileFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        firebaseAuthManager = new FirebaseAuthManager<>(getActivity(), this);
+        authManager = new FirebaseAuthManager<>(getActivity(), this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        return inflater.inflate(R.layout.profile, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        layout = getActivity().findViewById(R.id.mainConstraint);
+        username = getActivity().findViewById(R.id.userName);
+        email = getActivity().findViewById(R.id.emailID);
+        editProfile = getActivity().findViewById(R.id.button_editProfile);
+        changePassword = getActivity().findViewById(R.id.button_updatePassword);
+        about = getActivity().findViewById(R.id.button_Acerca);
         signOut = getActivity().findViewById(R.id.button_log_out);
-        signOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                firebaseAuthManager.signOut();
-            }
-        });
 
+        layout.setBackgroundColor(setDynamicLayout());
+        username.setText(Objects.requireNonNull(authManager.getUser().getDisplayName()));
+        email.setText(Objects.requireNonNull(authManager.getUser().getEmail()));
+
+        signOut.setOnClickListener(view1 -> authManager.signOut());
+
+    }
+
+    private int setDynamicLayout() {
+        TypedValue typedValue = new TypedValue();
+        requireActivity().getTheme().resolveAttribute(android.R.attr.colorPrimary, typedValue, true);
+        return typedValue.data;
+
+//        change layout shape
+//        GradientDrawable shape = new GradientDrawable();
+//        shape.setShape(GradientDrawable.RECTANGLE);
+//        shape.setCornerRadius(32);
+//        shape.setColor(color);
     }
 }
