@@ -51,9 +51,9 @@
             android:name=".ForgotPassword"
             android:exported="true" />
 
-        <activity android:name=".CrearRecordatorio"
-            android:exported="true"
-            android:theme="@style/Theme.HappyHound_APP"/>
+        <activity
+            android:name=".CrearRecordatorio"
+            android:exported="true" />
 
         <activity
             android:name=".AlarmaPaseo"

@@ -10,9 +10,6 @@ import android.widget.ImageView;
 
 public class CrearRecordatorio extends AppCompatActivity {
 
-    private Button btnComida, btnPaseo, btnCalendario;
-    private ImageView flecha_return;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +25,6 @@ public class CrearRecordatorio extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), AlarmaComida.class);
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -37,7 +33,6 @@ public class CrearRecordatorio extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), AlarmaPaseo.class);
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -46,7 +41,6 @@ public class CrearRecordatorio extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), Calendario.class);
                 startActivity(intent);
-                finish();
             }
         });
 

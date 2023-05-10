@@ -14,9 +14,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+//import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
@@ -42,7 +44,9 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private UserCardAdapter adapter;
     private StorageReference storageRef;
-    private FloatingActionButton addDogs;
+    private FloatingActionButton addDogs, addNotification;
+    private FloatingActionsMenu menu;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -90,12 +94,21 @@ public class HomeFragment extends Fragment {
 
         recyclerView = getActivity().findViewById(R.id.recyclerView_dogList);
         progressBar = getActivity().findViewById(R.id.progressBar_dogList);
-        addDogs = getActivity().findViewById(R.id.floatingAddButton);
+        menu = getActivity().findViewById(R.id.floatingMenu);
+        addDogs = getActivity().findViewById(R.id.floatingAddPets);
+        addNotification = getActivity().findViewById(R.id.floatingAddNotification);
 
         progressBar.setVisibility(View.VISIBLE);
         addDogs.setOnClickListener(view1 -> {
             Intent intent = new Intent(getActivity().getApplicationContext(), agregarPerro.class);
             startActivity(intent);
+            menu.collapse();
+        });
+
+        addNotification.setOnClickListener(view2 -> {
+            Intent intent = new Intent(getActivity().getApplicationContext(), CrearRecordatorio.class);
+            startActivity(intent);
+            menu.collapse();
         });
     }
 

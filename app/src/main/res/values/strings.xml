@@ -45,6 +45,8 @@
     <string name="ajustes">Ajustes</string>
     <string name="logout_image">LogOut Image</string>
     <string name="cerrar_sesion">Cerrar sesion</string>
+    <string name="image_add_notification_text">Image of Add Notification Button</string>
+    <string name="image_add_pets_text">Image of Add Pets Button</string>
 
     <string-array name="Raza">
         <item>Elige tu raza</item>
