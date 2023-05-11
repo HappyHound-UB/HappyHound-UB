@@ -28,9 +28,6 @@
         </activity>
 
         <activity
-            android:name=".AlarmaComida"
-            android:exported="true" />
-        <activity
             android:name=".Calendario"
             android:exported="true" />
 
@@ -53,11 +50,18 @@
 
         <activity
             android:name=".CrearRecordatorio"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
 
         <activity
             android:name=".AlarmaPaseo"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+
+        <activity
+            android:name=".AlarmaComida"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
 
         <meta-data
             android:name="preloaded_fonts"

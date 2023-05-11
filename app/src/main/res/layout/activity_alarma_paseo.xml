@@ -1,40 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/GrisOscuro"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".AlarmaPaseo">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/GrisOscuro"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="-16dp">
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/happyhound_logo"
+        tools:layout_editor_absoluteX="100dp"
+        tools:layout_editor_absoluteY="325dp" />
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="177dp"
-            android:layout_marginEnd="172dp"
-            android:layout_marginBottom="603dp"
-            android:src="@drawable/happyhound_logo"
-            tools:layout_editor_absoluteX="100dp"
-            tools:layout_editor_absoluteY="325dp" />
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="312dp"
+        android:layout_height="96dp"
+        android:fontFamily="@font/asap_bold"
+        android:text="  Añadir alarma paseo"
+        android:textColor="#EF7F21"
+        android:textSize="30sp" />
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="39dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="143dp"
+            android:layout_height="36dp"
+            android:fontFamily="@font/asap_bold"
+            android:text="     Horas:"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="159dp"
+            android:layout_height="36dp"
+            android:fontFamily="@font/asap_bold"
+            android:text="       Minutos:"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="313dp"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/hour_spinner"
+            android:layout_width="149dp"
+            android:layout_height="49dp"
+            android:background="@drawable/borde_naranjafuerte" />
+
+        <Spinner
+            android:id="@+id/minute_spinner"
+            android:layout_width="146dp"
+            android:layout_height="49dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/borde_naranjafuerte" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="359dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/asap_bold"
+        android:text="Añadir un mensaje a la notificación:"
+        android:textColor="#FFFFFF"
+        android:textSize="22sp" />
+
+
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="39dp"
+        android:orientation="horizontal">
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="70dp"
+        android:orientation="horizontal">
+
+
+        <EditText
+            android:id="@+id/editTextMensaje"
+            android:layout_width="253dp"
+            android:layout_height="57dp"
+            android:layout_marginStart="30dp"
+            android:background="@drawable/borde_naranjafuerte"
+            android:fontFamily="@font/asap_bold"
+            android:hint="  Paseo de 30 minutos! :)"
+            android:inputType="text"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#7AFFFFFF"
+            android:textSize="20sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="336dp"
+        android:layout_height="65dp"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/buttonGuardar"
             android:layout_width="137dp"
             android:layout_height="59dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="51dp"
-            android:layout_marginBottom="144dp"
-            android:background="@drawable/borde_naranja"
+            android:background="@drawable/borde_naranjafuerte"
             android:text="Guardar"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
@@ -45,109 +139,13 @@
             android:id="@+id/buttonCancelar"
             android:layout_width="140dp"
             android:layout_height="60dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="218dp"
-            android:layout_marginBottom="143dp"
-            android:background="@drawable/borde_naranja"
+            android:layout_marginStart="50dp"
+            android:background="@drawable/borde_naranjafuerte"
             android:text="Cancelar"
+            android:textColor="#FFFFFF"
             android:textSize="20sp"
             tools:layout_editor_absoluteX="79dp"
             tools:layout_editor_absoluteY="578dp" />
+    </LinearLayout>
 
-        <Spinner
-            android:id="@+id/hour_spinner"
-            android:layout_width="149dp"
-            android:layout_height="49dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="44dp"
-            android:layout_marginEnd="218dp"
-            android:layout_marginBottom="430dp"
-            android:background="@drawable/spinnershoursminutes" />
-
-        <Spinner
-            android:id="@+id/minute_spinner"
-            android:layout_width="146dp"
-            android:layout_height="49dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="37dp"
-            android:layout_marginBottom="430dp"
-            android:background="@drawable/spinnershoursminutes" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="288dp"
-            android:layout_marginBottom="484dp"
-            android:fontFamily="@font/asap_bold"
-            android:text="Horas:"
-            android:textColor="#FFFFFF"
-            android:textSize="22sp" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="84dp"
-            android:layout_marginBottom="480dp"
-            android:fontFamily="@font/asap_bold"
-            android:text="Minutos:"
-            android:textColor="#FFFFFF"
-            android:textSize="22sp" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="322dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="60dp"
-            android:layout_marginEnd="29dp"
-            android:layout_marginBottom="556dp"
-            android:fontFamily="@font/asap_bold"
-            android:text="Añadir alarma paseo"
-            android:textColor="#EF7F21"
-            android:textSize="30sp" />
-
-        <EditText
-            android:id="@+id/editTextMensaje"
-            android:layout_width="253dp"
-            android:layout_height="57dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="78dp"
-            android:layout_marginBottom="268dp"
-            android:background="@drawable/spinnershoursminutes"
-            android:ems="10"
-            android:fontFamily="@font/asap_bold"
-            android:hint="  Paseo de 30 minutos! :)"
-
-            android:inputType="text"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#7AFFFFFF"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="359dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="25dp"
-            android:layout_marginBottom="343dp"
-            android:fontFamily="@font/asap_bold"
-            android:text="Añadir un mensaje a la notificación:"
-            android:textColor="#FFFFFF"
-            android:textSize="22sp" />
-
-    </RelativeLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

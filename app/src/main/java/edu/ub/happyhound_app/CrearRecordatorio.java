@@ -1,9 +1,12 @@
 package edu.ub.happyhound_app;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,8 +20,8 @@ public class CrearRecordatorio extends AppCompatActivity {
 
         Button btnComida = (Button) findViewById(R.id.ComidaButton);
         Button btnPaseo = (Button) findViewById(R.id.PaseoButton);
-        Button btnCalendario = (Button) findViewById(R.id.CalendarioButton);
-        ImageView flecha_return = (ImageView) findViewById(R.id.flecha_return);
+        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.CrearRecordatoriosConstraint);
+        layout.setBackgroundColor(setDynamicLayout());
 
         btnComida.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,20 +39,14 @@ public class CrearRecordatorio extends AppCompatActivity {
             }
         });
 
-        btnCalendario.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), Calendario.class);
-                startActivity(intent);
-            }
-        });
 
-        flecha_return.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+    }
+    private int setDynamicLayout() {
+        TypedValue typedValue = new TypedValue();
+        getTheme().resolveAttribute(android.R.attr.colorPrimary, typedValue, true);
+        return typedValue.data;
+
+//
     }
 
 }

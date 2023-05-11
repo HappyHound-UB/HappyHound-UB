@@ -157,7 +157,7 @@
             android:layout_width="170dp"
             android:layout_height="60dp"
             android:layout_weight="1"
-            android:background="@drawable/borde_naranja"
+            android:background="@drawable/borde_rojo"
             android:text="Cancelar"
             android:textColor="#FFFFFF"
             android:textSize="20sp"/>
@@ -168,7 +168,7 @@
             android:layout_height="60dp"
             android:layout_marginStart="20dp"
             android:layout_weight="1"
-            android:background="@drawable/borde_naranja"
+            android:background="@drawable/borde_rojo"
             android:text="Guardar"
             android:textColor="#FFFFFF"
             android:textSize="20sp"/>
