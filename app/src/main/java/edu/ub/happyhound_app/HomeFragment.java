@@ -92,21 +92,21 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        recyclerView = getActivity().findViewById(R.id.recyclerView_dogList);
-        progressBar = getActivity().findViewById(R.id.progressBar_dogList);
-        menu = getActivity().findViewById(R.id.floatingMenu);
-        addDogs = getActivity().findViewById(R.id.floatingAddPets);
-        addNotification = getActivity().findViewById(R.id.floatingAddNotification);
+        recyclerView = view.findViewById(R.id.recyclerView_dogList);
+        progressBar = view.findViewById(R.id.progressBar_dogList);
+        menu = view.findViewById(R.id.floatingMenu);
+        addDogs = view.findViewById(R.id.floatingAddPets);
+        addNotification = view.findViewById(R.id.floatingAddNotification);
 
         progressBar.setVisibility(View.VISIBLE);
         addDogs.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getActivity().getApplicationContext(), agregarPerro.class);
+            Intent intent = new Intent(getActivity(), agregarPerro.class);
             startActivity(intent);
             menu.collapse();
         });
 
         addNotification.setOnClickListener(view2 -> {
-            Intent intent = new Intent(getActivity().getApplicationContext(), CrearRecordatorio.class);
+            Intent intent = new Intent(getActivity(), CrearRecordatorio.class);
             startActivity(intent);
             menu.collapse();
         });
