@@ -1,16 +1,15 @@
 package edu.ub.happyhound_app;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class SignUp extends AppCompatActivity {
 
@@ -20,6 +19,7 @@ public class SignUp extends AppCompatActivity {
     private CheckBox conditions;
     private String name, email, password;
     private FirebaseAuthManager<SignUp> authManager;
+    private ConstraintLayout layout;
 
     @Override
     public void onStart() {
@@ -34,12 +34,17 @@ public class SignUp extends AppCompatActivity {
 
         authManager = new FirebaseAuthManager<>(this, this);
 
-        newName = (EditText) findViewById(R.id.idNombreUsuario);
-        newEmail = (EditText) findViewById(R.id.idEmailAddressSU);
-        newPassword = (EditText) findViewById(R.id.idPasswordSU);
-        btnContinue = (Button) findViewById(R.id.continueButtonSU);
-        btnSignIn = (TextView) findViewById(R.id.signInButtonSU);
-        conditions = (CheckBox) findViewById(R.id.checkBoxConditions);
+        newName = findViewById(R.id.idNombreUsuario);
+        newEmail = findViewById(R.id.idEmailAddressSU);
+        newPassword = findViewById(R.id.idPasswordSU);
+        btnContinue = findViewById(R.id.continueButtonSU);
+        btnSignIn = findViewById(R.id.signInButtonSU);
+        conditions = findViewById(R.id.checkBoxConditions);
+        layout = findViewById(R.id.signInConstraint);
+
+        int dynamic = DynamicLayout.setDynamicLayout(this);
+        layout.setBackgroundColor(dynamic);
+        btnSignIn.setTextColor(dynamic);
 
         // creación de nueva cuenta
         btnContinue.setOnClickListener(view -> {
@@ -54,20 +59,9 @@ public class SignUp extends AppCompatActivity {
                 conditions.setTextColor(Color.RED);
             }
         });
-
         // si el usuario tiene cuenta puede volver a la pagina de log in
-        btnSignIn.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(), LogIn.class);
-            startActivity(intent);
-            finish();
-        });
-
-        conditions.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                conditions.setTextColor(Color.GRAY);
-            }
-        });
+        btnSignIn.setOnClickListener(view -> finish());
+        conditions.setOnCheckedChangeListener((compoundButton, b) -> conditions.setTextColor(Color.GRAY));
     }
 
     // ========================================

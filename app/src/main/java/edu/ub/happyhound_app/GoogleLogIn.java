@@ -89,6 +89,7 @@ public class GoogleLogIn {
                             ToastMessage.displayToast(activity.getApplicationContext(), "Google Sign In successful");
 
                         activity.startActivity(new Intent(activity.getApplicationContext(), MainActivity.class));
+                        activity.finish();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override

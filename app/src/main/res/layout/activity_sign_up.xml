@@ -1,131 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/signInConstraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_main"
-    android:gravity="center"
-    android:orientation="vertical"
-    tools:context=".LogIn">
+    tools:context=".SignUp">
 
-    <TextView
-        android:id="@+id/textCreateAccount"
-        android:layout_width="300dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="20dp"
-        android:elegantTextHeight="true"
-        android:fontFamily="@font/quicksand_bold"
-        android:text="@string/createAccount"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        tools:ignore="TextSizeCheck" />
+    <ImageView
+        android:id="@+id/logoImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:contentDescription="@string/logo_app"
+        android:elevation="8dp"
+        android:src="@drawable/happyhound_logo"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
+        tools:ignore="ImageContrastCheck" />
 
-    <TextView
-        android:id="@+id/textNombreSU"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/asap_bold"
-        android:text="@string/nombre"
-        android:textColor="@color/primary_title" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/profile_menu_backgroud"
+        android:elevation="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <!--        android:layout_marginStart="32dp"-->
+        <!--        android:layout_marginEnd="32dp"-->
+        <!--        android:layout_marginBottom="64dp"-->
 
-    <EditText
-        android:id="@+id/idNombreUsuario"
-        android:layout_width="305dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="10dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:fontFamily="@font/asap"
-        android:hint="@string/nombre_ejemplo"
-        android:inputType="textEmailAddress"
-        android:textSize="14sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/background_main"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/textEmailSU"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/asap"
-        android:text="@string/email"
-        android:textColor="@color/primary_title" />
+            <TextView
+                android:id="@+id/textCreateAccount"
+                android:layout_width="300dp"
+                android:layout_height="80dp"
+                android:elegantTextHeight="true"
+                android:fontFamily="@font/quicksand_bold"
+                android:text="@string/createAccount"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                tools:ignore="TextSizeCheck" />
 
-    <EditText
-        android:id="@+id/idEmailAddressSU"
-        android:layout_width="305dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="10dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:fontFamily="@font/quicksand_bold"
-        android:hint="@string/email_example"
-        android:inputType="textEmailAddress"
-        android:textSize="14sp" />
+            <TextView
+                android:id="@+id/textNombreSU"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/asap_bold"
+                android:text="@string/nombre"
+                android:textColor="@color/primary_title" />
 
-    <TextView
-        android:id="@+id/textContraseñaSU"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/asap"
-        android:text="@string/contraseña"
-        android:textColor="@color/primary_title" />
+            <EditText
+                android:id="@+id/idNombreUsuario"
+                android:layout_width="305dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:autofillHints=""
+                android:fontFamily="@font/asap"
+                android:hint="@string/nombre_ejemplo"
+                android:inputType="textEmailAddress"
+                android:minHeight="48dp"
+                android:textSize="14sp" />
 
-    <EditText
-        android:id="@+id/idPasswordSU"
-        android:layout_width="305dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="15dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:fontFamily="@font/asap"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        android:textSize="14sp"
-        android:textStyle="bold" />
+            <TextView
+                android:id="@+id/textEmailSU"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/asap_bold"
+                android:text="@string/email"
+                android:textColor="@color/primary_title" />
 
-    <CheckBox
-        android:id="@+id/checkBoxConditions"
-        android:layout_width="305dp"
-        android:layout_height="50dp"
-        android:fontFamily="@font/asap"
-        android:text="@string/conditions"
-        android:textColor="@color/gris"
-        tools:ignore="TextSizeCheck" />
+            <EditText
+                android:id="@+id/idEmailAddressSU"
+                android:layout_width="305dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:fontFamily="@font/asap"
+                android:hint="@string/email_example"
+                android:inputType="textEmailAddress"
+                android:minHeight="48dp"
+                android:textSize="14sp" />
 
+            <TextView
+                android:id="@+id/textContraseñaSU"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/asap_bold"
+                android:text="@string/contraseña"
+                android:textColor="@color/primary_title" />
 
-    <Button
-        android:id="@+id/continueButtonSU"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="15dp"
-        android:backgroundTint="@color/primary_title"
-        android:fontFamily="@font/asap_bold"
-        android:text="@string/continuar"
-        tools:ignore="DuplicateSpeakableTextCheck" />
+            <EditText
+                android:id="@+id/idPasswordSU"
+                android:layout_width="305dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:fontFamily="@font/asap"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:minHeight="48dp"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
+            <CheckBox
+                android:id="@+id/checkBoxConditions"
+                android:layout_width="305dp"
+                android:layout_height="50dp"
+                android:fontFamily="@font/asap"
+                android:text="@string/conditions"
+                android:textColor="@color/gris"
+                tools:ignore="TextSizeCheck" />
 
-    <TextView
-        android:id="@+id/textHaveAccount"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:fontFamily="@font/asap_bold"
-        android:gravity="center"
-        android:text="@string/have_account"
-        android:textColor="@color/gris"
-        android:textSize="16sp" />
+            <Button
+                android:id="@+id/continueButtonSU"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/asap_bold"
+                android:text="@string/continuar" />
 
-    <TextView
-        android:id="@+id/signInButtonSU"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:fontFamily="@font/asap_bold"
-        android:gravity="center"
-        android:text="@string/iniciar_sesion"
-        android:textColor="@color/primary_title"
-        android:textSize="16sp"
-        tools:ignore="TouchTargetSizeCheck" />
+            <TextView
+                android:id="@+id/textHaveAccount"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/asap_bold"
+                android:gravity="center"
+                android:text="@string/have_account"
+                android:textColor="@color/gris"
+                android:textSize="16sp" />
 
+            <TextView
+                android:id="@+id/signInButtonSU"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:fontFamily="@font/asap_bold"
+                android:gravity="center"
+                android:minHeight="48dp"
+                android:text="@string/iniciar_sesion"
+                android:textSize="16sp" />
 
-</LinearLayout>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

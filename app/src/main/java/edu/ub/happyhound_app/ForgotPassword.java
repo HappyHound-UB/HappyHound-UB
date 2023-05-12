@@ -2,6 +2,7 @@ package edu.ub.happyhound_app;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ public class ForgotPassword extends AppCompatActivity {
     private Button btnResetPassword;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
+    private ConstraintLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +34,15 @@ public class ForgotPassword extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        memail = (EditText) findViewById(R.id.edit_text_email);
-        btnResetPassword = (Button) findViewById(R.id.button_reset_password);
-        btnReturn = (TextView) findViewById(R.id.btn_return);
-        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        memail = findViewById(R.id.edit_text_email);
+        btnResetPassword = findViewById(R.id.button_reset_password);
+        btnReturn = findViewById(R.id.btn_return);
+        progressBar = findViewById(R.id.progress_bar);
+        layout = findViewById(R.id.forgotPasswordConstraint);
+
+        int dynamic = DynamicLayout.setDynamicLayout(this);
+        layout.setBackgroundColor(dynamic);
+        btnReturn.setTextColor(dynamic);
 
         btnResetPassword.setOnClickListener(view -> {
             String emailAddress = memail.getText().toString().trim();

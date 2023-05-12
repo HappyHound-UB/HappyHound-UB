@@ -1,7 +1,6 @@
 package edu.ub.happyhound_app;
 
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,12 +30,6 @@ public class ProfileFragment extends Fragment {
     private TextView username, email;
     private Button editProfile, changePassword, about, signOut;
     private ConstraintLayout layout;
-
-
-    public ProfileFragment() {
-        // Required empty public constructor
-    }
-
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -49,6 +42,9 @@ public class ProfileFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    public ProfileFragment() {
+        // Required empty public constructor
+    }
 
     public static ProfileFragment newInstance(String param1, String param2) {
         ProfileFragment fragment = new ProfileFragment();
@@ -66,7 +62,6 @@ public class ProfileFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
         authManager = new FirebaseAuthManager<>(getActivity(), this);
     }
 
@@ -74,38 +69,28 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.profile, container, false);
+        return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        layout = getActivity().findViewById(R.id.mainConstraint);
-        username = getActivity().findViewById(R.id.userName);
-        email = getActivity().findViewById(R.id.emailID);
-        editProfile = getActivity().findViewById(R.id.button_editProfile);
-        changePassword = getActivity().findViewById(R.id.button_updatePassword);
-        about = getActivity().findViewById(R.id.button_Acerca);
-        signOut = getActivity().findViewById(R.id.button_log_out);
+        layout = view.findViewById(R.id.profileConstraint);
+        username = view.findViewById(R.id.userName);
+        email = view.findViewById(R.id.emailID);
+        editProfile = view.findViewById(R.id.button_editProfile);
+        changePassword = view.findViewById(R.id.button_updatePassword);
+        about = view.findViewById(R.id.button_Acerca);
+        signOut = view.findViewById(R.id.button_log_out);
 
-        layout.setBackgroundColor(setDynamicLayout());
+        layout.setBackgroundColor(DynamicLayout.setDynamicLayout(requireActivity()));
         username.setText(Objects.requireNonNull(authManager.getUser().getDisplayName()));
         email.setText(Objects.requireNonNull(authManager.getUser().getEmail()));
 
-        signOut.setOnClickListener(view1 -> authManager.signOut());
-
-    }
-
-    private int setDynamicLayout() {
-        TypedValue typedValue = new TypedValue();
-        requireActivity().getTheme().resolveAttribute(android.R.attr.colorPrimary, typedValue, true);
-        return typedValue.data;
-
-//        change layout shape
-//        GradientDrawable shape = new GradientDrawable();
-//        shape.setShape(GradientDrawable.RECTANGLE);
-//        shape.setCornerRadius(32);
-//        shape.setColor(color);
+        signOut.setOnClickListener(view1 -> {
+            authManager.signOut();
+            ToastMessage.displayToast(getActivity(), "Cesión cerrado con éxito");
+        });
     }
 }

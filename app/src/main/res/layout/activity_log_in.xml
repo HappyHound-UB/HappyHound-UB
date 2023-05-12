@@ -1,150 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/logInConstraint"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background_main"
-    android:gravity="center"
-    android:orientation="vertical"
-    tools:context=".LogIn">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/text_MarcaApp"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_gravity="center|top"
-        android:fontFamily="@font/asap"
-        android:text="@string/happy_hound"
-        android:textColor="@color/orange_letra"
-        android:textSize="24sp"
-        android:visibility="visible"
-        tools:visibility="visible" />
+    <ImageView
+        android:id="@+id/logoImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:contentDescription="@string/logo_app"
+        android:elevation="8dp"
+        android:src="@drawable/happyhound_logo"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
+        tools:ignore="ImageContrastCheck" />
 
-    <TextView
-        android:id="@+id/textLogIn"
-        android:layout_width="300dp"
-        android:layout_height="40dp"
-        android:elegantTextHeight="true"
-        android:fontFamily="@font/quicksand_bold"
-        android:text="@string/iniciar_sesion"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        tools:ignore="TextSizeCheck" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/profile_menu_backgroud"
+        android:elevation="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <!--        android:layout_marginStart="32dp"-->
+        <!--        android:layout_marginEnd="32dp"-->
+        <!--        android:layout_marginBottom="64dp"-->
 
-    <TextView
-        android:id="@+id/textBienvenida"
-        android:layout_width="300dp"
-        android:layout_height="45dp"
-        android:autofillHints="@string/password"
-        android:fontFamily="@font/asap"
-        android:text="@string/bienvenida"
-        android:textColor="@color/gris"
-        android:textSize="16sp"
-        tools:ignore="TextSizeCheck" />
-
-    <TextView
-        android:id="@+id/textEmail"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/asap"
-        android:text="@string/email"
-        android:textColor="@color/primary_title" />
-
-    <EditText
-        android:id="@+id/idEmailAddress"
-        android:layout_width="305dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="10dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:fontFamily="@font/asap"
-        android:hint="@string/email_example"
-        android:inputType="textEmailAddress"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/textContraseña"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/asap"
-        android:text="@string/contraseña"
-        android:textColor="@color/primary_title" />
-
-    <EditText
-        android:id="@+id/idPassword"
-        android:layout_width="305dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="15dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:fontFamily="@font/asap"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        android:textSize="14sp"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/logInButton"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/primary_title"
-        android:fontFamily="@font/asap_bold"
-        android:text="@string/iniciar_sesion"
-        tools:ignore="DuplicateSpeakableTextCheck" />
-
-    <TextView
-        android:id="@+id/textopcion"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:fontFamily="@font/asap"
-        android:gravity="center"
-        android:text="@string/opcion"
-        android:textColor="@color/gris"
-        tools:ignore="TextSizeCheck" />
-
-    <LinearLayout
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
-
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/googleButton"
-            android:layout_width="145dp"
-            android:layout_height="match_parent" />
-
-        <Button
-            android:id="@+id/facebookButton"
-            android:layout_width="145dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:backgroundTint="@color/facebook_blue"
+        <TextView
+            android:id="@+id/text_MarcaApp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|top"
+            android:layout_marginTop="50dp"
             android:fontFamily="@font/asap_bold"
-            android:text="@string/facebook"
-            android:textColor="@color/white" />
+            android:text="@string/happy_hound"
+            android:textColor="@color/orange_letra"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="80dp"
+            android:background="@drawable/background_main"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_MarcaApp"
+            tools:context=".LogIn">
 
-    <TextView
-        android:id="@+id/forgotPasswordButton"
-        android:clickable="true"
-        android:layout_width="300dp"
-        android:layout_height="70dp"
-        android:fontFamily="@font/asap_bold"
-        android:text="@string/forgotPassword"
-        android:textColor="@color/gris"
-        android:gravity="center"
-        android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/SignUpButton"
-        android:clickable="true"
-        android:layout_width="300dp"
-        android:layout_height="70dp"
-        android:fontFamily="@font/asap_bold"
-        android:text="@string/signUp"
-        android:textColor="@color/primary_title"
-        android:gravity="center"
-        android:textSize="18sp" />
+            <TextView
+                android:id="@+id/textLogIn"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:elegantTextHeight="true"
+                android:fontFamily="@font/quicksand_bold"
+                android:text="@string/iniciar_sesion"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                tools:ignore="TextSizeCheck" />
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/textBienvenida"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:autofillHints="@string/password"
+                android:fontFamily="@font/asap"
+                android:text="@string/bienvenida"
+                android:textColor="@color/gris"
+                android:textSize="16sp"
+                tools:ignore="TextSizeCheck" />
+
+            <TextView
+                android:id="@+id/textEmail"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/asap_bold"
+                android:text="@string/email"
+                android:textColor="@color/primary_title" />
+
+            <EditText
+                android:id="@+id/idEmailAddress"
+                android:layout_width="305dp"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:ems="10"
+                android:fontFamily="@font/asap"
+                android:hint="@string/email_example"
+                android:inputType="textEmailAddress"
+                android:minHeight="48dp"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/textContraseña"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/asap_bold"
+                android:text="@string/contraseña"
+                android:textColor="@color/primary_title" />
+
+            <EditText
+                android:id="@+id/idPassword"
+                android:layout_width="305dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:fontFamily="@font/asap"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:minHeight="48dp"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/forgotPasswordButton"
+                android:layout_width="300dp"
+                android:layout_height="48dp"
+                android:clickable="true"
+                android:fontFamily="@font/asap_bold"
+                android:gravity="end"
+                android:text="@string/forgotPassword"
+                android:textColor="@color/gris"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/logInButton"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/asap_bold"
+                android:text="@string/iniciar_sesion"
+                tools:ignore="DuplicateSpeakableTextCheck" />
+
+            <TextView
+                android:id="@+id/textopcion"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/asap"
+                android:gravity="center"
+                android:text="@string/opcion"
+                android:textColor="@color/gris"
+                tools:ignore="TextSizeCheck" />
+
+
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/googleButton"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/facebookButton"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/facebook_blue"
+                android:fontFamily="@font/asap_bold"
+                android:text="@string/facebook"
+                android:textColor="@color/white" />
+
+
+            <TextView
+                android:id="@+id/SignUpButton"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:clickable="true"
+                android:fontFamily="@font/asap_bold"
+                android:gravity="center"
+                android:minHeight="48dp"
+                android:text="@string/signUp"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -25,8 +25,8 @@ public class SplashActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash_screen);
 
-        logoApp = (ImageView) findViewById(R.id.logoImage);
-        marcaApp = (TextView) findViewById(R.id.appName);
+        logoApp = findViewById(R.id.logoImage);
+        marcaApp = findViewById(R.id.appName);
 
         animTop = AnimationUtils.loadAnimation(this, R.anim.top_anim);
         animBottom = AnimationUtils.loadAnimation(this, R.anim.bottom_anim);
@@ -34,13 +34,10 @@ public class SplashActivity extends AppCompatActivity {
         logoApp.setAnimation(animTop);
         marcaApp.setAnimation(animBottom);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        new Handler().postDelayed(() -> {
+            Intent intent = new Intent(SplashActivity.this, LogIn.class);
+            startActivity(intent);
+            finish();
         }, SPLASH_TIMEOUT); // Espera 3 segundos
     }
 }

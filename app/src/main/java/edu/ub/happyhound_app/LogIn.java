@@ -2,7 +2,6 @@ package edu.ub.happyhound_app;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -10,17 +9,19 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.gms.common.SignInButton;
 
 public class LogIn extends AppCompatActivity {
     private EditText memail, mpassword;
     private TextView btnForgotPassword, btnSignUp;
-    private Button btnLogIn;
+    private Button btnLogIn, btnFacebook;
     private String email, password;
     private SignInButton googleButton;
     private GoogleLogIn googleLogIn;
     private FirebaseAuthManager<LogIn> authManager;
+    private ConstraintLayout layout;
 
     @Override
     public void onStart() {
@@ -34,12 +35,18 @@ public class LogIn extends AppCompatActivity {
         setContentView(R.layout.activity_log_in);
         authManager = new FirebaseAuthManager<>(this, this);
 
-        memail = (EditText) findViewById(R.id.idEmailAddress);
-        mpassword = (EditText) findViewById(R.id.idPassword);
-        btnLogIn = (Button) findViewById(R.id.logInButton);
-        btnForgotPassword = (TextView) findViewById(R.id.forgotPasswordButton);
-        btnSignUp = (TextView) findViewById(R.id.SignUpButton);
-        googleButton = (SignInButton) findViewById(R.id.googleButton);
+        memail = findViewById(R.id.idEmailAddress);
+        mpassword = findViewById(R.id.idPassword);
+        btnLogIn = findViewById(R.id.logInButton);
+        btnForgotPassword = findViewById(R.id.forgotPasswordButton);
+        btnSignUp = findViewById(R.id.SignUpButton);
+        googleButton = findViewById(R.id.googleButton);
+        btnFacebook = findViewById(R.id.facebookButton);
+        layout = findViewById(R.id.logInConstraint);
+
+        int dynamic = DynamicLayout.setDynamicLayout(this);
+        layout.setBackgroundColor(dynamic);
+        btnSignUp.setTextColor(dynamic);
 
         // iniciar sesion con email y contraseña ya creada
         btnLogIn.setOnClickListener(view -> {
@@ -48,8 +55,10 @@ public class LogIn extends AppCompatActivity {
 
             if (everythingOK(email, password))
                 authManager.signIn(email, password);
-            else
+            else {
                 displayError();
+                finish();
+            }
         });
 
         // crear nueva cuenta
@@ -64,16 +73,13 @@ public class LogIn extends AppCompatActivity {
                     "Ya puedes cambiar la contraseña", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), ForgotPassword.class);
             startActivity(intent);
-
         });
 
         // iniciar sesion con la cuenta de google
         googleLogIn = new GoogleLogIn(this, authManager.getmAuth());
-        googleButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                googleLogIn.signInGoogle();
-            }
+        googleButton.setOnClickListener(view -> {
+            googleLogIn.signInGoogle();
+//            finish();
         });
     }
 
@@ -106,6 +112,7 @@ public class LogIn extends AppCompatActivity {
         if (password.isEmpty())
             ToastMessage.displayToast(getApplicationContext(), "Introduce una contraseña");
     }
+
 
     // ========================================
     //              GETTERS
