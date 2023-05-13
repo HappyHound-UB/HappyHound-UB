@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         authManager = new FirebaseAuthManager<>(this, this);
 
         changeFragments(new HomeFragment(), "home_fragment");
-        //DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
 
@@ -57,9 +56,9 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
 
-            if (!isSameFragment(tag)) {
+            //if (!isSameFragment(tag))
                 changeFragments(selectedFragment, tag);
-            }
+
             return true;
         });
     }

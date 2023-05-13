@@ -81,10 +81,8 @@ public class GoogleLogIn {
 
                         if (Objects.requireNonNull(authResult.getAdditionalUserInfo()).isNewUser()) {
                             String info = "Cuenta creada...\n" + Objects.requireNonNull(user).getEmail();
-
                             ToastMessage.displayToast(activity.getApplicationContext(), info);
-                            SaveUserInfo save = new SaveUserInfo();
-                            save.saveUsers("Google Users", Objects.requireNonNull(user.getDisplayName()), user.getEmail());
+
                         } else
                             ToastMessage.displayToast(activity.getApplicationContext(), "Google Sign In successful");
 

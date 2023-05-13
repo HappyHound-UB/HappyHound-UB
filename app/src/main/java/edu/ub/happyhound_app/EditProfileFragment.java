@@ -5,51 +5,50 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ProfileFragment#newInstance} factory method to
+ * Use the {@link EditProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProfileFragment extends Fragment {
+public class EditProfileFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private FirebaseAuthManager<ProfileFragment> authManager;
-    private TextView username, email;
-    private Button editProfile, changePassword, about, signOut;
+    private FirebaseAuthManager<EditProfileFragment> authManager;
+    private EditText username, phoneNumber, address, city, zipCode;
+    private Button saveData;
     private ConstraintLayout layout;
+    private String nombre, numero, direccion, ciudad, codigoPostal;
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+
+    public EditProfileFragment() {
+        // Required empty public constructor
+    }
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ProfileFragment.
+     * @return A new instance of fragment EditProfileFragment.
      */
     // TODO: Rename and change types and number of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ProfileFragment() {
-        // Required empty public constructor
-    }
-
-    public static ProfileFragment newInstance(String param1, String param2) {
-        ProfileFragment fragment = new ProfileFragment();
+    public static EditProfileFragment newInstance(String param1, String param2) {
+        EditProfileFragment fragment = new EditProfileFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -71,39 +70,48 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        return inflater.inflate(R.layout.fragment_edit_profile, container, false);
     }
 
-    @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        layout = view.findViewById(R.id.profileConstraint);
-        username = view.findViewById(R.id.userName);
-        email = view.findViewById(R.id.emailID);
-        editProfile = view.findViewById(R.id.button_editProfile);
-        changePassword = view.findViewById(R.id.button_updatePassword);
-        about = view.findViewById(R.id.button_Acerca);
-        signOut = view.findViewById(R.id.button_log_out);
+        layout = view.findViewById(R.id.editProfileConstraint);
+        username = view.findViewById(R.id.editNameProfile);
+        phoneNumber = view.findViewById(R.id.editNumberProfile);
+        address = view.findViewById(R.id.editAddressProfile);
+        city = view.findViewById(R.id.editCityProfile);
+        zipCode = view.findViewById(R.id.editCPProfile);
+        saveData = view.findViewById(R.id.saveData);
 
         layout.setBackgroundColor(DynamicLayout.setDynamicLayout(requireActivity()));
         username.setText(Objects.requireNonNull(authManager.getUser().getDisplayName()));
-        email.setText(Objects.requireNonNull(authManager.getUser().getEmail()));
 
-        editProfile.setOnClickListener(view1 -> {
+//      faltan leer del database
+
+//        phoneNumber.setText();
+//        address.setText();
+//        city.setText();
+//        zipCode.setText();
+
+        saveData.setOnClickListener(view1 -> {
+            nombre = username.getText().toString().trim();
+            numero = phoneNumber.getText().toString().trim();
+            direccion = address.getText().toString().trim();
+            ciudad = city.getText().toString().trim();
+            codigoPostal = zipCode.getText().toString().trim();
+
+            saveUserInfo(nombre, numero, direccion, ciudad, codigoPostal);
+
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction
-                    .replace(R.id.frameLayout, new EditProfileFragment())
-                    .addToBackStack(null)
-                    .setReorderingAllowed(true)
-//                .addToBackStack("name")
-                    .commit();
+            fragmentManager.popBackStack();
+
         });
 
-        signOut.setOnClickListener(view1 -> {
-            authManager.signOut();
-            ToastMessage.displayToast(getActivity(), "Cesión cerrado con éxito");
-        });
+    }
+
+    private void saveUserInfo(String nombre, String numero, String direccion, String ciudad, String codigoPostal) {
+        SaveUserInfo userInfo = new SaveUserInfo(getActivity());
+        userInfo.saveUserInfo(nombre, numero, direccion, ciudad, codigoPostal);
     }
 }

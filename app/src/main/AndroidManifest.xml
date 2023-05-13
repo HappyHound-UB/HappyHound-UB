@@ -16,7 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="31">
-
         <activity
             android:name=".SplashActivity"
             android:exported="true">
@@ -26,11 +25,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Calendario"
             android:exported="true" />
-
         <activity
             android:name=".agregarPerro"
             android:exported="true" />
@@ -43,25 +40,22 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
-
         <activity
             android:name=".ForgotPassword"
             android:exported="true" />
-
         <activity
             android:name=".CrearRecordatorio"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
-
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".AlarmaPaseo"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
-
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".AlarmaComida"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
 
         <meta-data
             android:name="preloaded_fonts"

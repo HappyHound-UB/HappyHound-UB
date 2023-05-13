@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class FirebaseAuthManager<T> {
     private FirebaseAuth mAuth;
@@ -103,8 +104,12 @@ public class FirebaseAuthManager<T> {
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        SaveUserInfo saveData = new SaveUserInfo();
-                        saveData.saveUsers("New Account Users", name, email);
+                        user = mAuth.getCurrentUser();
+                        // Guardamos el nombre para acceder facilmente
+                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                .setDisplayName(name)
+                                .build();
+                        user.updateProfile(profileUpdates);
                     }
                 })
                 // si ha cumplido el proceso con exito entramos en la app
@@ -112,7 +117,6 @@ public class FirebaseAuthManager<T> {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            user = mAuth.getCurrentUser();
                             Intent intent = new Intent(activity.getApplicationContext(), MainActivity.class);
                             activity.startActivity(intent);
                             activity.finish();

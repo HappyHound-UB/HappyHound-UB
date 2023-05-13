@@ -1,13 +1,7 @@
 package edu.ub.happyhound_app;
 
-import static android.content.ContentValues.TAG;
+import android.app.Activity;
 
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -15,51 +9,40 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SaveUserInfo {
+    private final Activity activity;
     private FirebaseAuthManager<SaveUserInfo> authManager;
     private FirebaseFirestore db;
 
-    public SaveUserInfo() {
+    public SaveUserInfo(Activity activity) {
+        this.activity = activity;
         authManager = new FirebaseAuthManager<>();
         db = FirebaseFirestore.getInstance();
-
     }
 
-
-    /**
-     * Función para guardar los usuarios registrados
-     *
-     * @param type  dependiendo del tipo (Registro a través de la app, Google o Facebook) creamos c
-     *              colecciones para dividir los usuarios
-     * @param name  nombre del usario
-     * @param email email del registro del usuario
-     */
-    protected void saveUsers(String type, String name, String email) {
+    public void saveUserInfo(String nombre, String numero, String direccion, String ciudad, String codigoPostal) {
         DocumentReference documentReference;
 
         String userID = authManager.getUser().getUid();
-        documentReference = db.collection(type).document(userID);
+        String email = authManager.getUser().getEmail();
+        String doc;
 
-        if (name.isEmpty() || email.isEmpty()) {
-            return;
-        }
+        if (email != null) doc = authManager.getUser().getEmail();
+        else doc = nombre;
+
+        documentReference = db.collection("Google Users").document(userID)
+                .collection("User Info").document(doc);
 
         Map<String, Object> users = new HashMap<>();
-        users.put("name", name);
-        users.put("email", email);
+        users.put("Name", nombre);
+        users.put("Phone Number", numero);
+        users.put("Address", direccion);
+        users.put("City", ciudad);
+        users.put("Postal Code", codigoPostal);
 
         documentReference.set(users)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
-                    }
-                });
+                .addOnSuccessListener(documentReference1 ->
+                        ToastMessage.displayToast(activity, "Perfil actualizado con éxito"))
+                .addOnFailureListener(e ->
+                        ToastMessage.displayToast(activity, "No se ha podido actualizar el perfil"));
     }
-
 }
