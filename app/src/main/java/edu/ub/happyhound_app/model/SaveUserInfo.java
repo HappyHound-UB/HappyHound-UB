@@ -1,4 +1,4 @@
-package edu.ub.happyhound_app;
+package edu.ub.happyhound_app.model;
 
 import android.app.Activity;
 
@@ -7,6 +7,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import edu.ub.happyhound_app.view.ToastMessage;
 
 public class SaveUserInfo {
     private final Activity activity;

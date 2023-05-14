@@ -1,4 +1,4 @@
-package edu.ub.happyhound_app;
+package edu.ub.happyhound_app.view;
 
 import android.app.Application;
 

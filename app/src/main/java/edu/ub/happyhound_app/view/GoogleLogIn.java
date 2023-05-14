@@ -1,4 +1,4 @@
-package edu.ub.happyhound_app;
+package edu.ub.happyhound_app.view;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -22,6 +22,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.Objects;
+
+import edu.ub.happyhound_app.MainActivity;
+import edu.ub.happyhound_app.R;
+import edu.ub.happyhound_app.model.SaveUserInfo;
 
 public class GoogleLogIn {
     private static final int RC_SIGN_IN = 100;

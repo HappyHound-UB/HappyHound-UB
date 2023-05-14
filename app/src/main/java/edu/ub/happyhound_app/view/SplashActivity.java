@@ -1,4 +1,4 @@
-package edu.ub.happyhound_app;
+package edu.ub.happyhound_app.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import edu.ub.happyhound_app.R;
 
 public class SplashActivity extends AppCompatActivity {
     private final int SPLASH_TIMEOUT = 3000;

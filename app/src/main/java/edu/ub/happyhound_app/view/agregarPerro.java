@@ -1,4 +1,4 @@
-package edu.ub.happyhound_app;
+package edu.ub.happyhound_app.view;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +14,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import edu.ub.happyhound_app.MainActivity;
+import edu.ub.happyhound_app.R;
+import edu.ub.happyhound_app.model.SavePetInfo;
+import edu.ub.happyhound_app.view.ToastMessage;
 
 public class agregarPerro extends AppCompatActivity {
 

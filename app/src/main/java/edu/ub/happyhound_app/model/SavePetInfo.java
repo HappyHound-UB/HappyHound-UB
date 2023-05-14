@@ -1,4 +1,4 @@
-package edu.ub.happyhound_app;
+package edu.ub.happyhound_app.model;
 
 import static android.content.ContentValues.TAG;
 
@@ -16,6 +16,8 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
+
+import edu.ub.happyhound_app.view.ToastMessage;
 
 public class SavePetInfo {
     FirebaseFirestore db;
@@ -37,7 +39,7 @@ public class SavePetInfo {
 
     }
 
-    protected void saveDogs(String nombre, String raza, String edad, String sexo, Bitmap b) {
+    public void saveDogs(String nombre, String raza, String edad, String sexo, Bitmap b) {
         String userID = authManager.getUser().getUid();
 
         for (int i = 0; i < collections.length; i++) {

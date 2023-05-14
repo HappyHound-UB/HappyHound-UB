@@ -1,16 +1,21 @@
 package edu.ub.happyhound_app;
 
+import androidx.fragment.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import java.util.Objects;
 
 import edu.ub.happyhound_app.databinding.ActivityMainBinding;
+import edu.ub.happyhound_app.model.FirebaseAuthManager;
+import edu.ub.happyhound_app.view.AddFragment;
+import edu.ub.happyhound_app.view.HomeFragment;
+import edu.ub.happyhound_app.view.LogIn;
+import edu.ub.happyhound_app.view.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuthManager<MainActivity> authManager;
@@ -79,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
      * @return retorna true si el fragmento es el mismo que anterior, false en caso contrario
      */
     private boolean isSameFragment(String tag) {
-        Fragment currentFragment = getSupportFragmentManager().findFragmentByTag(tag);
+        androidx.fragment.app.Fragment currentFragment = getSupportFragmentManager().findFragmentByTag(tag);
         return (currentFragment != null && Objects.equals(currentFragment.getTag(), tag));
     }
 
@@ -93,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction
-                .replace(R.id.frameLayout, fragment, tag)
+                .replace(R.id.frameLayout , fragment, tag)
 //                .setReorderingAllowed(true)
 //                .addToBackStack("name")
                 .commit();

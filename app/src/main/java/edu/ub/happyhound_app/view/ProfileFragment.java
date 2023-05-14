@@ -1,4 +1,4 @@
-package edu.ub.happyhound_app;
+package edu.ub.happyhound_app.view;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +14,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import java.util.Objects;
+
+import edu.ub.happyhound_app.model.FirebaseAuthManager;
+import edu.ub.happyhound_app.R;
 
 /**
  * A simple {@link Fragment} subclass.

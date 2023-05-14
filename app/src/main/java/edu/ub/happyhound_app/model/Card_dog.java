@@ -1,4 +1,4 @@
-package edu.ub.happyhound_app;
+package edu.ub.happyhound_app.model;
 
 public class Card_dog {
     private String dog_url;

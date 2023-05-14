@@ -1,9 +1,11 @@
-package edu.ub.happyhound_app;
+package edu.ub.happyhound_app.view;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.drawable.GradientDrawable;
 import android.util.TypedValue;
+
+import edu.ub.happyhound_app.R;
 
 public class DynamicLayout {
 

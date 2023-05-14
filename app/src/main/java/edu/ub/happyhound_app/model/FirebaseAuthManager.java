@@ -1,4 +1,4 @@
-package edu.ub.happyhound_app;
+package edu.ub.happyhound_app.model;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,6 +17,12 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+
+import edu.ub.happyhound_app.MainActivity;
+import edu.ub.happyhound_app.model.SaveUserInfo;
+import edu.ub.happyhound_app.view.LogIn;
+import edu.ub.happyhound_app.view.SignUp;
+import edu.ub.happyhound_app.view.ToastMessage;
 
 public class FirebaseAuthManager<T> {
     private FirebaseAuth mAuth;

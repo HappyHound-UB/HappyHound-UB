@@ -1,4 +1,4 @@
-package edu.ub.happyhound_app;
+package edu.ub.happyhound_app.view;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +18,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+
+import edu.ub.happyhound_app.R;
+import edu.ub.happyhound_app.view.DynamicLayout;
+import edu.ub.happyhound_app.view.LogIn;
 
 public class ForgotPassword extends AppCompatActivity {
     private EditText memail;

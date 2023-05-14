@@ -1,4 +1,4 @@
-package edu.ub.happyhound_app;
+package edu.ub.happyhound_app.view;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import edu.ub.happyhound_app.model.FirebaseAuthManager;
+import edu.ub.happyhound_app.R;
 
 public class SignUp extends AppCompatActivity {
 

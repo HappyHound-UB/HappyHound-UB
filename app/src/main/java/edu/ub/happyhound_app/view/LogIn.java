@@ -1,4 +1,4 @@
-package edu.ub.happyhound_app;
+package edu.ub.happyhound_app.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.gms.common.SignInButton;
+
+import edu.ub.happyhound_app.model.FirebaseAuthManager;
+import edu.ub.happyhound_app.R;
 
 public class LogIn extends AppCompatActivity {
     private EditText memail, mpassword;

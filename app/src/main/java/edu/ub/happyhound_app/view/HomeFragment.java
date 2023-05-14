@@ -1,4 +1,4 @@
-package edu.ub.happyhound_app;
+package edu.ub.happyhound_app.view;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -26,6 +26,10 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import edu.ub.happyhound_app.model.Card_dog;
+import edu.ub.happyhound_app.model.FirebaseAuthManager;
+import edu.ub.happyhound_app.R;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -133,6 +137,11 @@ public class HomeFragment extends Fragment {
                 // Obtener la lista de referencias de elementos en la carpeta
                 List<StorageReference> elementsRefs = listResult.getItems();
 
+                if (elementsRefs.isEmpty()){
+                    progressBar.setVisibility(View.GONE);
+                    ToastMessage.displayToast(getContext(), "¡Vaya no tienes un canino agregado todavia!");
+                }else{
+
                 // Recorrer la lista de referencias de elementos y hacer algo con cada una
                 for (StorageReference elementRef : elementsRefs) {
                     // Hacer algo con cada referencia de elemento, por ejemplo:
@@ -152,6 +161,7 @@ public class HomeFragment extends Fragment {
                             // Manejar el error en caso de que no se pueda descargar la imagen
                         }
                     });
+                }
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
