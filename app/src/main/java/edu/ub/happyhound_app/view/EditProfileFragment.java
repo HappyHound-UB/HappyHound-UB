@@ -14,8 +14,10 @@ import androidx.fragment.app.FragmentManager;
 
 import java.util.Objects;
 
+import edu.ub.happyhound_app.model.DynamicLayout;
 import edu.ub.happyhound_app.model.FirebaseAuthManager;
 import edu.ub.happyhound_app.R;
+import edu.ub.happyhound_app.model.SaveUserInfo;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -104,17 +106,13 @@ public class EditProfileFragment extends Fragment {
             ciudad = city.getText().toString().trim();
             codigoPostal = zipCode.getText().toString().trim();
 
-            saveUserInfo(nombre, numero, direccion, ciudad, codigoPostal);
+            SaveUserInfo userInfo = new SaveUserInfo(getActivity());
+            userInfo.saveUserInfo(nombre, numero, direccion, ciudad, codigoPostal);
 
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             fragmentManager.popBackStack();
 
         });
 
-    }
-
-    private void saveUserInfo(String nombre, String numero, String direccion, String ciudad, String codigoPostal) {
-        SaveUserInfo userInfo = new SaveUserInfo(getActivity());
-        userInfo.saveUserInfo(nombre, numero, direccion, ciudad, codigoPostal);
     }
 }

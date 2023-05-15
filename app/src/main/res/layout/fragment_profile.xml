@@ -6,18 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--    <ImageView-->
-    <!--        android:id="@+id/imageView5"-->
-    <!--        android:layout_width="150dp"-->
-    <!--        android:layout_height="150dp"-->
-    <!--        android:contentDescription="@string/profile_image"-->
-    <!--        android:elevation="8dp"-->
-    <!--        android:src="@drawable/happyhound_logo"-->
-    <!--        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="@+id/constraintLayout" />-->
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
@@ -36,6 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
             android:hint="@string/username"
+            android:gravity="center"
             android:textColor="@color/black"
             android:textColorHint="@color/gris"
             android:textSize="22sp"
@@ -49,6 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/email"
+            android:gravity="center"
             android:textColor="@color/gris"
             android:textColorHint="@color/gris"
             android:textSize="16sp"

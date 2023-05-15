@@ -1,13 +1,9 @@
 package edu.ub.happyhound_app.view;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,10 +11,15 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.Objects;
+
 import edu.ub.happyhound_app.MainActivity;
 import edu.ub.happyhound_app.R;
 import edu.ub.happyhound_app.model.SavePetInfo;
-import edu.ub.happyhound_app.view.ToastMessage;
+import edu.ub.happyhound_app.model.ToastMessage;
 
 public class agregarPerro extends AppCompatActivity {
 
@@ -47,44 +48,34 @@ public class agregarPerro extends AppCompatActivity {
         spinnerSexo = (Spinner) findViewById(R.id.spinnerSexo);
 
 
-        String [] Razas = getResources().getStringArray(R.array.Raza);
-        ArrayAdapter<String> adapterRazas = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Razas);
+        String[] Razas = getResources().getStringArray(R.array.Raza);
+        ArrayAdapter<String> adapterRazas = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, Razas);
         spinnerRaza.setAdapter(adapterRazas);
 
-        String [] Sexo = getResources().getStringArray(R.array.Sexo);
-        ArrayAdapter<String> adapterSexo = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Sexo);
+        String[] Sexo = getResources().getStringArray(R.array.Sexo);
+        ArrayAdapter<String> adapterSexo = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, Sexo);
         spinnerSexo.setAdapter(adapterSexo);
 
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                nombre = nombrePerro.getText().toString();
-                edad = edadPerro.getText().toString();
-                raza = spinnerRaza.getSelectedItem().toString();
-                sexo = spinnerSexo.getSelectedItem().toString();
-                newDog(nombre,raza, edad, sexo);
-            }
+        btnAdd.setOnClickListener(view -> {
+            nombre = nombrePerro.getText().toString();
+            edad = edadPerro.getText().toString();
+            raza = spinnerRaza.getSelectedItem().toString();
+            sexo = spinnerSexo.getSelectedItem().toString();
+            newDog(nombre, raza, edad, sexo);
         });
 
-        btnPicture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(cameraIntent,REQUEST_CODE);
-            }
+        btnPicture.setOnClickListener(view -> {
+
+            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(cameraIntent, REQUEST_CODE);
         });
-        btnCancelar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        btnCancelar.setOnClickListener(view -> finish());
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
-            b = (Bitmap) data.getExtras().get("data");
+            b = (Bitmap) Objects.requireNonNull(data).getExtras().get("data");
             imageView.setImageBitmap(b);
             fotoTomada = true;
         } else {
@@ -93,7 +84,7 @@ public class agregarPerro extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void newDog(String nombre, String Raza, String edad, String sexo) {
+    private void newDog(String nombre, String raza, String edad, String sexo) {
         if (nombre.isEmpty() || raza.isEmpty() || edad.isEmpty() || sexo.isEmpty()) {
             if (nombre.isEmpty()) {
                 ToastMessage.displayToast(getApplicationContext(), "Porfavor introduzca el nombre de tu perro");

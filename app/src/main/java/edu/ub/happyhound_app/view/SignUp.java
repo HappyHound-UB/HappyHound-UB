@@ -11,8 +11,10 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import edu.ub.happyhound_app.model.DynamicLayout;
 import edu.ub.happyhound_app.model.FirebaseAuthManager;
 import edu.ub.happyhound_app.R;
+import edu.ub.happyhound_app.model.ToastMessage;
 
 public class SignUp extends AppCompatActivity {
 

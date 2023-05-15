@@ -3,13 +3,6 @@ package edu.ub.happyhound_app.model;
 import android.app.Activity;
 import android.content.Intent;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
@@ -19,10 +12,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
 import edu.ub.happyhound_app.MainActivity;
-import edu.ub.happyhound_app.model.SaveUserInfo;
 import edu.ub.happyhound_app.view.LogIn;
 import edu.ub.happyhound_app.view.SignUp;
-import edu.ub.happyhound_app.view.ToastMessage;
 
 public class FirebaseAuthManager<T> {
     private FirebaseAuth mAuth;
@@ -60,37 +51,31 @@ public class FirebaseAuthManager<T> {
      * @param password contraseña creada para entrar
      */
     public void signIn(String email, String password) {
+        // si produce un fallo, mostramos el fallo
         mAuth.signInWithEmailAndPassword(email, password)
                 // si cumple el sign in entramos en la aplicacion
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            user = mAuth.getCurrentUser();
-                            Intent intent = new Intent(activity.getApplicationContext(), MainActivity.class);
-                            activity.startActivity(intent);
-                            activity.finish();
-                        }
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        user = mAuth.getCurrentUser();
+                        Intent intent = new Intent(activity.getApplicationContext(), MainActivity.class);
+                        activity.startActivity(intent);
+                        activity.finish();
                     }
-                    // si produce un fallo, mostramos el fallo
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // Inicio de sesión fallido
-                        // asseguramos que esta funcion solo ha sido utilizado en la classe LogIn
-                        if (type instanceof LogIn) {
-                            if (e instanceof FirebaseAuthInvalidUserException) {
-                                // El usuario no existe y mosramos error
-                                ((LogIn) type).getMemail().setError("Email no existe");
-                                ((LogIn) type).getMemail().requestFocus();
-                            } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
-                                // Credenciales inválidas (por ejemplo, contraseña incorrecta)
-                                ((LogIn) type).getMpassword().setError("Email y/o contraseña incorrecta");
-                                ((LogIn) type).getMpassword().requestFocus();
-                            } else
-                                ToastMessage.displayToast(activity.getApplicationContext(),
-                                        "No se ha podido iniciar sesión");
-                        }
+                }).addOnFailureListener(e -> {
+                    // Inicio de sesión fallido
+                    // asseguramos que esta funcion solo ha sido utilizado en la classe LogIn
+                    if (type instanceof LogIn) {
+                        if (e instanceof FirebaseAuthInvalidUserException) {
+                            // El usuario no existe y mosramos error
+                            ((LogIn) type).getMemail().setError("Email no existe");
+                            ((LogIn) type).getMemail().requestFocus();
+                        } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                            // Credenciales inválidas (por ejemplo, contraseña incorrecta)
+                            ((LogIn) type).getMpassword().setError("Email y/o contraseña incorrecta");
+                            ((LogIn) type).getMpassword().requestFocus();
+                        } else
+                            ToastMessage.displayToast(activity.getApplicationContext(),
+                                    "No se ha podido iniciar sesión");
                     }
                 });
     }
@@ -104,55 +89,58 @@ public class FirebaseAuthManager<T> {
      * @param password contraseña para acceder
      */
     public void signUp(String name, String email, String password) {
+        // si produce un fallo, mostramos el fallo
         mAuth.createUserWithEmailAndPassword(email, password)
                 // si el proceso de crear cuenta ha logrado con exito, guardamos datos del
                 // del usuario en el firebase
-                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        user = mAuth.getCurrentUser();
-                        // Guardamos el nombre para acceder facilmente
-                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                .setDisplayName(name)
-                                .build();
-                        user.updateProfile(profileUpdates);
-                    }
+                .addOnSuccessListener(authResult -> {
+                    user = mAuth.getCurrentUser();
+                    // Guardamos el nombre como DisplayName para acceder facilmente
+                    changeUsername(name);
                 })
                 // si ha cumplido el proceso con exito entramos en la app
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Intent intent = new Intent(activity.getApplicationContext(), MainActivity.class);
-                            activity.startActivity(intent);
-                            activity.finish();
-                            ToastMessage.displayToast(activity.getApplicationContext(), name + " tu cuenta ha sido creado con éxito!");
-                        }
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Intent intent = new Intent(activity.getApplicationContext(), MainActivity.class);
+                        activity.startActivity(intent);
+                        activity.finish();
+                        ToastMessage.displayToast(activity.getApplicationContext(), name + " tu cuenta ha sido creado con éxito!");
                     }
-                    // si produce un fallo, mostramos el fallo
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // asseguramos que esta funcion solo ha sido utilizado en la classe SignIn
-                        if (type instanceof SignUp) {
-                            if (e instanceof FirebaseAuthUserCollisionException) {
-                                // El usuario ya existe
-                                ((SignUp) type).getNewEmail().setError("Ya existe un usuario con este email");
-                                ((SignUp) type).getNewEmail().requestFocus();
-                            } else if (e instanceof FirebaseAuthWeakPasswordException) {
-                                // Contraseña no segura
-                                ((SignUp) type).getNewPassword()
-                                        .setError("La contraseña debe tener al menos 6 caracteres y contener letras y números.");
-                                ((SignUp) type).getNewPassword().requestFocus();
-                            } else
-                                // Otro error
-                                ToastMessage.displayToast(activity.getApplicationContext(),
-                                        "No se ha podido crear la cuenta");
-                        }
+                }).addOnFailureListener(e -> {
+                    // asseguramos que esta funcion solo ha sido utilizado en la classe SignIn
+                    if (type instanceof SignUp) {
+                        if (e instanceof FirebaseAuthUserCollisionException) {
+                            // El usuario ya existe
+                            ((SignUp) type).getNewEmail().setError("Ya existe un usuario con este email");
+                            ((SignUp) type).getNewEmail().requestFocus();
+                        } else if (e instanceof FirebaseAuthWeakPasswordException) {
+                            // Contraseña no segura
+                            ((SignUp) type).getNewPassword()
+                                    .setError("La contraseña debe tener al menos 6 caracteres y contener letras y números.");
+                            ((SignUp) type).getNewPassword().requestFocus();
+                        } else
+                            // Otro error
+                            ToastMessage.displayToast(activity.getApplicationContext(),
+                                    "No se ha podido crear la cuenta");
                     }
                 });
     }
 
+    /**
+     * Funcion para modificar el DisplayName del usuario
+     *
+     * @param name nuevo nombre cambiado
+     */
+    public void changeUsername(String name) {
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(name)
+                .build();
+        getUser().updateProfile(profileUpdates);
+    }
+
+    /**
+     * Funcion para salir de la cuenta y de la aplicacion y retornar al LogIn
+     */
     public void signOut() {
         mAuth.signOut();
         Intent intent = new Intent(activity.getApplicationContext(), LogIn.class);

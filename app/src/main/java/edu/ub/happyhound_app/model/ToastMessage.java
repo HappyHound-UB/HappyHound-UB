@@ -1,4 +1,4 @@
-package edu.ub.happyhound_app.view;
+package edu.ub.happyhound_app.model;
 
 import android.content.Context;
 import android.widget.Toast;

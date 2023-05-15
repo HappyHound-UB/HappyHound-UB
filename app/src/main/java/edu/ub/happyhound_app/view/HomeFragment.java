@@ -30,6 +30,7 @@ import java.util.Objects;
 import edu.ub.happyhound_app.model.Card_dog;
 import edu.ub.happyhound_app.model.FirebaseAuthManager;
 import edu.ub.happyhound_app.R;
+import edu.ub.happyhound_app.model.ToastMessage;
 
 /**
  * A simple {@link Fragment} subclass.

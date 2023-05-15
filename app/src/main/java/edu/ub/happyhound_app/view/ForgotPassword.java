@@ -1,9 +1,5 @@
 package edu.ub.happyhound_app.view;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -14,14 +10,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 
 import edu.ub.happyhound_app.R;
-import edu.ub.happyhound_app.view.DynamicLayout;
-import edu.ub.happyhound_app.view.LogIn;
+import edu.ub.happyhound_app.model.DynamicLayout;
 
 public class ForgotPassword extends AppCompatActivity {
     private EditText memail;
@@ -68,37 +64,34 @@ public class ForgotPassword extends AppCompatActivity {
         } else {
             progressBar.setVisibility(View.VISIBLE);
             mAuth.sendPasswordResetEmail(emailAddress)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                // Correo electrónico de restablecimiento de contraseña enviado con éxito
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            // Correo electrónico de restablecimiento de contraseña enviado con éxito
+                            Toast.makeText(getApplicationContext(),
+                                    "Correo electrónico de restablecimiento de contraseña enviado con éxito",
+                                    Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(getApplicationContext(), LogIn.class);
+
+                            // Limpiar stack para evitar que el usuario regrese a esta actividad
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                    Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                                    Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finish();
+
+                        } else {
+                            // Error al enviar el correo electrónico de restablecimiento de contraseña
+                            try {
+                                throw task.getException();
+                            } catch (FirebaseAuthInvalidUserException e) {
+                                memail.setError("Usuario no existe");
+                                memail.requestFocus();
+
+                            } catch (Exception e) {
                                 Toast.makeText(getApplicationContext(),
-                                        "Correo electrónico de restablecimiento de contraseña enviado con éxito",
+                                        "Error al enviar el correo electrónico de restablecimiento de contraseña",
                                         Toast.LENGTH_SHORT).show();
-
-                                Intent intent = new Intent(getApplicationContext(), LogIn.class);
-
-                                // Limpiar stack para evitar que el usuario regrese a esta actividad
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                                        Intent.FLAG_ACTIVITY_CLEAR_TASK |
-                                        Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                                finish();
-
-                            } else {
-                                // Error al enviar el correo electrónico de restablecimiento de contraseña
-                                try {
-                                    throw task.getException();
-                                } catch (FirebaseAuthInvalidUserException e) {
-                                    memail.setError("Usuario no existe");
-                                    memail.requestFocus();
-
-                                } catch (Exception e) {
-                                    Toast.makeText(getApplicationContext(),
-                                            "Error al enviar el correo electrónico de restablecimiento de contraseña",
-                                            Toast.LENGTH_SHORT).show();
-                                }
                             }
                         }
                     });

@@ -13,8 +13,10 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.gms.common.SignInButton;
 
+import edu.ub.happyhound_app.model.DynamicLayout;
 import edu.ub.happyhound_app.model.FirebaseAuthManager;
 import edu.ub.happyhound_app.R;
+import edu.ub.happyhound_app.model.ToastMessage;
 
 public class LogIn extends AppCompatActivity {
     private EditText memail, mpassword;
@@ -80,10 +82,7 @@ public class LogIn extends AppCompatActivity {
 
         // iniciar sesion con la cuenta de google
         googleLogIn = new GoogleLogIn(this, authManager.getmAuth());
-        googleButton.setOnClickListener(view -> {
-            googleLogIn.signInGoogle();
-//            finish();
-        });
+        googleButton.setOnClickListener(view -> googleLogIn.signInGoogle());
     }
 
     @Override
