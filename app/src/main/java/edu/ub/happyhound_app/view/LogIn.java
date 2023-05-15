@@ -13,9 +13,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.gms.common.SignInButton;
 
+import edu.ub.happyhound_app.R;
 import edu.ub.happyhound_app.model.DynamicLayout;
 import edu.ub.happyhound_app.model.FirebaseAuthManager;
-import edu.ub.happyhound_app.R;
 import edu.ub.happyhound_app.model.ToastMessage;
 
 public class LogIn extends AppCompatActivity {
@@ -58,12 +58,8 @@ public class LogIn extends AppCompatActivity {
             email = memail.getText().toString().trim();
             password = mpassword.getText().toString().trim();
 
-            if (everythingOK(email, password))
-                authManager.signIn(email, password);
-            else {
-                displayError();
-                finish();
-            }
+            if (everythingOK(email, password)) authManager.signIn(email, password);
+            else displayError();
         });
 
         // crear nueva cuenta

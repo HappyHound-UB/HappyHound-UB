@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
 import edu.ub.happyhound_app.MainActivity;
+import edu.ub.happyhound_app.view.ForgotPassword;
 import edu.ub.happyhound_app.view.LogIn;
 import edu.ub.happyhound_app.view.SignUp;
 
@@ -122,6 +123,38 @@ public class FirebaseAuthManager<T> {
                             // Otro error
                             ToastMessage.displayToast(activity.getApplicationContext(),
                                     "No se ha podido crear la cuenta");
+                    }
+                });
+    }
+
+    /**
+     * Funcion para restablecer nueva contraseña
+     *
+     * @param emailAddress email del usuario
+     */
+    public void resetPassword(String emailAddress) {
+        mAuth.sendPasswordResetEmail(emailAddress)
+                .addOnSuccessListener(unused -> {
+                    ToastMessage.displayToast(activity,
+                            "Correo electrónico de restablecimiento de contraseña enviado con éxito");
+
+                    Intent intent = new Intent(activity, LogIn.class);
+
+                    // Limpiar stack para evitar que el usuario regrese a esta actividad
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                            Intent.FLAG_ACTIVITY_NEW_TASK);
+                    activity.startActivity(intent);
+                    activity.finish();
+                }).addOnFailureListener(e -> {
+                    if (type instanceof ForgotPassword) {
+                        if (e instanceof FirebaseAuthInvalidUserException) {
+                            ((ForgotPassword) type).getMemail().setError("Usuario no existe");
+                            ((ForgotPassword) type).getMemail().requestFocus();
+                        } else {
+                            ToastMessage.displayToast(activity,
+                                    "Error al enviar el correo electrónico de restablecimiento de contraseña");
+                        }
                     }
                 });
     }
