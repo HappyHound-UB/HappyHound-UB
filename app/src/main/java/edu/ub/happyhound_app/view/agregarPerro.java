@@ -38,14 +38,14 @@ public class agregarPerro extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_perro);
 
-        nombrePerro = (EditText) findViewById(R.id.editTextNombre);
-        edadPerro = (EditText) findViewById(R.id.editTextEdad);
-        btnAdd = (Button) findViewById(R.id.buttonAdd);
-        btnPicture = (Button) findViewById(R.id.ButtonFoto);
-        imageView = (ImageView) findViewById(R.id.imageView1);
-        btnCancelar = (TextView) findViewById(R.id.cancelarButton);
-        spinnerRaza = (Spinner) findViewById(R.id.spinnerRaza);
-        spinnerSexo = (Spinner) findViewById(R.id.spinnerSexo);
+        nombrePerro = findViewById(R.id.editTextNombre);
+        edadPerro = findViewById(R.id.editTextEdad);
+        btnAdd = findViewById(R.id.buttonAdd);
+        btnPicture = findViewById(R.id.ButtonFoto);
+        imageView = findViewById(R.id.imageView1);
+        btnCancelar = findViewById(R.id.cancelarButton);
+        spinnerRaza = findViewById(R.id.spinnerRaza);
+        spinnerSexo = findViewById(R.id.spinnerSexo);
 
 
         String[] Razas = getResources().getStringArray(R.array.Raza);
@@ -97,10 +97,10 @@ public class agregarPerro extends AppCompatActivity {
             }
             if (sexo.isEmpty()) {
                 ToastMessage.displayToast(getApplicationContext(), "Porfavor introduzca el sexo de tu perro");
-            }/*
-            if(fotoTomada == false){
-                Toast.makeText(getApplicationContext(), "Porfavor haz una foto a tu perro", Toast.LENGTH_SHORT).show();
-            }*/
+            }
+            if (!fotoTomada) {
+                ToastMessage.displayToast(getApplicationContext(), "Porfavor haz una foto a tu perro");
+            }
         } else {
             SavePetInfo savePets = new SavePetInfo(this);
             savePets.saveDogs(nombre, raza, edad, sexo, b);

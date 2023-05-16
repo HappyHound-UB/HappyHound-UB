@@ -14,8 +14,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+
 import java.util.Objects;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import edu.ub.happyhound_app.model.DynamicLayout;
 import edu.ub.happyhound_app.model.FirebaseAuthManager;
 import edu.ub.happyhound_app.R;
@@ -35,9 +40,11 @@ public class ProfileFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private FirebaseAuthManager<ProfileFragment> authManager;
+    private StorageReference storageReference;
     private TextView username, email;
     private Button editProfile, changePassword, about, signOut;
     private ConstraintLayout layout;
+    private CircleImageView profilePic;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -71,6 +78,7 @@ public class ProfileFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         authManager = new FirebaseAuthManager<>(getActivity(), this);
+        storageReference = FirebaseStorage.getInstance().getReference();
     }
 
     @Override
@@ -85,6 +93,7 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         layout = view.findViewById(R.id.profileConstraint);
+        profilePic = view.findViewById(R.id.profile_image);
         username = view.findViewById(R.id.userName);
         email = view.findViewById(R.id.emailID);
         editProfile = view.findViewById(R.id.button_editProfile);
@@ -93,8 +102,6 @@ public class ProfileFragment extends Fragment {
         signOut = view.findViewById(R.id.button_log_out);
 
         layout.setBackgroundColor(DynamicLayout.setDynamicLayout(requireActivity()));
-        username.setText(Objects.requireNonNull(authManager.getUser().getDisplayName()));
-        email.setText(Objects.requireNonNull(authManager.getUser().getEmail()));
 
         editProfile.setOnClickListener(view1 -> {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
@@ -126,5 +133,18 @@ public class ProfileFragment extends Fragment {
             startActivity(intent);
             requireActivity().finish();
         });
+
+        getUserInfo();
+    }
+
+    private void getUserInfo() {
+        username.setText(Objects.requireNonNull(authManager.getUser().getDisplayName()));
+        email.setText(Objects.requireNonNull(authManager.getUser().getEmail()));
+
+        StorageReference profileRef = storageReference
+                .child(authManager.getUser().getEmail() + "/Profile Images/profile_Image.jpg");
+        profileRef.getDownloadUrl().addOnSuccessListener(uri ->
+                Picasso.get().load(uri).into(profilePic));
+
     }
 }
