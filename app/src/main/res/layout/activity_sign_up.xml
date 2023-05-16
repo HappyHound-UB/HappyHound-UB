@@ -5,7 +5,7 @@
     android:id="@+id/signInConstraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignUp">
+    tools:context=".view.SignUp">
 
     <ImageView
         android:id="@+id/logoImage"
@@ -39,7 +39,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="50dp"
-            android:background="@drawable/background_main"
             android:gravity="center"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"

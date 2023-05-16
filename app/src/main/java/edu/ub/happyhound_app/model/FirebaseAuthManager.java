@@ -3,6 +3,8 @@ package edu.ub.happyhound_app.model;
 import android.app.Activity;
 import android.content.Intent;
 
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
@@ -11,9 +13,14 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
+import java.util.Objects;
+
 import edu.ub.happyhound_app.MainActivity;
+import edu.ub.happyhound_app.view.AuthenticationListener;
+import edu.ub.happyhound_app.view.ChangePasswordFragment;
 import edu.ub.happyhound_app.view.ForgotPassword;
 import edu.ub.happyhound_app.view.LogIn;
+import edu.ub.happyhound_app.view.PasswordUpdateSuccess;
 import edu.ub.happyhound_app.view.SignUp;
 
 public class FirebaseAuthManager<T> {
@@ -105,7 +112,8 @@ public class FirebaseAuthManager<T> {
                         Intent intent = new Intent(activity.getApplicationContext(), MainActivity.class);
                         activity.startActivity(intent);
                         activity.finish();
-                        ToastMessage.displayToast(activity.getApplicationContext(), name + " tu cuenta ha sido creado con éxito!");
+                        ToastMessage.displayToast(activity.getApplicationContext(),
+                                name + " tu cuenta ha sido creado con éxito!");
                     }
                 }).addOnFailureListener(e -> {
                     // asseguramos que esta funcion solo ha sido utilizado en la classe SignIn
@@ -121,8 +129,7 @@ public class FirebaseAuthManager<T> {
                             ((SignUp) type).getNewPassword().requestFocus();
                         } else
                             // Otro error
-                            ToastMessage.displayToast(activity.getApplicationContext(),
-                                    "No se ha podido crear la cuenta");
+                            ToastMessage.displayToast(activity.getApplicationContext(), "No se ha podido crear la cuenta");
                     }
                 });
     }
@@ -133,30 +140,27 @@ public class FirebaseAuthManager<T> {
      * @param emailAddress email del usuario
      */
     public void resetPassword(String emailAddress) {
-        mAuth.sendPasswordResetEmail(emailAddress)
-                .addOnSuccessListener(unused -> {
+        mAuth.sendPasswordResetEmail(emailAddress).addOnSuccessListener(unused -> {
+            ToastMessage.displayToast(activity,
+                    "Correo electrónico de restablecimiento de contraseña enviado con éxito");
+
+            Intent intent = new Intent(activity, LogIn.class);
+
+            // Limpiar stack para evitar que el usuario regrese a esta actividad
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            activity.startActivity(intent);
+            activity.finish();
+        }).addOnFailureListener(e -> {
+            if (type instanceof ForgotPassword) {
+                if (e instanceof FirebaseAuthInvalidUserException) {
+                    ((ForgotPassword) type).getMemail().setError("Usuario no existe");
+                    ((ForgotPassword) type).getMemail().requestFocus();
+                } else {
                     ToastMessage.displayToast(activity,
-                            "Correo electrónico de restablecimiento de contraseña enviado con éxito");
-
-                    Intent intent = new Intent(activity, LogIn.class);
-
-                    // Limpiar stack para evitar que el usuario regrese a esta actividad
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                            Intent.FLAG_ACTIVITY_CLEAR_TASK |
-                            Intent.FLAG_ACTIVITY_NEW_TASK);
-                    activity.startActivity(intent);
-                    activity.finish();
-                }).addOnFailureListener(e -> {
-                    if (type instanceof ForgotPassword) {
-                        if (e instanceof FirebaseAuthInvalidUserException) {
-                            ((ForgotPassword) type).getMemail().setError("Usuario no existe");
-                            ((ForgotPassword) type).getMemail().requestFocus();
-                        } else {
-                            ToastMessage.displayToast(activity,
-                                    "Error al enviar el correo electrónico de restablecimiento de contraseña");
-                        }
-                    }
-                });
+                            "Error al enviar el correo electrónico de restablecimiento de contraseña");
+                }
+            }
+        });
     }
 
     /**
@@ -165,21 +169,51 @@ public class FirebaseAuthManager<T> {
      * @param name nuevo nombre cambiado
      */
     public void changeUsername(String name) {
-        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(name)
-                .build();
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
         getUser().updateProfile(profileUpdates);
+    }
+
+    public void changePassword(String newPassword) {
+        getUser().updatePassword(newPassword).addOnSuccessListener(unused -> {
+                    ToastMessage.displayToast(activity, "Constraseña cambiada correctamente");
+                    signOut();
+                    Intent intent = new Intent(activity.getApplicationContext(), PasswordUpdateSuccess.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    activity.startActivity(intent);
+                    activity.finish();
+                })
+
+                .addOnFailureListener(e -> {
+                    if (type instanceof ChangePasswordFragment) {
+                        if (e instanceof FirebaseAuthWeakPasswordException) {
+                            // Contraseña no segura
+                            ((ChangePasswordFragment) type).getNewPassword()
+                                    .setError("La contraseña debe tener al menos 6 caracteres y contener letras y números.");
+                            ((ChangePasswordFragment) type).getNewPassword().requestFocus();
+                        } else
+                            ToastMessage.displayToast(activity, "No se ha podido cambiar la contraseña");
+                    }
+                });
+    }
+
+    public void reAuthenticate(AuthenticationListener listener, String oldpass) {
+
+        // Get auth credentials from the user for re-authentication. The example below shows
+        // email and password credentials but there are multiple possible providers,
+        // such as GoogleAuthProvider or FacebookAuthProvider.
+        AuthCredential credential = EmailAuthProvider.getCredential(Objects.requireNonNull(getUser().getEmail()), oldpass);
+
+        // Prompt the user to re-provide their sign-in credentials
+        getUser().reauthenticate(credential)
+                .addOnSuccessListener(unused -> listener.onAuthenticationSuccess())
+                .addOnFailureListener(view -> listener.onAuthenticationFailure());
     }
 
     /**
      * Funcion para salir de la cuenta y de la aplicacion y retornar al LogIn
      */
     public void signOut() {
-        mAuth.signOut();
-        Intent intent = new Intent(activity.getApplicationContext(), LogIn.class);
-        activity.startActivity(intent);
-        activity.finish();
-
+        getmAuth().signOut();
     }
 
     // ========================================
@@ -192,4 +226,5 @@ public class FirebaseAuthManager<T> {
     public FirebaseUser getUser() {
         return user;
     }
+
 }

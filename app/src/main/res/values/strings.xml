@@ -84,9 +84,12 @@
         <item>Macho</item>
         <item>Hembra</item>
 
-
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="new_credentials">Nueva Contraseña</string>
+    <string name="new_credentials_detail">Crea tu nueva contraseña</string>
+    <string name="password_updated">Contraseña Actualizada</string>
+    <string name="password_updated_success_message">Tu contraseña ha sido actualizada</string>
 
 </resources>

@@ -1,5 +1,6 @@
 package edu.ub.happyhound_app.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -106,9 +107,24 @@ public class ProfileFragment extends Fragment {
                     .commit();
         });
 
+        changePassword.setOnClickListener(view1 -> {
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction
+                    .replace(R.id.frameLayout, new ChangePasswordFragment())
+                    .addToBackStack(null)
+                    .setReorderingAllowed(true)
+//                .addToBackStack("name")
+                    .commit();
+        });
+
         signOut.setOnClickListener(view1 -> {
             authManager.signOut();
             ToastMessage.displayToast(getActivity(), "Cesión cerrado con éxito");
+            Intent intent = new Intent(requireActivity().getApplicationContext(), LogIn.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            requireActivity().finish();
         });
     }
 }

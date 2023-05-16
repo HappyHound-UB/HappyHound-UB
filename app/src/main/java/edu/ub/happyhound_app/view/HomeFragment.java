@@ -155,6 +155,7 @@ public class HomeFragment extends Fragment {
                             Log.d("Name", i.getDog_name());
                             progressBar.setVisibility(View.GONE);
                             adapter.notifyDataSetChanged();
+                            //return false;
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -164,6 +165,7 @@ public class HomeFragment extends Fragment {
                     });
                 }
                 }
+                //return false;
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
