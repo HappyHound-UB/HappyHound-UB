@@ -1,15 +1,17 @@
-package edu.ub.happyhound_app;
+package edu.ub.happyhound_app.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
+
+import edu.ub.happyhound_app.R;
+import edu.ub.happyhound_app.view.AlarmaComida;
+import edu.ub.happyhound_app.view.AlarmaPaseo;
 
 public class CrearRecordatorio extends AppCompatActivity {
 

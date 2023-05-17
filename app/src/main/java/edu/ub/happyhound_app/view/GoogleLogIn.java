@@ -1,10 +1,9 @@
-package edu.ub.happyhound_app;
+package edu.ub.happyhound_app.view;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -12,16 +11,17 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.Objects;
+
+import edu.ub.happyhound_app.MainActivity;
+import edu.ub.happyhound_app.R;
+import edu.ub.happyhound_app.model.ToastMessage;
 
 public class GoogleLogIn {
     private static final int RC_SIGN_IN = 100;
@@ -72,30 +72,22 @@ public class GoogleLogIn {
         AuthCredential authCredential = GoogleAuthProvider.getCredential(googleSignInAccount.getIdToken(), null);
         // Check credential
         mAuth.signInWithCredential(authCredential)
-                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        // usuario actual
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        // info del usuario
+                .addOnSuccessListener(authResult -> {
+                    // usuario actual
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    // info del usuario
 
-                        if (Objects.requireNonNull(authResult.getAdditionalUserInfo()).isNewUser()) {
-                            String info = "Cuenta creada...\n" + Objects.requireNonNull(user).getEmail();
+                    if (Objects.requireNonNull(authResult.getAdditionalUserInfo()).isNewUser()) {
+                        String info = "Cuenta creada...\n" + Objects.requireNonNull(user).getEmail();
+                        ToastMessage.displayToast(activity.getApplicationContext(), info);
 
-                            ToastMessage.displayToast(activity.getApplicationContext(), info);
-                            SaveUserInfo save = new SaveUserInfo();
-                            save.saveUsers("Google Users", Objects.requireNonNull(user.getDisplayName()), user.getEmail());
-                        } else
-                            ToastMessage.displayToast(activity.getApplicationContext(), "Google Sign In successful");
+                    } else
+                        ToastMessage.displayToast(activity.getApplicationContext(), "Google Sign In successful");
 
-                        activity.startActivity(new Intent(activity.getApplicationContext(), MainActivity.class));
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        ToastMessage.displayToast(activity.getApplicationContext(), "Error signing in  with Google");
-                    }
-                });
+                    activity.startActivity(new Intent(activity.getApplicationContext(), MainActivity.class));
+                    activity.finish();
+                }).addOnFailureListener(e ->
+                        ToastMessage.displayToast(activity.getApplicationContext(), "Error signing in  with Google"));
     }
 
 }

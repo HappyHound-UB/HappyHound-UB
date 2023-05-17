@@ -11,7 +11,7 @@
     <string name="signUp">CREAR CUENTA</string>
     <string name="opcion">o usa alguno de tus perfiles sociales</string>
     <string name="forgotPassword">¿Olvidaste la Contraseña?</string>
-    <string name="facebook">Facebook</string>
+    <string name="facebook">Conectar con Facebook</string>
     <string name="google">Google</string>
     <string name="nombre">Nombre</string>
     <string name="createAccount">Crear una cuenta</string>
@@ -24,7 +24,7 @@
     <string name="nombre_perro">Nala</string>
     <string name="edad">años</string>
     <string name="cancelar">Cancelar</string>
-    <string name="forgot_password_title">Forgot Password</string>
+    <string name="forgot_password_title">Recuperar Contraseña</string>
     <string name="email_hint">Email</string>
     <string name="reset_password_button_text">Restablecer la Contraseña</string>
     <string name="change_password_button_text">Cambiar la Contraseña</string>
@@ -50,6 +50,8 @@
     <string name="image_add_notification_text">Image of Add Notification Button</string>
     <string name="image_add_pets_text">Image of Add Pets Button</string>
     <string name="galeria">Galería</string>
+    <string name="username">Username</string>
+    <string name="edit_icon">Edit Icon</string>
 
     <string-array name="Raza">
         <item>Elige tu raza</item>
@@ -82,7 +84,12 @@
         <item>Macho</item>
         <item>Hembra</item>
 
-
     </string-array>
+
+
+    <string name="new_credentials">Nueva Contraseña</string>
+    <string name="new_credentials_detail">Crea tu nueva contraseña</string>
+    <string name="password_updated">Contraseña Actualizada</string>
+    <string name="password_updated_success_message">Tu contraseña ha sido actualizada</string>
 
 </resources>

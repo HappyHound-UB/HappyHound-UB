@@ -1,4 +1,4 @@
-package edu.ub.happyhound_app;
+package edu.ub.happyhound_app.view;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -26,6 +26,11 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import edu.ub.happyhound_app.model.Card_dog;
+import edu.ub.happyhound_app.model.FirebaseAuthManager;
+import edu.ub.happyhound_app.R;
+import edu.ub.happyhound_app.model.ToastMessage;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -92,21 +97,21 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        recyclerView = getActivity().findViewById(R.id.recyclerView_dogList);
-        progressBar = getActivity().findViewById(R.id.progressBar_dogList);
-        menu = getActivity().findViewById(R.id.floatingMenu);
-        addDogs = getActivity().findViewById(R.id.floatingAddPets);
-        addNotification = getActivity().findViewById(R.id.floatingAddNotification);
+        recyclerView = view.findViewById(R.id.recyclerView_dogList);
+        progressBar = view.findViewById(R.id.progressBar_dogList);
+        menu = view.findViewById(R.id.floatingMenu);
+        addDogs = view.findViewById(R.id.floatingAddPets);
+        addNotification = view.findViewById(R.id.floatingAddNotification);
 
         progressBar.setVisibility(View.VISIBLE);
         addDogs.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getActivity().getApplicationContext(), agregarPerro.class);
+            Intent intent = new Intent(getActivity(), agregarPerro.class);
             startActivity(intent);
             menu.collapse();
         });
 
         addNotification.setOnClickListener(view2 -> {
-            Intent intent = new Intent(getActivity().getApplicationContext(), CrearRecordatorio.class);
+            Intent intent = new Intent(getActivity(), CrearRecordatorio.class);
             startActivity(intent);
             menu.collapse();
         });
@@ -133,6 +138,11 @@ public class HomeFragment extends Fragment {
                 // Obtener la lista de referencias de elementos en la carpeta
                 List<StorageReference> elementsRefs = listResult.getItems();
 
+                if (elementsRefs.isEmpty()){
+                    progressBar.setVisibility(View.GONE);
+                    ToastMessage.displayToast(getContext(), "¡Vaya no tienes un canino agregado todavia!");
+                }else{
+
                 // Recorrer la lista de referencias de elementos y hacer algo con cada una
                 for (StorageReference elementRef : elementsRefs) {
                     // Hacer algo con cada referencia de elemento, por ejemplo:
@@ -145,6 +155,7 @@ public class HomeFragment extends Fragment {
                             Log.d("Name", i.getDog_name());
                             progressBar.setVisibility(View.GONE);
                             adapter.notifyDataSetChanged();
+                            //return false;
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -153,6 +164,8 @@ public class HomeFragment extends Fragment {
                         }
                     });
                 }
+                }
+                //return false;
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

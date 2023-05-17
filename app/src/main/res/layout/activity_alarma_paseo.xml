@@ -7,7 +7,7 @@
     android:background="@color/GrisOscuro"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".AlarmaPaseo">
+    tools:context=".view.AlarmaPaseo">
 
     <ImageView
         android:layout_width="50dp"
