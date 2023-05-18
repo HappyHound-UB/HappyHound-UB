@@ -1,8 +1,9 @@
-package edu.ub.happyhound_app;
+package edu.ub.happyhound_app.view;
 
 import androidx.fragment.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -10,12 +11,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 import java.util.Objects;
 
+import edu.ub.happyhound_app.R;
 import edu.ub.happyhound_app.databinding.ActivityMainBinding;
 import edu.ub.happyhound_app.model.FirebaseAuthManager;
-import edu.ub.happyhound_app.view.AddFragment;
-import edu.ub.happyhound_app.view.HomeFragment;
-import edu.ub.happyhound_app.view.LogIn;
-import edu.ub.happyhound_app.view.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuthManager<MainActivity> authManager;
@@ -62,10 +60,20 @@ public class MainActivity extends AppCompatActivity {
             }
 
             //if (!isSameFragment(tag))
-                changeFragments(selectedFragment, tag);
+            changeFragments(selectedFragment, tag);
 
             return true;
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag("editProfile_fragment");
+        if (fragment != null) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
 //    @Override

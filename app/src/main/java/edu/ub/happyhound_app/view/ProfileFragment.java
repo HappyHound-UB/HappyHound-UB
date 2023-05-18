@@ -13,18 +13,17 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import edu.ub.happyhound_app.R;
 import edu.ub.happyhound_app.model.DynamicLayout;
 import edu.ub.happyhound_app.model.FirebaseAuthManager;
-import edu.ub.happyhound_app.R;
+import edu.ub.happyhound_app.model.FirebaseStorageManager;
 import edu.ub.happyhound_app.model.ToastMessage;
+import edu.ub.happyhound_app.viewModels.ProfileViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,14 +36,16 @@ public class ProfileFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = "editProfile_fragment";
 
     // TODO: Rename and change types of parameters
     private FirebaseAuthManager<ProfileFragment> authManager;
-    private StorageReference storageReference;
     private TextView username, email;
     private Button editProfile, changePassword, about, signOut;
     private ConstraintLayout layout;
     private CircleImageView profilePic;
+    private ProfileViewModel profileViewModel;
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -77,15 +78,22 @@ public class ProfileFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        profileViewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
         authManager = new FirebaseAuthManager<>(getActivity(), this);
-        storageReference = FirebaseStorage.getInstance().getReference();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+//        profileViewModel.getUsername().observe(getViewLifecycleOwner(), new Observer<String>() {
+//            @Override
+//            public void onChanged(String user) {
+//                username.setText(user);
+//            }
+//        });
+        return view;
     }
 
     @Override
@@ -107,7 +115,7 @@ public class ProfileFragment extends Fragment {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction
-                    .replace(R.id.frameLayout, new EditProfileFragment())
+                    .replace(R.id.frameLayout, new EditProfileFragment(), TAG)
                     .addToBackStack(null)
                     .setReorderingAllowed(true)
 //                .addToBackStack("name")
@@ -141,10 +149,7 @@ public class ProfileFragment extends Fragment {
         username.setText(Objects.requireNonNull(authManager.getUser().getDisplayName()));
         email.setText(Objects.requireNonNull(authManager.getUser().getEmail()));
 
-        StorageReference profileRef = storageReference
-                .child(authManager.getUser().getEmail() + "/Profile Images/profile_Image.jpg");
-        profileRef.getDownloadUrl().addOnSuccessListener(uri ->
-                Picasso.get().load(uri).into(profilePic));
-
+        FirebaseStorageManager storageManager = new FirebaseStorageManager(getActivity(), profilePic);
+        storageManager.displayImage("/Profile Images/profile_Image.jpg");
     }
 }

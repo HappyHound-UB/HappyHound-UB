@@ -20,7 +20,6 @@ public class SavePetInfo {
     FirebaseFirestore db;
     DocumentReference documentReference;
     private FirebaseAuthManager<SavePetInfo> authManager;
-    private FirebaseStorage mStorage;
     private StorageReference mStorageRef;
     private Activity activity;
 
@@ -28,8 +27,7 @@ public class SavePetInfo {
         this.activity = activity;
         authManager = new FirebaseAuthManager<>();
         db = FirebaseFirestore.getInstance();
-        mStorage = FirebaseStorage.getInstance();
-        mStorageRef = mStorage.getReference();
+        mStorageRef = FirebaseStorage.getInstance().getReference();
 
     }
 
