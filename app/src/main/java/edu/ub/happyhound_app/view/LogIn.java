@@ -16,6 +16,7 @@ import com.google.android.gms.common.SignInButton;
 import edu.ub.happyhound_app.R;
 import edu.ub.happyhound_app.model.DynamicLayout;
 import edu.ub.happyhound_app.model.FirebaseAuthManager;
+import edu.ub.happyhound_app.model.GoogleLogIn;
 import edu.ub.happyhound_app.model.ToastMessage;
 
 public class LogIn extends AppCompatActivity {
@@ -82,7 +83,7 @@ public class LogIn extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         googleLogIn.onActivityResult(requestCode, resultCode, data);
     }

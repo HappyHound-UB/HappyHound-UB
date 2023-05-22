@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Objects;
 
-import edu.ub.happyhound_app.MainActivity;
 import edu.ub.happyhound_app.R;
 import edu.ub.happyhound_app.model.SavePetInfo;
 import edu.ub.happyhound_app.model.ToastMessage;

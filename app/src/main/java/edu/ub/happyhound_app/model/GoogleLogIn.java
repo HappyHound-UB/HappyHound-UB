@@ -1,4 +1,4 @@
-package edu.ub.happyhound_app.view;
+package edu.ub.happyhound_app.model;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -19,9 +19,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.Objects;
 
-import edu.ub.happyhound_app.MainActivity;
+import edu.ub.happyhound_app.view.MainActivity;
 import edu.ub.happyhound_app.R;
-import edu.ub.happyhound_app.model.ToastMessage;
 
 public class GoogleLogIn {
     private static final int RC_SIGN_IN = 100;
@@ -45,12 +44,12 @@ public class GoogleLogIn {
         googleSignInClient = GoogleSignIn.getClient(activity, googleSignInOptions);
     }
 
-    protected void signInGoogle() {
+    public void signInGoogle() {
         Intent signInIntent = googleSignInClient.getSignInIntent();
         activity.startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == RC_SIGN_IN) {
             Log.d(TAG, "onActivityResult: Google Sign In intent result");
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
@@ -82,12 +81,14 @@ public class GoogleLogIn {
                         ToastMessage.displayToast(activity.getApplicationContext(), info);
 
                     } else
-                        ToastMessage.displayToast(activity.getApplicationContext(), "Google Sign In successful");
+                        ToastMessage.displayToast(activity.getApplicationContext(),
+                                "Google Sign In successful");
 
                     activity.startActivity(new Intent(activity.getApplicationContext(), MainActivity.class));
                     activity.finish();
                 }).addOnFailureListener(e ->
-                        ToastMessage.displayToast(activity.getApplicationContext(), "Error signing in  with Google"));
+                        ToastMessage.displayToast(activity.getApplicationContext(),
+                                "Error signing in  with Google"));
     }
 
 }

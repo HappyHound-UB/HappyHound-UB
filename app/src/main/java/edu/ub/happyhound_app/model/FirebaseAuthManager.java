@@ -15,8 +15,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.Objects;
 
-import edu.ub.happyhound_app.MainActivity;
-import edu.ub.happyhound_app.view.AuthenticationListener;
+import edu.ub.happyhound_app.view.MainActivity;
 import edu.ub.happyhound_app.view.ChangePasswordFragment;
 import edu.ub.happyhound_app.view.ForgotPassword;
 import edu.ub.happyhound_app.view.LogIn;
@@ -196,7 +195,7 @@ public class FirebaseAuthManager<T> {
                 });
     }
 
-    public void reAuthenticate(AuthenticationListener listener, String oldpass) {
+    public void reAuthenticate(FirebaseListener listener, String oldpass) {
 
         // Get auth credentials from the user for re-authentication. The example below shows
         // email and password credentials but there are multiple possible providers,
@@ -205,8 +204,8 @@ public class FirebaseAuthManager<T> {
 
         // Prompt the user to re-provide their sign-in credentials
         getUser().reauthenticate(credential)
-                .addOnSuccessListener(unused -> listener.onAuthenticationSuccess())
-                .addOnFailureListener(view -> listener.onAuthenticationFailure());
+                .addOnSuccessListener(unused -> listener.onSuccess())
+                .addOnFailureListener(view -> listener.onFailure());
     }
 
     /**

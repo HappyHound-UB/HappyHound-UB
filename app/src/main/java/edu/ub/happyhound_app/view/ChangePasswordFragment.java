@@ -18,9 +18,10 @@ import java.util.Objects;
 
 import edu.ub.happyhound_app.R;
 import edu.ub.happyhound_app.model.FirebaseAuthManager;
+import edu.ub.happyhound_app.model.FirebaseListener;
 import edu.ub.happyhound_app.model.ToastMessage;
 
-public class ChangePasswordFragment extends Fragment implements AuthenticationListener {
+public class ChangePasswordFragment extends Fragment implements FirebaseListener {
 
     private FirebaseAuthManager<ChangePasswordFragment> authManager;
     private TextInputLayout oldPassword, newPassword, confirmPassword;
@@ -66,7 +67,7 @@ public class ChangePasswordFragment extends Fragment implements AuthenticationLi
 
 
     @Override
-    public void onAuthenticationSuccess() {
+    public void onSuccess() {
         oldPassword.setError(null);
 
         if (newPasswordMatches(newpass, confpass)) {
@@ -77,13 +78,14 @@ public class ChangePasswordFragment extends Fragment implements AuthenticationLi
     }
 
     @Override
-    public void onAuthenticationFailure() {
+    public void onFailure() {
         if (newPasswordMatches(newpass, confpass)) {
             newPassword.setError(null);
             confirmPassword.setError(null);
         }
         displayError();
     }
+
 
     // ========================================
     //          METODOS PRIVADOS
