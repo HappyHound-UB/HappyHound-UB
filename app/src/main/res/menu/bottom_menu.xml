@@ -9,7 +9,7 @@
     <item
         android:icon="@drawable/baseline_calendar_icon"
         android:title="@string/agenda"
-        android:id="@+id/add" />
+        android:id="@+id/agenda" />
 
     <item
         android:title="@string/profile"

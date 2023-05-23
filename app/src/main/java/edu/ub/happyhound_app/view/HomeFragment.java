@@ -14,11 +14,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-//import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
@@ -27,9 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import edu.ub.happyhound_app.R;
 import edu.ub.happyhound_app.model.Card_dog;
 import edu.ub.happyhound_app.model.FirebaseAuthManager;
-import edu.ub.happyhound_app.R;
 import edu.ub.happyhound_app.model.ToastMessage;
 
 /**
@@ -49,8 +47,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private UserCardAdapter adapter;
     private StorageReference storageRef;
-    private FloatingActionButton addDogs, addNotification;
-    private FloatingActionsMenu menu;
+    private FloatingActionButton addDogs;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -99,21 +96,13 @@ public class HomeFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recyclerView_dogList);
         progressBar = view.findViewById(R.id.progressBar_dogList);
-        menu = view.findViewById(R.id.floatingMenu);
+//        menu = view.findViewById(R.id.floatingMenu);
         addDogs = view.findViewById(R.id.floatingAddPets);
-        addNotification = view.findViewById(R.id.floatingAddNotification);
 
         progressBar.setVisibility(View.VISIBLE);
         addDogs.setOnClickListener(view1 -> {
             Intent intent = new Intent(getActivity(), agregarPerro.class);
             startActivity(intent);
-            menu.collapse();
-        });
-
-        addNotification.setOnClickListener(view2 -> {
-            Intent intent = new Intent(getActivity(), CrearRecordatorio.class);
-            startActivity(intent);
-            menu.collapse();
         });
     }
 

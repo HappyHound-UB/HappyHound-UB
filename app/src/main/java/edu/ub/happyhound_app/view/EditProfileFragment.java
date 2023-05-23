@@ -133,7 +133,6 @@ public class EditProfileFragment extends Fragment {
         });
 
         editIcon.setOnClickListener(view12 -> storageManager.selectImage());
-
     }
 
     @Override

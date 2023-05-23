@@ -76,7 +76,6 @@ public class ChangePasswordFragment extends Fragment implements FirebaseListener
             authManager.changePassword(newpass);
         } else displayError();
     }
-
     @Override
     public void onFailure() {
         if (newPasswordMatches(newpass, confpass)) {
@@ -85,7 +84,6 @@ public class ChangePasswordFragment extends Fragment implements FirebaseListener
         }
         displayError();
     }
-
 
     // ========================================
     //          METODOS PRIVADOS

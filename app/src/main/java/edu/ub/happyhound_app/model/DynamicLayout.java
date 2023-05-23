@@ -2,6 +2,7 @@ package edu.ub.happyhound_app.model;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.TypedValue;
 
@@ -16,11 +17,12 @@ public class DynamicLayout {
     }
 
     @SuppressLint("ResourceAsColor")
-    private GradientDrawable changeShape() {
+    public static GradientDrawable changeShape() {
         GradientDrawable shape = new GradientDrawable();
         shape.setShape(GradientDrawable.RECTANGLE);
-//        shape.setCornerRadius(32);
-        shape.setColor(R.color.facebook_blue);
+        shape.setStroke(2, Color.BLACK);
+        shape.setCornerRadius(5);
+        shape.setColor(R.color.md_theme_light_inverseOnSurface);
         return shape;
     }
 }

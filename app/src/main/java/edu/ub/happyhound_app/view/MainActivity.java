@@ -1,11 +1,11 @@
 package edu.ub.happyhound_app.view;
 
-import androidx.fragment.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -14,9 +14,11 @@ import java.util.Objects;
 import edu.ub.happyhound_app.R;
 import edu.ub.happyhound_app.databinding.ActivityMainBinding;
 import edu.ub.happyhound_app.model.FirebaseAuthManager;
+import edu.ub.happyhound_app.model.NotificationManager;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuthManager<MainActivity> authManager;
+    private NotificationManager notificationManager;
     private ActivityMainBinding binding;
     Fragment selectedFragment = null;
     String tag = "";
@@ -39,8 +41,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         authManager = new FirebaseAuthManager<>(this, this);
+        notificationManager = new NotificationManager(this);
+        notificationManager.reminderPassed();
 
-        changeFragments(new HomeFragment(), "home_fragment");
+        int targetFragment = getIntent().getIntExtra("targetFragment", 1); // Default to Fragment 1
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
 
@@ -49,9 +53,9 @@ public class MainActivity extends AppCompatActivity {
                     selectedFragment = new HomeFragment();
                     tag = "home_fragment";
                     break;
-                case R.id.add:
-                    selectedFragment = new AddFragment();
-                    tag = "add_fragment";
+                case R.id.agenda:
+                    selectedFragment = new AgendaFragment();
+                    tag = "agenda_fragment";
                     break;
                 case R.id.profile:
                     selectedFragment = new ProfileFragment();
@@ -64,6 +68,24 @@ public class MainActivity extends AppCompatActivity {
 
             return true;
         });
+
+        // si queremos ir a otro fragmento desde otras actividades usamos este switch
+        switch (targetFragment) {
+            case 2:
+                selectedFragment = new AgendaFragment();
+                tag = "agenda_fragment";
+                break;
+            case 3:
+                selectedFragment = new ProfileFragment();
+                tag = "profile_fragment";
+                break;
+            default:
+                selectedFragment = new HomeFragment();
+                tag = "home_fragment";
+                break;
+        }
+
+        changeFragments(selectedFragment, tag);
     }
 
     @Override
