@@ -116,6 +116,7 @@ public class HomeFragment extends Fragment {
         } else {
             storageRef = storage.getReference().child(Objects.requireNonNull(authManager.getUser().getEmail()));
             load_list();
+
         }
     }
 

@@ -20,7 +20,7 @@ import edu.ub.happyhound_app.R;
 import edu.ub.happyhound_app.model.SavePetInfo;
 import edu.ub.happyhound_app.model.ToastMessage;
 
-public class agregarPerro extends AppCompatActivity {
+public class agregarPerro extends AppCompatActivity implements SaveCallback {
 
     private static final int REQUEST_CODE = 22;
     private EditText nombrePerro, edadPerro;
@@ -102,10 +102,22 @@ public class agregarPerro extends AppCompatActivity {
             }
         } else {
             SavePetInfo savePets = new SavePetInfo(this);
-            savePets.saveDogs(nombre, raza, edad, sexo, b);
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
-            finish();
+            savePets.saveDogs(nombre, raza, edad, sexo,b, this);
+
         }
+    }
+    @Override
+    public void onSaveComplete() {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onSaveFailure() {
+        // Manejar el fallo en la carga de imagen o creación del documento
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
