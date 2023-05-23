@@ -10,6 +10,7 @@ public interface FirebaseListener {
         editText.setText(data);
     }
 
+
     void onSuccess();
 
     void onFailure();

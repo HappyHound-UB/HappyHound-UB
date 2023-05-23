@@ -3,8 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
 
     <application
         android:name=".view.HappyHound"
@@ -15,7 +17,11 @@
         android:label="@string/happy_hound"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:enableOnBackInvokedCallback="true"
         tools:targetApi="31">
+        <activity
+            android:name=".view.SetReminder"
+            android:exported="true" />
         <activity
             android:name=".view.PasswordUpdateSuccess"
             android:exported="false" />
@@ -58,6 +64,17 @@
             android:name=".view.AlarmaComida"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+        <receiver
+            android:name=".model.NotificationReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:label="Notification Receiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.NOTIFICATION_RECEIVED" />
+            </intent-filter>
+        </receiver>
 
         <meta-data
             android:name="preloaded_fonts"

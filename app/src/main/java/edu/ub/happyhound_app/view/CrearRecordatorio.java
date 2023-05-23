@@ -1,17 +1,14 @@
 package edu.ub.happyhound_app.view;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.TypedValue;
-import android.view.View;
-import android.widget.Button;
-
 import edu.ub.happyhound_app.R;
-import edu.ub.happyhound_app.view.AlarmaComida;
-import edu.ub.happyhound_app.view.AlarmaPaseo;
+import edu.ub.happyhound_app.model.DynamicLayout;
 
 public class CrearRecordatorio extends AppCompatActivity {
 
@@ -20,35 +17,27 @@ public class CrearRecordatorio extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_recordatorio);
 
-        Button btnComida = (Button) findViewById(R.id.ComidaButton);
-        Button btnPaseo = (Button) findViewById(R.id.PaseoButton);
-        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.CrearRecordatoriosConstraint);
-        layout.setBackgroundColor(setDynamicLayout());
+        Button btnComida = findViewById(R.id.ComidaButton);
+        Button btnPaseo = findViewById(R.id.PaseoButton);
+        Button btnOtros = findViewById(R.id.OtroButton);
 
-        btnComida.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), AlarmaComida.class);
-                startActivity(intent);
-            }
+        ConstraintLayout layout = findViewById(R.id.CrearRecordatoriosConstraint);
+        layout.setBackgroundColor(DynamicLayout.setDynamicLayout(this));
+
+        btnComida.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), AlarmaComida.class);
+            startActivity(intent);
         });
 
-        btnPaseo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), AlarmaPaseo.class);
-                startActivity(intent);
-            }
+        btnPaseo.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), AlarmaPaseo.class);
+            startActivity(intent);
         });
 
-
-    }
-    private int setDynamicLayout() {
-        TypedValue typedValue = new TypedValue();
-        getTheme().resolveAttribute(android.R.attr.colorPrimary, typedValue, true);
-        return typedValue.data;
-
-//
+        btnOtros.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), SetReminder.class);
+            startActivity(intent);
+        });
     }
 
 }

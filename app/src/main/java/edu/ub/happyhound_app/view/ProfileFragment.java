@@ -36,7 +36,8 @@ public class ProfileFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private static final String TAG = "editProfile_fragment";
+    private static final String TAG_EDITPROFILE = "editProfile_fragment";
+    private static final String TAG_CHANGEPASSWORD = "changePassword_fragment";
 
     // TODO: Rename and change types of parameters
     private FirebaseAuthManager<ProfileFragment> authManager;
@@ -109,13 +110,14 @@ public class ProfileFragment extends Fragment {
         about = view.findViewById(R.id.button_Acerca);
         signOut = view.findViewById(R.id.button_log_out);
 
+
         layout.setBackgroundColor(DynamicLayout.setDynamicLayout(requireActivity()));
 
         editProfile.setOnClickListener(view1 -> {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction
-                    .replace(R.id.frameLayout, new EditProfileFragment(), TAG)
+                    .replace(R.id.frameLayout, new EditProfileFragment(), TAG_EDITPROFILE)
                     .addToBackStack(null)
                     .setReorderingAllowed(true)
 //                .addToBackStack("name")
@@ -126,7 +128,7 @@ public class ProfileFragment extends Fragment {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction
-                    .replace(R.id.frameLayout, new ChangePasswordFragment())
+                    .replace(R.id.frameLayout, new ChangePasswordFragment(), TAG_CHANGEPASSWORD)
                     .addToBackStack(null)
                     .setReorderingAllowed(true)
 //                .addToBackStack("name")
