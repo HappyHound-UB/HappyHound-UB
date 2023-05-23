@@ -2,10 +2,15 @@ package edu.ub.happyhound_app.model;
 
 import static android.content.ContentValues.TAG;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import edu.ub.happyhound_app.view.SaveCallback;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -15,6 +20,9 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+
+import edu.ub.happyhound_app.view.MainActivity;
 
 public class SavePetInfo {
     FirebaseFirestore db;
@@ -22,6 +30,7 @@ public class SavePetInfo {
     private FirebaseAuthManager<SavePetInfo> authManager;
     private StorageReference mStorageRef;
     private Activity activity;
+
 
     public SavePetInfo(Activity activity) {
         this.activity = activity;
@@ -40,7 +49,7 @@ public class SavePetInfo {
      * @param sexo   sexo del perro
      * @param b      bitmap
      */
-    public void saveDogs(String nombre, String raza, String edad, String sexo, Bitmap b) {
+    public void saveDogs(String nombre, String raza, String edad, String sexo, Bitmap b,  SaveCallback callback) {
         if (nombre.isEmpty() || raza.isEmpty() || edad.isEmpty() || sexo.isEmpty()) {
             return;
         }
@@ -56,19 +65,6 @@ public class SavePetInfo {
         perros.put("edad", edad);
         perros.put("sexo", sexo);
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        b.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] data = baos.toByteArray();
-
-        UploadTask uploadTask = mStorageRef.child(authManager.getUser().getEmail() + "/" + nombre + ".jpg").putBytes(data);
-        uploadTask.addOnFailureListener(exception -> {
-            // Handle unsuccessful uploads
-            ToastMessage.displayToast(activity.getApplicationContext(), "\"Fallo al subir la imagen\"");
-        }).addOnSuccessListener(taskSnapshot -> {
-            // Handle successful uploads
-            // ToastMessage.displayToast(activity.getApplicationContext(), "Imagen subida con éxito");
-        });
-
         documentReference.set(perros)
                 .addOnSuccessListener(aVoid -> {
                     Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
@@ -78,5 +74,24 @@ public class SavePetInfo {
                     Log.w(TAG, "Error adding document", e);
                     ToastMessage.displayToast(activity.getApplicationContext(), "No se ha podido guardar el `perro");
                 });
-    }
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        b.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = mStorageRef.child(authManager.getUser().getEmail() + "/" + nombre + ".jpg").putBytes(data);
+        uploadTask.addOnFailureListener(exception -> {
+            // Handle unsuccessful uploads
+            ToastMessage.displayToast(activity.getApplicationContext(), "\"Fallo al subir la imagen\"");
+            callback.onSaveFailure();
+
+
+        }).addOnSuccessListener(taskSnapshot -> {
+            // Handle successful uploads
+            Log.d("Carga", "Completada");
+            // La tarea se completó con éxito
+            callback.onSaveComplete();
+                   });
+          }
+
 }
