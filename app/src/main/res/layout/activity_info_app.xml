@@ -1,0 +1,60 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tool="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/GrisOscuro"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+
+        <LinearLayout
+            android:layout_width="378dp"
+            android:layout_height="91dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                tool:layout_editor_absoluteX="100dp"
+                tool:layout_editor_absoluteY="325dp"
+                android:src="@drawable/happyhound_logo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:text="Acerca de nuestra empresa:"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="398dp"
+            android:lineSpacingExtra="8dp"
+            android:text="Nuestra Aplicacion va enfocada hacia los animales de compañía,
+concretamente los perros. Nuestra idea principal fue realizar una app de ayuda
+para mejorar el seguimiento del perro por parte de su propietario ofreciendo
+información y recordatorios sobre la hora del paseo, comida y vacunas.
+                                    Nuestra empresa quiere ofrecer el mejor servicio y por ello
+nos gusta mucho que los usuarios comenten sus problemas y nos den su feedback. "
+            android:textColor="#FBFBFB"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="213dp"
+            android:lineSpacingExtra="8dp"
+            android:text="Nos podeis dejar todas vuestras opiniones i dudas en el siguiente correo aqui abajo:              HappyHound@gmail.com                                    "
+            android:textColor="#FBFBFB"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+</ScrollView>
