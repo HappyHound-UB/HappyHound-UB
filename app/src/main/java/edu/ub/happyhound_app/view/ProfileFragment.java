@@ -1,5 +1,6 @@
 package edu.ub.happyhound_app.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -145,7 +146,14 @@ public class ProfileFragment extends Fragment {
         });
 
         getUserInfo();
+
+        about.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getActivity(), InfoApp.class);
+            startActivity(intent);
+        });
+
     }
+
 
     private void getUserInfo() {
         username.setText(Objects.requireNonNull(authManager.getUser().getDisplayName()));
