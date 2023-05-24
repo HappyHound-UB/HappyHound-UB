@@ -42,7 +42,7 @@ public class EditProfileFragment extends Fragment {
     private ConstraintLayout layout;
     private String nombre, numero, direccion, ciudad, codigoPostal;
     private CircleImageView profilePic;
-    private ImageView editIcon;
+    private ImageView editIcon, returnB;
     private FirebaseStorageManager storageManager;
     private ProfileViewModel profileViewModel;
 
@@ -105,6 +105,7 @@ public class EditProfileFragment extends Fragment {
         saveData = view.findViewById(R.id.saveData);
         profilePic = view.findViewById(R.id.profile_image);
         editIcon = view.findViewById(R.id.edit_icon);
+        returnB = view.findViewById(R.id.return_back);
 
         layout.setBackgroundColor(DynamicLayout.setDynamicLayout(requireActivity()));
 
@@ -133,6 +134,7 @@ public class EditProfileFragment extends Fragment {
         });
 
         editIcon.setOnClickListener(view12 -> storageManager.selectImage());
+        returnB.setOnClickListener(view12 -> {requireActivity().onBackPressed();});
     }
 
     @Override
