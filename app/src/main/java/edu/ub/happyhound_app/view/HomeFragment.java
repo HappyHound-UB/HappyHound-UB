@@ -29,6 +29,7 @@ import edu.ub.happyhound_app.R;
 import edu.ub.happyhound_app.model.Card_dog;
 import edu.ub.happyhound_app.model.FirebaseAuthManager;
 import edu.ub.happyhound_app.model.ToastMessage;
+import edu.ub.happyhound_app.model.UserCardAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -165,7 +166,7 @@ public class HomeFragment extends Fragment {
         });
 
 
-        adapter = new UserCardAdapter(fieldsList);
+        adapter = new UserCardAdapter(requireActivity().getSupportFragmentManager(), fieldsList);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

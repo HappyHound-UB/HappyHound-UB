@@ -24,6 +24,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import edu.ub.happyhound_app.R;
+import edu.ub.happyhound_app.model.SaveCallback;
 import edu.ub.happyhound_app.model.SavePetInfo;
 import edu.ub.happyhound_app.model.ToastMessage;
 

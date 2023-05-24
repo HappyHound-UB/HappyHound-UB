@@ -36,9 +36,6 @@
         </activity>
 
         <activity
-            android:name=".view.Calendario"
-            android:exported="true" />
-        <activity
             android:name=".view.agregarPerro"
             android:exported="true" />
         <activity

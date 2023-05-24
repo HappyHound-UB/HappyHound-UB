@@ -5,78 +5,91 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.AgendaFragment">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/paseo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:fontFamily="@font/quicksand_bold"
                 android:padding="10dp"
                 android:text="Paseos"
                 android:textAllCaps="true"
-                android:textSize="30sp" />
+                android:textSize="30sp"
+                app:layout_constraintBottom_toTopOf="@+id/rv_reminderPaseoList"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_reminderPaseoList"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/comida"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/paseo" />
 
             <TextView
+                android:id="@+id/comida"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:fontFamily="@font/quicksand_bold"
                 android:padding="10dp"
                 android:text="Comidas"
                 android:textAllCaps="true"
-                android:textSize="30sp" />
+                android:textSize="30sp"
+                app:layout_constraintBottom_toTopOf="@+id/rv_reminderComidaList"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rv_reminderPaseoList" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_reminderComidaList"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/otros"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/comida" />
 
             <TextView
+                android:id="@+id/otros"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="9dp"
                 android:fontFamily="@font/quicksand_bold"
                 android:padding="10dp"
                 android:text="Otros"
                 android:textAllCaps="true"
-                android:textSize="30sp" />
+                android:textSize="30sp"
+                app:layout_constraintBottom_toTopOf="@+id/rv_reminderOtrosList"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rv_reminderComidaList" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_reminderOtrosList"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/otros" />
 
-        </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

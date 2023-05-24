@@ -1,5 +1,6 @@
-package edu.ub.happyhound_app.view;
+package edu.ub.happyhound_app.model;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,20 +8,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-import edu.ub.happyhound_app.model.Card_dog;
 import edu.ub.happyhound_app.R;
+import edu.ub.happyhound_app.view.infoPerros;
 
 public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.MyViewHolder> {
 
+    private static final String TAG_INFOPERROS = "infoPerros_fragment";
+    private FragmentManager fragmentManager;
     private List<Card_dog> itemList;
 
-    public UserCardAdapter(List<Card_dog> itemList) {
+    public UserCardAdapter(FragmentManager supportFragmentManager, List<Card_dog> itemList) {
+        this.fragmentManager = supportFragmentManager;
         this.itemList = itemList;
     }
 
@@ -33,6 +39,27 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.MyView
         Glide.with(holder.itemView.getContext())
                 .load(c.getDog_url())
                 .into(holder.image);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                infoPerros fragment = new infoPerros();
+
+                // Pass the pet data to the fragment as arguments
+                Bundle bundle = new Bundle();
+                bundle.putString("name", holder.textView.getText().toString());
+                fragment.setArguments(bundle);
+
+
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.frameLayout, fragment, TAG_INFOPERROS);
+                transaction.addToBackStack(null); // Add to back stack
+                transaction.commit();
+            }
+        });
+
     }
 
     @NonNull

@@ -81,7 +81,6 @@ public class EditProfileFragment extends Fragment {
         }
 
         profileViewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
-
         authManager = new FirebaseAuthManager<>(getActivity(), this);
     }
 
@@ -113,7 +112,7 @@ public class EditProfileFragment extends Fragment {
         changeState(false);
 
         storageManager = new FirebaseStorageManager(requireActivity(), profilePic);
-        storageManager.displayImage("/Profile Images/profile_Image.jpg");
+        storageManager.displayImage("Profile Images/profile_Image.jpg");
 
         modifyData.setOnClickListener(view1 -> changeState(true));
 
@@ -134,7 +133,7 @@ public class EditProfileFragment extends Fragment {
         });
 
         editIcon.setOnClickListener(view12 -> storageManager.selectImage());
-        returnB.setOnClickListener(view12 -> {requireActivity().onBackPressed();});
+        returnB.setOnClickListener(view12 -> requireActivity().onBackPressed());
     }
 
     @Override

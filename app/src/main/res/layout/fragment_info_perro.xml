@@ -3,21 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/editProfileFrame"
-    android:background="@drawable/background_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.EditProfileFragment">
-
-    <ImageView
-        android:id="@+id/tirarAtras"
-        android:layout_width="wrap_content"
-        android:layout_height="42dp"
-        android:clickable="true"
-        android:contentDescription="Go back"
-        android:minWidth="48dp"
-        android:minHeight="48dp"
-        android:padding="5dp"
-        android:src="@drawable/baseline_keyboard_backspace_24" />
+    tools:context=".view.infoPerros">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,8 +13,42 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/return_back_infoPerro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:clickable="true"
+            android:contentDescription="Go back"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:padding="5dp"
+            android:src="@drawable/baseline_keyboard_backspace_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewEliminar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="@font/asap_bold"
+            android:gravity="center|end"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:padding="5dp"
+            android:text="Eliminar"
+            android:textAllCaps="true"
+            android:textColor="@color/eliminar"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_image"
+            android:id="@+id/pet_image"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:elevation="8dp"
@@ -52,8 +74,8 @@
             android:minHeight="48dp"
             android:padding="8dp"
             android:src="@drawable/baseline_edit_24"
-            app:layout_constraintBottom_toBottomOf="@id/profile_image"
-            app:layout_constraintEnd_toEndOf="@id/profile_image" />
+            app:layout_constraintBottom_toBottomOf="@id/pet_image"
+            app:layout_constraintEnd_toEndOf="@id/pet_image" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
@@ -268,8 +290,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
                         android:layout_marginBottom="30dp"
-                        android:text="Guardar Datos"
                         android:backgroundTint="@color/fondo_boton_orange"
+                        android:text="Guardar Datos"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -296,22 +318,5 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <TextView
-            android:id="@+id/textViewEliminar"
-            android:layout_width="157dp"
-            android:layout_height="39dp"
-            android:layout_marginTop="4dp"
-            android:ems="7"
-            android:fontFamily="@font/asap_bold"
-            android:gravity="center|right"
-            android:text="Eliminar"
-            android:textColor="@color/eliminar"
-            app:layout_constraintBottom_toTopOf="@+id/profile_image"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.937"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.055" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
