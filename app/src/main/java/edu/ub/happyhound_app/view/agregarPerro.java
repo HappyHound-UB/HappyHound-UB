@@ -2,6 +2,8 @@ package edu.ub.happyhound_app.view;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.widget.ArrayAdapter;
@@ -10,11 +12,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.app.DatePickerDialog;
+import android.widget.DatePicker;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Calendar;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import edu.ub.happyhound_app.R;
 import edu.ub.happyhound_app.model.SavePetInfo;
@@ -31,6 +38,15 @@ public class agregarPerro extends AppCompatActivity implements SaveCallback {
     private String nombre, raza, edad, sexo;
     private boolean fotoTomada = false;
     private  Bitmap b;
+
+    Calendar calendar = Calendar.getInstance();
+    final int year = calendar.get(Calendar.YEAR);
+    final int month = calendar.get(Calendar.MONTH);
+    final int day = calendar.get(Calendar.DAY_OF_MONTH);
+    DatePickerDialog.OnDateSetListener listener;
+
+    Timer timer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +85,92 @@ public class agregarPerro extends AppCompatActivity implements SaveCallback {
             startActivityForResult(cameraIntent, REQUEST_CODE);
         });
         btnCancelar.setOnClickListener(view -> finish());
+
+        edadPerro.setOnClickListener(view -> {
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                    android.R.style.Theme_Holo_Light_Dialog_MinWidth, listener, year, month, day);
+            datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            datePickerDialog.show();
+        });
+
+        listener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month = month + 1; // Opcional si deseas mostrar el mes con valores del 1 al 12 en lugar del 0 al 11
+                String date = dayOfMonth + "/" + month + "/" + year;
+                edadPerro.setText(date);
+
+                // Obtener la fecha de nacimiento seleccionada
+                Calendar fechaNacimiento = Calendar.getInstance();
+                fechaNacimiento.set(year, month - 1, dayOfMonth); // Resta 1 al mes
+
+                // Calcular y mostrar la edad inicial
+                actualizarEdadPerro(fechaNacimiento);
+
+                // Iniciar el temporizador para actualizar la edad periódicamente
+                iniciarTemporizador(fechaNacimiento);
+            }
+        };
+
+
+    }
+
+    private void iniciarTemporizador(final Calendar fechaNacimiento) {
+        // Cancelar el temporizador si ya está en ejecución
+        if (timer != null) {
+            timer.cancel();
+        }
+
+        // Crear un nuevo temporizador
+        timer = new Timer();
+
+        // Programar una tarea periódica para actualizar la edad cada segundo
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                // Actualizar la edad actualizada en el hilo principal de la interfaz de usuario
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        actualizarEdadPerro(fechaNacimiento);
+                    }
+                });
+            }
+        }, 0, 1000); // Actualizar cada segundo (1000 ms)
+    }
+    private void actualizarEdadPerro(Calendar fechaNacimiento) {
+        // Obtener la fecha actual
+        Calendar fechaActual = Calendar.getInstance();
+
+        // Calcular la diferencia de años
+        int edad = fechaActual.get(Calendar.YEAR) - fechaNacimiento.get(Calendar.YEAR);
+
+        // Verificar si aún no ha pasado el cumpleaños este año
+        if (fechaActual.get(Calendar.MONTH) < fechaNacimiento.get(Calendar.MONTH) ||
+                (fechaActual.get(Calendar.MONTH) == fechaNacimiento.get(Calendar.MONTH) &&
+                        fechaActual.get(Calendar.DAY_OF_MONTH) < fechaNacimiento.get(Calendar.DAY_OF_MONTH))) {
+            edad--;
+        }
+
+        String edadTexto;
+        // Actualizar el texto con la edad calculada
+        if (edad > 1) {
+            edadTexto = edad + " años";
+        } else if (edad == 1) {
+            edadTexto = edad + " año";
+        } else {
+            int meses = fechaActual.get(Calendar.MONTH) - fechaNacimiento.get(Calendar.MONTH);
+            if (meses < 0) {
+                meses = meses + 12; // Ajustar si el mes actual es menor al mes de nacimiento
+            }
+            if (meses == 1) {
+                edadTexto = meses + " mes";
+            } else {
+                edadTexto = meses + " meses";
+            }
+        }
+
+        edadPerro.setText(edadTexto);
     }
 
     @Override

@@ -42,7 +42,7 @@ public class infoPerros extends Fragment {
     private ConstraintLayout layout;
     private String nombre, edad, sexo, raza;
     private CircleImageView profilePic;
-    private ImageView editIcon;
+    private ImageView editIcon, flechaAtras;
     private FirebaseStorageManager storageManager;
     private ProfileViewModel profileViewModel;
 
@@ -104,6 +104,7 @@ public class infoPerros extends Fragment {
         saveData = view.findViewById(R.id.guardarDatos);
         profilePic = view.findViewById(R.id.profile_image);
         editIcon = view.findViewById(R.id.edit_icon);
+        flechaAtras = view.findViewById(R.id.tirarAtras);
 
         layout.setBackgroundColor(DynamicLayout.setDynamicLayout(requireActivity()));
 
@@ -132,7 +133,9 @@ public class infoPerros extends Fragment {
             //profileViewModel.changeUsername(nombre);
         });
 
-        editIcon.setOnClickListener(view12 -> storageManager.selectImage());
+        editIcon.setOnClickListener(view13 -> storageManager.selectImage());
+        flechaAtras.setOnClickListener(view13 -> {requireActivity().onBackPressed();});
+
 
     }
 
