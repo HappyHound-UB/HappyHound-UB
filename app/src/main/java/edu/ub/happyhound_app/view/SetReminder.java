@@ -18,6 +18,7 @@ import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +26,6 @@ import java.util.Locale;
 import java.util.Objects;
 
 import edu.ub.happyhound_app.R;
-import edu.ub.happyhound_app.model.DynamicLayout;
 import edu.ub.happyhound_app.model.NotificationManager;
 import edu.ub.happyhound_app.model.Reminder;
 import edu.ub.happyhound_app.model.SearchDatabase;
@@ -33,10 +33,8 @@ import edu.ub.happyhound_app.model.ToastMessage;
 
 public class SetReminder extends AppCompatActivity {
 
-    String selectedPet;
-    private Button selDate, selTime, save;
-    private ImageView returnBack;
-    private Spinner spinner;
+    String selectedPet, selectedType;
+    private Spinner spinner, typeSpinner;
     private TextInputLayout notes;
     private MaterialTextView showDate, showTime;
     private Calendar calendar;
@@ -47,30 +45,19 @@ public class SetReminder extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_reminder);
 
+        typeSpinner = findViewById(R.id.type_spinner);
         spinner = findViewById(R.id.spinner);
         notes = findViewById(R.id.description);
-        selDate = findViewById(R.id.selectDate);
-        selTime = findViewById(R.id.selectTime);
+        Button selDate = findViewById(R.id.selectDate);
+        Button selTime = findViewById(R.id.selectTime);
         showDate = findViewById(R.id.dateText);
         showTime = findViewById(R.id.timeText);
-        save = findViewById(R.id.saveButton);
-        returnBack = findViewById(R.id.return_back);
+        Button save = findViewById(R.id.saveButton);
+        ImageView returnBack = findViewById(R.id.return_back);
 
+        addTypeSpinnerContent(typeSpinner);
         addSpinnerContent(spinner);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i != 0) spinner.setBackgroundColor(com.google.type.Color.GREEN_FIELD_NUMBER);
-                else
-                    spinner.setBackgroundColor(getResources().getColor(R.color.md_theme_light_inverseOnSurface));
-                selectedPet = (String) adapterView.getItemAtPosition(i);
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
 
         calendar = Calendar.getInstance();
         reminder = new Reminder();
@@ -81,8 +68,8 @@ public class SetReminder extends AppCompatActivity {
 
         NotificationManager manager = new NotificationManager(this);
         save.setOnClickListener(view -> {
-            if (!checkDateTime() && spinner.getSelectedItemPosition() != 0) {
-                manager.setReminder(reminder, calendar.getTimeInMillis(), selectedPet);
+            if (!checkDateTime() && spinner.getSelectedItemPosition() != 0 && typeSpinner.getSelectedItemPosition() != 0) {
+                manager.setReminder(reminder, reminder.getTimeInMillis(), selectedPet);
 
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -94,8 +81,32 @@ public class SetReminder extends AppCompatActivity {
                 if (spinner.getSelectedItemPosition() == 0)
                     ToastMessage.displayToast(getApplicationContext(),
                             "Elige un perro");
+                else if (typeSpinner.getSelectedItemPosition() == 0)
+                    ToastMessage.displayToast(getApplicationContext(),
+                            "Elige el tipo de recordatorio");
                 else ToastMessage.displayToast(getApplicationContext(),
-                        "Elige una fecha y tiempo para el recordatorio");
+                            "Elige una fecha y tiempo para el recordatorio");
+            }
+        });
+    }
+
+    private void addTypeSpinnerContent(Spinner spinner) {
+        List<String> allTypes = Arrays.asList("Que tipo de recordatorio quieres", "Paseo", "Comida", "Otros");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, allTypes);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner.setAdapter(adapter);
+        spinner.setSelection(0);
+
+        typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                selectedType = (String) adapterView.getItemAtPosition(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
     }
@@ -109,7 +120,16 @@ public class SetReminder extends AppCompatActivity {
 
         spinner.setAdapter(adapter);
         spinner.setSelection(0);
-        spinner.setBackground(DynamicLayout.changeShape());
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                selectedPet = (String) adapterView.getItemAtPosition(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
     }
 
     private boolean checkDateTime() {
@@ -119,7 +139,8 @@ public class SetReminder extends AppCompatActivity {
         if (dateView.isEmpty() || timeView.isEmpty())
             return true;
         else {
-            reminder.setTitle(spinner.getSelectedItem().toString());
+            reminder.setName(spinner.getSelectedItem().toString());
+            reminder.setType(typeSpinner.getSelectedItem().toString());
             reminder.setDescription(Objects.requireNonNull(notes.getEditText()).getText().toString());
             reminder.setDate(dateView);
             reminder.setTime(timeView);
@@ -176,6 +197,5 @@ public class SetReminder extends AppCompatActivity {
 
         timePicker.show(getSupportFragmentManager(), "timePicker");
     }
-
 
 }

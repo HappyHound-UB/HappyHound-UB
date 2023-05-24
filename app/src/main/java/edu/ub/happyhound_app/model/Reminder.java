@@ -2,7 +2,8 @@ package edu.ub.happyhound_app.model;
 
 public class Reminder {
 
-    private String title;
+    private String name;
+    private String type;
     private String description;
     private String date;
     private String time;
@@ -11,19 +12,28 @@ public class Reminder {
     public Reminder() {
     }
 
-    public Reminder(String title, String description, String date, String time) {
-        this.title = title;
+    public Reminder(String name, String type, String description, String date, String time) {
+        this.name = name;
+        this.type = type;
         this.description = description;
         this.date = date;
         this.time = time;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getDescription() {

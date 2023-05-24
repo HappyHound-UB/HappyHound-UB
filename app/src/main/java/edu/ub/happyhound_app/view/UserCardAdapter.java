@@ -19,23 +19,20 @@ import edu.ub.happyhound_app.R;
 public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.MyViewHolder> {
 
     private List<Card_dog> itemList;
-    private static final int VIEW_TYPE_ITEM = 0;
-    private static final int VIEW_TYPE_LOADING = 1;
+
     public UserCardAdapter(List<Card_dog> itemList) {
         this.itemList = itemList;
     }
 
     // Implementa los métodos necesarios de RecyclerView.Adapter
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView textView1;
-
-        private ImageView image;
-        public MyViewHolder(View itemView) {
-            super(itemView);
-            textView1 = itemView.findViewById(R.id.textView_card);
-            image = itemView.findViewById(R.id.imageView_card);
-        }
+    @Override
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        Card_dog c = itemList.get(position);
+        holder.textView.setText(c.getDog_name());
+        Glide.with(holder.itemView.getContext())
+                .load(c.getDog_url())
+                .into(holder.image);
     }
 
     @NonNull
@@ -46,13 +43,16 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.MyView
         return new MyViewHolder(itemView);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Card_dog c = itemList.get(position);
-        holder.textView1.setText(c.getDog_name());
-        Glide.with(holder.itemView.getContext())
-                .load(c.getDog_url())
-                .into(holder.image);
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView textView;
+
+        private ImageView image;
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            textView = itemView.findViewById(R.id.petName);
+            image = itemView.findViewById(R.id.imageView_card);
+        }
     }
 
     @Override

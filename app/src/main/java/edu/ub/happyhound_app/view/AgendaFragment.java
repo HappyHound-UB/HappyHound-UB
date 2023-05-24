@@ -2,16 +2,15 @@ package edu.ub.happyhound_app.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Handler;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -20,28 +19,28 @@ import java.util.List;
 
 import edu.ub.happyhound_app.R;
 import edu.ub.happyhound_app.model.DynamicRV_Adapter;
-import edu.ub.happyhound_app.model.FirebaseListener;
 import edu.ub.happyhound_app.model.NotificationManager;
 import edu.ub.happyhound_app.model.Reminder;
 import edu.ub.happyhound_app.model.ReminderManager;
 import edu.ub.happyhound_app.model.SearchDatabase;
+import edu.ub.happyhound_app.model.StorageListener;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link AgendaFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AgendaFragment extends Fragment implements FirebaseListener {
-
-    private List<Reminder> remindersList;
-    private DynamicRV_Adapter dynamicRVAdapter;
-    private FloatingActionButton addNotification;
+public class AgendaFragment extends Fragment implements StorageListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private List<Reminder> paseoRemindersList, comidaRemindersList, otherRemindersList;
+    //    private DynamicRV_AdapterPaseo adapterPaseo;
+//    private DynamicRV_AdapterComida adapterComida;
+    private DynamicRV_Adapter adapterOtros, adapterPaseo, adapterComida;
+    private FloatingActionButton addNotification;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -80,8 +79,12 @@ public class AgendaFragment extends Fragment implements FirebaseListener {
 
         // buscamos las notificaciones pendientes
         SearchDatabase database = new SearchDatabase();
-        database.getAllReminders(this);
-        remindersList = new ArrayList<>();
+        database.getReminders(this, "Paseo");
+        database.getReminders(this, "Comida");
+        database.getReminders(this, "Otros");
+        paseoRemindersList = new ArrayList<>();
+        comidaRemindersList = new ArrayList<>();
+        otherRemindersList = new ArrayList<>();
 
     }
 
@@ -92,22 +95,13 @@ public class AgendaFragment extends Fragment implements FirebaseListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_agenda, container, false);
 
-        RecyclerView recyclerView = view.findViewById(R.id.rv_reminderOtrosList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        dynamicRVAdapter = new DynamicRV_Adapter(recyclerView, getActivity(), remindersList);
-        recyclerView.setAdapter(dynamicRVAdapter);
+        RecyclerView paseoRecyclerView = view.findViewById(R.id.rv_reminderPaseoList);
+        RecyclerView comidaRecyclerView = view.findViewById(R.id.rv_reminderComidaList);
+        RecyclerView otherRecyclerView = view.findViewById(R.id.rv_reminderOtrosList);
 
-        dynamicRVAdapter.setLoadMore(() -> {
-
-            if (remindersList.size() <= 5) {
-                remindersList.add(null);
-                dynamicRVAdapter.notifyItemInserted(remindersList.size() - 1);
-                new Handler().postDelayed(() -> {
-                    remindersList.remove(remindersList.size() - 1);
-                    dynamicRVAdapter.notifyItemRemoved(remindersList.size());
-                }, 3000);
-            }
-        });
+        adapterPaseo = setRecycleView(paseoRecyclerView, paseoRemindersList);
+        adapterComida = setRecycleView(comidaRecyclerView, comidaRemindersList);
+        adapterOtros = setRecycleView(otherRecyclerView, otherRemindersList);
 
         return view;
     }
@@ -117,19 +111,52 @@ public class AgendaFragment extends Fragment implements FirebaseListener {
 
         addNotification = view.findViewById(R.id.floatingAddNotification);
         addNotification.setOnClickListener(view2 -> {
-            Intent intent = new Intent(getActivity(), CrearRecordatorio.class);
+            Intent intent = new Intent(requireActivity(), SetReminder.class);
             startActivity(intent);
         });
     }
 
     @Override
-    public void onSuccess() {
-        List<Reminder> reminders = ReminderManager.getReminderList();
-        remindersList.addAll(reminders);
-        dynamicRVAdapter.notifyDataSetChanged();
+    public void onSuccessPaseoList() {
+        List<Reminder> paseoReminders = ReminderManager.getPaseoReminderList();
+        paseoRemindersList.addAll(paseoReminders);
+        adapterPaseo.notifyDataSetChanged();
     }
 
     @Override
-    public void onFailure() {
+    public void onSuccessComidaList() {
+        List<Reminder> comidaReminders = ReminderManager.getComidaReminderList();
+        comidaRemindersList.addAll(comidaReminders);
+        adapterComida.notifyDataSetChanged();
     }
+
+    @Override
+    public void onSuccessOtherList() {
+        List<Reminder> otherReminders = ReminderManager.getOtherReminderList();
+        otherRemindersList.addAll(otherReminders);
+        adapterOtros.notifyDataSetChanged();
+    }
+
+    private DynamicRV_Adapter setRecycleView(RecyclerView recyclerView, List<Reminder> remindersList) {
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        DynamicRV_Adapter rvAdapter = new DynamicRV_Adapter(recyclerView, getActivity(), remindersList);
+        recyclerView.setAdapter(rvAdapter);
+
+        rvAdapter.setLoadMore(() -> {
+
+            if (remindersList.size() <= 5) {
+                remindersList.add(null);
+                rvAdapter.notifyItemInserted(remindersList.size() - 1);
+                new Handler().postDelayed(() -> {
+                    remindersList.remove(remindersList.size() - 1);
+                    rvAdapter.notifyItemRemoved(remindersList.size());
+                }, 3000);
+            }
+        });
+
+        return rvAdapter;
+    }
+
+
 }

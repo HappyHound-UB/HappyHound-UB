@@ -28,11 +28,11 @@ class LoadingViewHolder extends RecyclerView.ViewHolder {
 
 class ItemViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView title, description, date, time;
+    public TextView name, description, date, time;
 
     public ItemViewHolder(@NonNull View itemView) {
         super(itemView);
-        title = itemView.findViewById(R.id.title);
+        name = itemView.findViewById(R.id.name);
         description = itemView.findViewById(R.id.detail);
         date = itemView.findViewById(R.id.dateRV);
         time = itemView.findViewById(R.id.timeRV);
@@ -41,7 +41,8 @@ class ItemViewHolder extends RecyclerView.ViewHolder {
 
 public class DynamicRV_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final int VIEW_TYPE_ITEM = 0, VIEW_TYPE_LOADING = 1;
+    private static final int VIEW_TYPE_LOADING = 1;
+    private static final int TYPE_PASEO = 100, TYPE_COMIDA = 200, TYPE_OTHERS = 300;
     LoadMore loadMore;
     boolean isLoading;
     Activity activity;
@@ -72,7 +73,14 @@ public class DynamicRV_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemViewType(int position) {
-        return remindersList.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
+        if (remindersList.get(position) == null) {
+            return VIEW_TYPE_LOADING;
+        } else {
+            String type = remindersList.get(position).getType();
+            if (Objects.equals(type, "Paseo")) return TYPE_PASEO;
+            else if (Objects.equals(type, "Comida")) return TYPE_COMIDA;
+            else return TYPE_OTHERS;
+        }
     }
 
     public void setLoadMore(LoadMore loadMore) {
@@ -83,9 +91,18 @@ public class DynamicRV_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        if (viewType == VIEW_TYPE_ITEM) {
-            View view = LayoutInflater.from(activity).inflate(R.layout.dynamic_rv_reminder_layout, parent, false);
+        if (viewType == TYPE_PASEO) {
+            View view = LayoutInflater.from(activity).inflate(R.layout.dynamic_rv_paseo_reminder_layout, parent, false);
             return new ItemViewHolder(view);
+
+        } else if (viewType == TYPE_COMIDA) {
+            View view = LayoutInflater.from(activity).inflate(R.layout.dynamic_rv_comida_reminder_layout, parent, false);
+            return new ItemViewHolder(view);
+
+        } else if (viewType == TYPE_OTHERS) {
+            View view = LayoutInflater.from(activity).inflate(R.layout.dynamic_rv_other_reminder_layout, parent, false);
+            return new ItemViewHolder(view);
+
         } else if (viewType == VIEW_TYPE_LOADING) {
             View view = LayoutInflater.from(activity).inflate(R.layout.dynamic_rv_progressbar, parent, false);
             return new LoadingViewHolder(view);
@@ -99,7 +116,7 @@ public class DynamicRV_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (holder instanceof ItemViewHolder) {
             Reminder reminder = remindersList.get(position);
             ItemViewHolder viewHolder = (ItemViewHolder) holder;
-            viewHolder.title.setText(reminder.getTitle());
+            viewHolder.name.setText(reminder.getName());
             viewHolder.description.setText(reminder.getDescription());
             viewHolder.date.setText(reminder.getDate());
             viewHolder.time.setText(reminder.getTime());

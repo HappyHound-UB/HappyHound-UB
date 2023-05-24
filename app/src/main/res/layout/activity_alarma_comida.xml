@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/GrisOscuro"
     android:padding="30dp"
     tools:context="view.SetReminder">
 
@@ -25,7 +24,7 @@
             android:src="@drawable/baseline_keyboard_backspace_24" />
 
         <ImageView
-            android:id="@+id/other_notification_icon"
+            android:id="@+id/comida_notification_icon"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
@@ -34,19 +33,18 @@
             android:src="@drawable/pngegg" />
 
         <TextView
-            android:id="@+id/other_notification_title"
+            android:id="@+id/comida_notification_title"
             android:layout_width="wrap_content"
-            android:layout_height="71dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
             android:fontFamily="@font/asap_bold"
             android:gravity="center"
-            android:text="Alarma comida"
+            android:text="Recordatorio comida"
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="#DF4006"
             android:textSize="30sp" />
-
 
 
         <RelativeLayout
@@ -58,7 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/borde_rojo"
+                android:background="@drawable/border_background"
                 android:minHeight="48dp" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -67,13 +65,11 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/spinner"
                 android:layout_marginTop="10dp"
-                android:hint="Añadir un mensaje a la notificación:"
-                android:textColorHint="#DF4006"
+                android:hint="Mensaje"
                 app:boxBackgroundColor="@color/md_theme_light_inverseOnSurface"
                 app:boxStrokeColor="@color/black"
                 app:boxStrokeWidthFocused="2dp"
-                app:startIconDrawable="@drawable/baseline_notes_24"
-                app:startIconTint="@color/white">
+                app:startIconDrawable="@drawable/baseline_notes_24">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -153,10 +149,9 @@
 
                 <Button
                     android:id="@+id/saveButton"
-                    android:layout_width="102dp"
-                    android:layout_height="56dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/borde_rojo"
-
                     android:fontFamily="@font/asap_bold"
                     android:text="GUARDAR"
                     android:textColor="@color/white"

@@ -6,21 +6,22 @@
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imageView_card"
+    <ImageView
+        android:id="@+id/imageView2"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_marginEnd="-10dp"
         android:elevation="10dp"
-        android:src="@drawable/no_picture"
+        android:src="@drawable/pet_feed"
         app:layout_constraintBottom_toBottomOf="@+id/constraintLayout2"
-        app:layout_constraintStart_toStartOf="@+id/constraintLayout2"
+        app:layout_constraintEnd_toEndOf="@+id/constraintLayout2"
         app:layout_constraintTop_toTopOf="@+id/constraintLayout2" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="0dp"
         android:layout_height="100dp"
-        android:background="@drawable/dynamic_rv_perros"
+        android:background="@drawable/dynamic_rv_reminder"
         android:elevation="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,37 +30,62 @@
         app:layout_constraintWidth_percent="0.9">
 
         <TextView
-            android:id="@+id/petName"
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:fontFamily="@font/asap_bold"
-            android:text="NAME"
-            android:textAllCaps="true"
+            android:text="REMINDER"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.48"
+            app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.15" />
 
         <TextView
-            android:id="@+id/petAge"
+            android:id="@+id/detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:fontFamily="@font/asap"
-            android:text="AGE"
-            android:textAllCaps="true"
+            android:inputType="textMultiLine"
+            android:text="Description"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintStart_toStartOf="@+id/petName"
-            app:layout_constraintTop_toBottomOf="@+id/petName"
+            app:layout_constraintStart_toStartOf="@+id/name"
+            app:layout_constraintTop_toBottomOf="@+id/name"
             app:layout_constraintVertical_bias="0" />
+
+        <TextView
+            android:id="@+id/dateRV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/asap"
+            android:text="Date"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@+id/detail"
+            app:layout_constraintTop_toBottomOf="@+id/detail"
+            app:layout_constraintVertical_bias="0" />
+
+
+        <TextView
+            android:id="@+id/timeRV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/asap"
+            android:text="Time"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@+id/dateRV"
+            app:layout_constraintTop_toBottomOf="@+id/dateRV"
+            app:layout_constraintVertical_bias="0" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

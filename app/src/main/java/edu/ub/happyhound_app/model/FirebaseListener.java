@@ -9,10 +9,7 @@ public interface FirebaseListener {
     static void onDataRetrieved(EditText editText, String data) {
         editText.setText(data);
     }
-
-
     void onSuccess();
-
     void onFailure();
 
 

@@ -12,6 +12,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Clase model para buscar datos del Firebase database
@@ -51,8 +52,8 @@ public class SearchDatabase {
                         FirebaseListener.onDataRetrieved(editText, null));
     }
 
-    public void getAllReminders(FirebaseListener listener) {
-        String uID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    public void getReminders(StorageListener listener, String alarmType) {
+        String uID = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         List<Reminder> reminderList = new ArrayList<>();
 
         CollectionReference listaPerrosCollectionRef = db.collection("Users")
@@ -65,33 +66,44 @@ public class SearchDatabase {
             for (QueryDocumentSnapshot petDoc : querySnapshot) {
                 CollectionReference reference = petDoc.getReference().collection("Reminders");
 
-                Task<QuerySnapshot> task = reference.get().addOnSuccessListener(queryDocumentSnapshots -> {
-                    for (QueryDocumentSnapshot reminderDoc : queryDocumentSnapshots) {
-                        String title = reminderDoc.getString("title");
-                        String description = reminderDoc.getString("description");
-                        String date = reminderDoc.getString("date");
-                        String time = reminderDoc.getString("time");
+                Task<QuerySnapshot> task = reference.whereEqualTo("type", alarmType)
+                        .get().addOnSuccessListener(queryDocumentSnapshots -> {
+                            for (QueryDocumentSnapshot reminderDoc : queryDocumentSnapshots) {
+                                String name = reminderDoc.getString("name");
+                                String type = reminderDoc.getString("type");
+                                String description = reminderDoc.getString("description");
+                                String date = reminderDoc.getString("date");
+                                String time = reminderDoc.getString("time");
 
-                        Reminder reminder = new Reminder(title, description, date, time);
-                        reminderList.add(reminder);
+                                Reminder reminder = new Reminder(name, type, description, date, time);
+                                reminderList.add(reminder);
 
 
-                    }
-                });
+                            }
+                        });
                 tasks.add(task);
             }
             Tasks.whenAllComplete(tasks).addOnCompleteListener(taskList -> {
                 // All reminders have been collected
                 // Pass the reminderList to another method or do further processing
-                ReminderManager.setReminderList(reminderList);
-                listener.onSuccess();
+                if (alarmType.equals("Paseo")) {
+                    ReminderManager.setPaseoReminderList(reminderList);
+                    listener.onSuccessPaseoList();
+                } else if (alarmType.equals("Comida")) {
+                    ReminderManager.setComidaReminderList(reminderList);
+                    listener.onSuccessComidaList();
+                } else {
+                    ReminderManager.setOtherReminderList(reminderList);
+                    listener.onSuccessOtherList();
+                }
+
 
             });
         });
     }
 
     public List<String> getAllPets() {
-        String uID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String uID = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         List<String> petList = new ArrayList<>();
         petList.add("Elige un perro");
 
