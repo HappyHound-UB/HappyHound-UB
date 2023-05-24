@@ -22,7 +22,7 @@
     <string name="salir">Salir</string>
 
     <string name="nombre_perro">Nala</string>
-    <string name="edad">años</string>
+    <string name="edad">Fecha de nacimiento</string>
     <string name="cancelar">Cancelar</string>
     <string name="forgot_password_title">Recuperar Contraseña</string>
     <string name="email_hint">Email</string>

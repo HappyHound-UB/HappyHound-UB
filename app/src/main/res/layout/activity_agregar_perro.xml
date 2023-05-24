@@ -105,7 +105,8 @@
         android:layout_height="30dp"
         android:layout_weight="1"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="none"
+        android:onClick="openDatePicker"
         android:hint="@string/edad"
         android:textColor="#80191818" />
 
