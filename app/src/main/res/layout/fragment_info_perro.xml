@@ -19,6 +19,7 @@
         android:padding="5dp"
         android:src="@drawable/baseline_keyboard_backspace_24" />
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/editProfileConstraint"
         android:layout_width="match_parent"
@@ -295,5 +296,22 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/textViewEliminar"
+            android:layout_width="157dp"
+            android:layout_height="39dp"
+            android:layout_marginTop="4dp"
+            android:ems="7"
+            android:fontFamily="@font/asap_bold"
+            android:gravity="center|right"
+            android:text="Eliminar"
+            android:textColor="@color/eliminar"
+            app:layout_constraintBottom_toTopOf="@+id/profile_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.937"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.055" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

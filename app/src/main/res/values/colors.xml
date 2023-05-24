@@ -20,6 +20,7 @@
     <color name="background_main_color">#FFECD7</color>
     <color name="Naranja">#EF7F21</color>
     <color name="NaranjaRojo">#DF4006</color>
+    <color name="eliminar">#FF0000</color>
     #DF4006
     <color name="seed">#E65100</color>
     <color name="md_theme_light_primary">#A83900</color>

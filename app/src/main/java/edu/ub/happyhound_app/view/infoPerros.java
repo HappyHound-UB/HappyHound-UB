@@ -1,5 +1,7 @@
 package edu.ub.happyhound_app.view;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,7 +41,7 @@ public class infoPerros extends Fragment {
     private EditText nombrePerro, edadPerro, sexoPerro, razaPerro;
     private Button  saveData;
 
-    private TextView editDatos;
+    private TextView editDatos, eliminar;
     private ConstraintLayout layout;
     private String nombre, edad, sexo, raza;
     private CircleImageView profilePic;
@@ -105,6 +108,7 @@ public class infoPerros extends Fragment {
         profilePic = view.findViewById(R.id.profile_image);
         editIcon = view.findViewById(R.id.edit_icon);
         flechaAtras = view.findViewById(R.id.tirarAtras);
+        eliminar = view.findViewById(R.id.textViewEliminar);
 
         layout.setBackgroundColor(DynamicLayout.setDynamicLayout(requireActivity()));
 
@@ -135,6 +139,37 @@ public class infoPerros extends Fragment {
 
         editIcon.setOnClickListener(view13 -> storageManager.selectImage());
         flechaAtras.setOnClickListener(view13 -> {requireActivity().onBackPressed();});
+
+        eliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Eliminar");
+                builder.setMessage("¿Estás seguro de que quieres eliminar?");
+
+                builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Aquí puedes escribir el código para realizar la eliminación
+                        // Puedes llamar a un método o realizar cualquier otra acción necesaria
+                        //eliminarElemento();
+                    }
+                });
+
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Aquí puedes escribir el código que se ejecutará si se selecciona "No"
+                        // Por ejemplo, mostrar un mensaje de cancelación o realizar alguna otra acción
+                        Toast.makeText(getContext(), "Eliminación cancelada", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
 
 
     }
