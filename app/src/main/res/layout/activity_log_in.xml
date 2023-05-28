@@ -163,15 +163,6 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content" />
 
-            <Button
-                android:id="@+id/facebookButton"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/facebook_blue"
-                android:fontFamily="@font/asap_bold"
-                android:text="@string/facebook"
-                android:textColor="@color/white" />
-
 
             <TextView
                 android:id="@+id/SignUpButton"

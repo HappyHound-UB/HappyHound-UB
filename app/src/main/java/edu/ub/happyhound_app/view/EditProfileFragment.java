@@ -25,17 +25,7 @@ import edu.ub.happyhound_app.model.SaveUserInfo;
 import edu.ub.happyhound_app.model.SearchDatabase;
 import edu.ub.happyhound_app.viewModels.ProfileViewModel;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link EditProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class EditProfileFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     private FirebaseAuthManager<EditProfileFragment> authManager;
     private EditText username, phoneNumber, address, city, zipCode;
     private Button modifyData, saveData;
@@ -46,39 +36,13 @@ public class EditProfileFragment extends Fragment {
     private FirebaseStorageManager storageManager;
     private ProfileViewModel profileViewModel;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     public EditProfileFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment EditProfileFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static EditProfileFragment newInstance(String param1, String param2) {
-        EditProfileFragment fragment = new EditProfileFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
 
         profileViewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
         authManager = new FirebaseAuthManager<>(getActivity(), this);
@@ -139,7 +103,7 @@ public class EditProfileFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        storageManager.onActivityResult(requestCode, resultCode, data);
+        storageManager.onActivityResult(requestCode, resultCode, data, authManager.getUser().getEmail() + "/Profile Images/profile_Image.jpg");
     }
 
     private void getUserData() {

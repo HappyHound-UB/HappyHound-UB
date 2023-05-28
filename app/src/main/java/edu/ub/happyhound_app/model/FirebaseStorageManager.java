@@ -50,12 +50,12 @@ public class FirebaseStorageManager {
                 Picasso.get().load(uri).into(profilePic));
     }
 
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data, String path) {
         if (requestCode == EDIT_PIC) {
             if (resultCode == Activity.RESULT_OK) {
                 Uri imageUri = Objects.requireNonNull(data).getData();
                 profilePic.setImageURI(imageUri);
-                uploadImageFirebase(imageUri, authManager.getUser().getEmail() + "/Profile Images/profile_Image.jpg");
+                uploadImageFirebase(imageUri, path);
             }
         }
     }

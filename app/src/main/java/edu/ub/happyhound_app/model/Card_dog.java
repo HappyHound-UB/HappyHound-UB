@@ -3,10 +3,11 @@ package edu.ub.happyhound_app.model;
 public class Card_dog {
     private String dog_url;
     private String dog_name;
+    private String dog_age;
 
-    public Card_dog(String d, String u){
-        dog_name = d;
-        dog_url = u;
+    public Card_dog(String name, String uri) {
+        dog_name = name;
+        dog_url = uri;
     }
 
     public String getDog_url() {
@@ -23,5 +24,13 @@ public class Card_dog {
 
     public void setDog_name(String dog_name) {
         this.dog_name = dog_name;
+    }
+
+    public String getDog_age() {
+        return dog_age;
+    }
+
+    public void setDog_age(String dog_age) {
+        this.dog_age = dog_age;
     }
 }

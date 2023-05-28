@@ -136,4 +136,8 @@ public class DynamicRV_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void setLoaded() {
         isLoading = false;
     }
+
+    public void setRemindersList(List<Reminder> remindersList) {
+        this.remindersList = remindersList;
+    }
 }

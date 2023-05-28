@@ -131,7 +131,8 @@ public class infoPerros extends Fragment implements FirebaseListener {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        storageManager.onActivityResult(requestCode, resultCode, data);
+        storageManager.onActivityResult(requestCode, resultCode, data, authManager.getUser().getEmail() +
+                "/" + name + ".jpg");
     }
 
     private void getUserData() {
@@ -144,7 +145,7 @@ public class infoPerros extends Fragment implements FirebaseListener {
     }
 
     private void changeState(boolean state) {
-        nombrePerro.setEnabled(state);
+        nombrePerro.setEnabled(false);
         edadPerro.setEnabled(state);
         sexoPerro.setEnabled(state);
         razaPerro.setEnabled(state);

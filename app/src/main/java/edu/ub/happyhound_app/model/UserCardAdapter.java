@@ -22,42 +22,45 @@ import edu.ub.happyhound_app.view.infoPerros;
 public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.MyViewHolder> {
 
     private static final String TAG_INFOPERROS = "infoPerros_fragment";
-    private FragmentManager fragmentManager;
+    private final FragmentManager fragmentManager;
     private List<Card_dog> itemList;
+    private Card_dog c;
+    private FirebaseAuthManager<UserCardAdapter> authManager;
+    private SearchDatabase searchDatabase;
 
     public UserCardAdapter(FragmentManager supportFragmentManager, List<Card_dog> itemList) {
         this.fragmentManager = supportFragmentManager;
         this.itemList = itemList;
-    }
+        authManager = new FirebaseAuthManager<>();
+        searchDatabase = new SearchDatabase();
 
-    // Implementa los métodos necesarios de RecyclerView.Adapter
+    }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Card_dog c = itemList.get(position);
-        holder.textView.setText(c.getDog_name());
+        c = itemList.get(position);
+        holder.nameView.setText(c.getDog_name());
         Glide.with(holder.itemView.getContext())
                 .load(c.getDog_url())
                 .into(holder.image);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        String uId = authManager.getUser().getUid();
+        searchDatabase.searchPetData("Users/" + uId + "/Lista Perros/" + c.getDog_name(), holder);
 
+        // para abrir un perro especifico
+        holder.itemView.setOnClickListener(view -> {
 
-                infoPerros fragment = new infoPerros();
+            infoPerros fragment = new infoPerros();
 
-                // Pass the pet data to the fragment as arguments
-                Bundle bundle = new Bundle();
-                bundle.putString("name", holder.textView.getText().toString());
-                fragment.setArguments(bundle);
+            // Pass the pet data to the fragment as arguments
+            Bundle bundle = new Bundle();
+            bundle.putString("name", holder.nameView.getText().toString());
+            fragment.setArguments(bundle);
 
-
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.frameLayout, fragment, TAG_INFOPERROS);
-                transaction.addToBackStack(null); // Add to back stack
-                transaction.commit();
-            }
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.frameLayout, fragment, TAG_INFOPERROS);
+            transaction.addToBackStack(null); // Add to back stack
+            transaction.commit();
         });
 
     }
@@ -70,15 +73,16 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.MyView
         return new MyViewHolder(itemView);
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView textView;
 
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView nameView, ageView;
         private ImageView image;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.petName);
+            nameView = itemView.findViewById(R.id.petName);
             image = itemView.findViewById(R.id.imageView_card);
+            ageView = itemView.findViewById(R.id.petAge);
         }
     }
 

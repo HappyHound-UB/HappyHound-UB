@@ -92,9 +92,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag("editProfile_fragment");
-        if (fragment != null) {
-            fragment.onActivityResult(requestCode, resultCode, data);
+        Fragment editProfileFragment = getSupportFragmentManager().findFragmentByTag("editProfile_fragment");
+        if (editProfileFragment != null) {
+            editProfileFragment.onActivityResult(requestCode, resultCode, data);
+        }
+
+        Fragment infoPerrosFragment = getSupportFragmentManager().findFragmentByTag("infoPerros_fragment");
+        if (infoPerrosFragment != null) {
+            infoPerrosFragment.onActivityResult(requestCode, resultCode, data);
         }
     }
 

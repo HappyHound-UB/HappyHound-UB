@@ -22,7 +22,7 @@ import edu.ub.happyhound_app.model.ToastMessage;
 public class LogIn extends AppCompatActivity {
     private EditText memail, mpassword;
     private TextView btnForgotPassword, btnSignUp;
-    private Button btnLogIn, btnFacebook;
+    private Button btnLogIn;
     private String email, password;
     private SignInButton googleButton;
     private GoogleLogIn googleLogIn;
@@ -47,7 +47,6 @@ public class LogIn extends AppCompatActivity {
         btnForgotPassword = findViewById(R.id.forgotPasswordButton);
         btnSignUp = findViewById(R.id.SignUpButton);
         googleButton = findViewById(R.id.googleButton);
-        btnFacebook = findViewById(R.id.facebookButton);
         layout = findViewById(R.id.logInConstraint);
 
         int dynamic = DynamicLayout.setDynamicLayout(this);

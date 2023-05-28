@@ -78,7 +78,6 @@ public class SearchDatabase {
                                 Reminder reminder = new Reminder(name, type, description, date, time);
                                 reminderList.add(reminder);
 
-
                             }
                         });
                 tasks.add(task);
@@ -96,7 +95,6 @@ public class SearchDatabase {
                     ReminderManager.setOtherReminderList(reminderList);
                     listener.onSuccessOtherList();
                 }
-
 
             });
         });
@@ -121,4 +119,20 @@ public class SearchDatabase {
         return petList;
     }
 
+    public void searchPetData(String docPath, UserCardAdapter.MyViewHolder holder) {
+        db.document(docPath)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        // Si existe el documento con el path proporcionado buscamos el valor del parametro
+                        // que queremos y pasamos la edad del perro
+
+                        String age = documentSnapshot.getString("edad");
+                        holder.ageView.setText(age);
+                    }
+                })
+                .addOnFailureListener(e ->
+                        // en caso que no path proporcionado no existe, no mostramos nada
+                        holder.ageView.setText(""));
+    }
 }

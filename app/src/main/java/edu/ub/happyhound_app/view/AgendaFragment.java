@@ -37,9 +37,9 @@ public class AgendaFragment extends Fragment implements StorageListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private List<Reminder> paseoRemindersList, comidaRemindersList, otherRemindersList;
-    //    private DynamicRV_AdapterPaseo adapterPaseo;
-//    private DynamicRV_AdapterComida adapterComida;
+
     private DynamicRV_Adapter adapterOtros, adapterPaseo, adapterComida;
+    RecyclerView paseoRecyclerView, comidaRecyclerView, otherRecyclerView;
     private FloatingActionButton addNotification;
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -95,9 +95,9 @@ public class AgendaFragment extends Fragment implements StorageListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_agenda, container, false);
 
-        RecyclerView paseoRecyclerView = view.findViewById(R.id.rv_reminderPaseoList);
-        RecyclerView comidaRecyclerView = view.findViewById(R.id.rv_reminderComidaList);
-        RecyclerView otherRecyclerView = view.findViewById(R.id.rv_reminderOtrosList);
+        paseoRecyclerView = view.findViewById(R.id.rv_reminderPaseoList);
+        comidaRecyclerView = view.findViewById(R.id.rv_reminderComidaList);
+        otherRecyclerView = view.findViewById(R.id.rv_reminderOtrosList);
 
         adapterPaseo = setRecycleView(paseoRecyclerView, paseoRemindersList);
         adapterComida = setRecycleView(comidaRecyclerView, comidaRemindersList);
@@ -118,9 +118,20 @@ public class AgendaFragment extends Fragment implements StorageListener {
 
     @Override
     public void onSuccessPaseoList() {
+
         List<Reminder> paseoReminders = ReminderManager.getPaseoReminderList();
         paseoRemindersList.addAll(paseoReminders);
         adapterPaseo.notifyDataSetChanged();
+
+//        List<Reminder> paseoReminders = ReminderManager.getPaseoReminderList();
+//        paseoRecyclerView.post(() -> {
+//            adapterPaseo.setRemindersList(paseoReminders);
+//            adapterPaseo.notifyDataSetChanged();
+//        });
+
+
+        //paseoRemindersList.addAll(paseoReminders);
+
     }
 
     @Override
@@ -128,6 +139,12 @@ public class AgendaFragment extends Fragment implements StorageListener {
         List<Reminder> comidaReminders = ReminderManager.getComidaReminderList();
         comidaRemindersList.addAll(comidaReminders);
         adapterComida.notifyDataSetChanged();
+
+//        List<Reminder> comidaReminders = ReminderManager.getComidaReminderList();
+//        paseoRecyclerView.post(() -> {
+//            adapterComida.setRemindersList(comidaReminders);
+//            adapterComida.notifyDataSetChanged();
+//        });
     }
 
     @Override
@@ -135,6 +152,12 @@ public class AgendaFragment extends Fragment implements StorageListener {
         List<Reminder> otherReminders = ReminderManager.getOtherReminderList();
         otherRemindersList.addAll(otherReminders);
         adapterOtros.notifyDataSetChanged();
+
+//        List<Reminder> otherReminders = ReminderManager.getOtherReminderList();
+//        paseoRecyclerView.post(() -> {
+//            adapterOtros.setRemindersList(otherReminders);
+//            adapterOtros.notifyDataSetChanged();
+//        });
     }
 
     private DynamicRV_Adapter setRecycleView(RecyclerView recyclerView, List<Reminder> remindersList) {
